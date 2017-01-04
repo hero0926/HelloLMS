@@ -5,6 +5,8 @@ public class For_Git_Example {
 		// TODO Auto-generated method stub
 		
 		System.out.println("Hello git!");
+		
+		System.out.println("집에서 고쳐보자.");
 
 	}
 
