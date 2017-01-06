@@ -6,13 +6,20 @@ public class For_Git_Example {
 		
 		System.out.println("Hello git!");
 		
+
 		System.out.println("집에서 고쳐보자.");
+
+		System.out.println("������ ���ĺ���.");
+
 		
 		System.out.println("dkdjfa;iof");
 		
 		System.out.println("GIT");
 		
-		System.out.println("UTF8 한글 출력 테스트");
+		System.out.println("UTF8 한글 테스트");
+
+		System.out.println("kystest");
+
 
 	}
 
