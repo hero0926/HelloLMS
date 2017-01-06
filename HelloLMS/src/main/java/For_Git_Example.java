@@ -6,7 +6,7 @@ public class For_Git_Example {
 		
 		System.out.println("Hello git!");
 		
-		System.out.println("Áı¿¡¼­ °íÃÄº¸ÀÚ.");
+		System.out.println("ì§‘ì—ì„œ ê³ ì³ë³´ì.");
 		
 		System.out.println("dkdjfa;iof");
 		
