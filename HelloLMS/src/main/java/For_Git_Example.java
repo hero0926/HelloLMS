@@ -7,6 +7,8 @@ public class For_Git_Example {
 		System.out.println("Hello git!");
 		
 		System.out.println("집에서 고쳐보자.");
+		
+		System.out.println("고은혜 깜");
 
 	}
 
