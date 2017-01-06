@@ -12,7 +12,7 @@ public class For_Git_Example {
 		
 		System.out.println("GIT");
 		
-		System.out.println("UTF8 테스트");
+		System.out.println("UTF8 한글 테스트");
 
 	}
 
