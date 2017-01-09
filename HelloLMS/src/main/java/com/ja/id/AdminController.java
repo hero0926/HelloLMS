@@ -33,7 +33,7 @@ public class AdminController {
 		
 		model.addAttribute("serverTime", formattedDate );
 		
-		return "home";
+		return "ad_admin";
 	}
 	
 }
