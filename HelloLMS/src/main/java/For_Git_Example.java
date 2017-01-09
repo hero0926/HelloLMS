@@ -23,6 +23,8 @@ public class For_Git_Example {
 		System.out.println("작업물 받아오기");
 		
 		System.out.println("테dd2345");
+		
+		System.out.println("설정 변경으로 인한 테스트");
 
 
 	}
