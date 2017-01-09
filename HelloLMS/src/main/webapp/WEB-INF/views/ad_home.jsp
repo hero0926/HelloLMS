@@ -4,35 +4,40 @@
 <%@ include file="include/header.jsp" %>
 <%@ include file="include/menu.jsp" %>
 
+   <div class="container">
 
-      <!-- Jumbotron -->
-      <div class="jumbotron">
-        <h1>배움이 있는 곳에...</h1>
-        <p class="lead">뜻이 있을 까요? 아닙니다. 배움은 시간과의 싸움입니다. 지금 신청하세요. 여러분과 함께 하겠습니다.</p>
-        <a class="btn btn-large btn-success" href="http://getbootstrap.com/2.3.2/examples/justified-nav.html#">강의실 입장</a>
+      <!-- Main hero unit for a primary marketing message or call to action -->
+      <div class="hero-unit">
+        <h1>Hello, LMS!</h1>
+        <p>This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+        <p><a href="#" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
       </div>
-
-      <hr>
 
       <!-- Example row of columns -->
-      <div class="row-fluid">
+      <div class="row">
         <div class="span4">
-          <h2>강의실</h2>
+          <h2>Heading</h2>
           <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn" href="http://getbootstrap.com/2.3.2/examples/justified-nav.html#">강의실 입장 »</a></p>
+          <p><a class="btn" href="#">View details &raquo;</a></p>
         </div>
         <div class="span4">
-          <h2>고객센타</h2>
+          <h2>Heading</h2>
           <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn" href="http://getbootstrap.com/2.3.2/examples/justified-nav.html#">고객센타 입장 »</a></p>
+          <p><a class="btn" href="#">View details &raquo;</a></p>
        </div>
         <div class="span4">
-          <h2>공개강좌</h2>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa.</p>
-          <p><a class="btn" href="http://getbootstrap.com/2.3.2/examples/justified-nav.html#">공개강좌 입장 »</a></p>
+          <h2>Heading</h2>
+          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+          <p><a class="btn" href="#">View details &raquo;</a></p>
         </div>
       </div>
 
       <hr>
+
+      <footer>
+        <p>© 401호.강영욱,고은혜,권영선,김대환,김설화,윤지수,이동건 2016.12.28 start</p>
+      </footer>
+
+    </div> <!-- /container -->
 
 <%@ include file="include/footer.jsp"%>
