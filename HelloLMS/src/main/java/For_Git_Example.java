@@ -19,6 +19,8 @@ public class For_Git_Example {
 		System.out.println("UTF8 한글 테스트");
 
 		System.out.println("kystest");
+		
+		System.out.println("작업물 받아오기");
 
 
 	}
