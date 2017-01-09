@@ -21,6 +21,8 @@ public class For_Git_Example {
 		System.out.println("kystest");
 		
 		System.out.println("작업물 받아오기");
+		
+		System.out.println("테dd2345");
 
 
 	}
