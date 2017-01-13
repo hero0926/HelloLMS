@@ -2,13 +2,13 @@
 <%@ page session="false"%>
 <%@ page language="java"  contentType="text/html; charset=UTF-8" pageEncoding="utf-8"%>
 <%@ include file="include/header.jsp" %>
-<%@ include file="include/menu.jsp" %>
+<%@ include file="include/ad_menu.jsp" %>
 
    <div class="container">
 
       <!-- Main hero unit for a primary marketing message or call to action -->
       <div class="hero-unit">
-        <h1>Hello, LMS!</h1>
+        <h1>Hello, Admin!</h1>
         <p>This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
         <p><a href="#" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
       </div>
@@ -33,10 +33,6 @@
       </div>
 
       <hr>
-
-      <footer>
-        <p>© 401호.강영욱,고은혜,권영선,김대환,김설화,윤지수,이동건 2016.12.28 start</p>
-      </footer>
 
     </div> <!-- /container -->
 
