@@ -35,17 +35,18 @@ public class AdminController {
 	 */
 	@RequestMapping(value = "/", method = {RequestMethod.POST, RequestMethod.GET})
 	public String home(Locale locale, Model model, HttpSession session, @RequestParam Map map) {
-		logger.info("controller code list.", locale);
-		map.put("level", "top");
-		List<HashMap> list1 = codeService.selectCode(map);
-		model.addAttribute("list1", list1);
-		
-		if(null!=map.get("cxgubun")){
-			map.put("level", "sub");
-			List<HashMap> list2 = codeService.selectCode(map);
-			model.addAttribute("list2", list2);
-		}
+		logger.info("controller admin main.", locale);
+
 		if(null!=session.getAttribute("UID")){
+			map.put("level", "top");
+			List<HashMap> list1 = codeService.selectCode(map);
+			model.addAttribute("list1", list1);
+			
+			if(null!=map.get("cxgubun")){
+				map.put("level", "sub");
+				List<HashMap> list2 = codeService.selectCode(map);
+				model.addAttribute("list2", list2);
+			}
 			session.setAttribute("adMenu", "1");
 			return "etc/ad_codeList";
 		} else {
