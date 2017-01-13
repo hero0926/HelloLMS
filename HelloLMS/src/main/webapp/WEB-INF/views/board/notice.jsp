@@ -17,12 +17,12 @@
 		</tr>
 		<c:forEach items="${list}" var="dto">
 			<tr>
-				<td align="center"><f:formatNumber value="${dto.num}" pattern="###,###"/></td>
+				<td align="center"><f:formatNumber value="" pattern="###,###"/></td>
 				
-				<td colspan="2" align="left"><a href="retrieve1.do?num=${dto.num}">${dto.title}</a></td>
-				<td align="center">${dto.author}</td>
-				<td align="center">${dto.writeday}</td>
-				<td align="center"><f:formatNumber value="${dto.readCnt}" pattern="###,###"/></td>
+				<td colspan="2" align="left"><a href=""></a></td>
+				<td align="center"></td>
+				<td align="center"></td>
+				<td align="center"><f:formatNumber value="" pattern="###,###"/></td>
 			</tr>
 			
 		</c:forEach>
