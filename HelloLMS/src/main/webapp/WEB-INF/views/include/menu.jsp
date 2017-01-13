@@ -18,7 +18,7 @@
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">고객센터 <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                  <li><a href="#">공지사항</a></li>
+                  <li><a href="/notice">공지사항</a></li>
                   <li><a href="#">FAQ</a></li>
                   <li><a href="#">Q&A</a></li>
                   <li class="divider"></li>
