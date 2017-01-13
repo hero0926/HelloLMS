@@ -31,6 +31,8 @@ public class For_Git_Example {
 		System.out.println("테스트321");
 		
 		System.out.println("이동건테스트 ");
+		
+		System.out.println("20170113");
 
 
 	}
