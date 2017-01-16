@@ -10,4 +10,6 @@ public interface CodeDAO {
 
 	public List<HashMap> selectCode(Map map);
 
+	public int deleteCode(Map map);
+
 }

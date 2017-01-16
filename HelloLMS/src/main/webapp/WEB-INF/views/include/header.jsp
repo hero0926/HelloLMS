@@ -1,6 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+session.setAttribute("USEQ", "1"); //로그인 부분 완성 하면 이 부분 뺄것
+session.setAttribute("UID", "test");
+session.setAttribute("UNAME", "홍길동");
+session.setAttribute("UDIV", "S");
 
+
+
+%>
 
 <!DOCTYPE html>
 <html lang="en">

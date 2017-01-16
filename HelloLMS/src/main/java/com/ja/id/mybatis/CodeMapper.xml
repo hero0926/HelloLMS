@@ -25,4 +25,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    </if>
 		order by cxcode, cxname 
 	</select>
+	
+	<delete id="deleteCode" parameterType="java.util.HashMap">
+		delete from code
+		where cxseq = #{cxseq}
+	</delete>
 </mapper>

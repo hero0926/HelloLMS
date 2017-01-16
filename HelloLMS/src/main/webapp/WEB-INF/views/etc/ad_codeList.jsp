@@ -2,7 +2,21 @@
 <%@ page language="java"  contentType="text/html; charset=UTF-8" pageEncoding="utf-8"%>
 <%@ include file="../include/header.jsp" %>
 <%@ include file="../include/ad_menu.jsp" %>
+	<script>
+		$(document).ready(function (){
+			
+			$('#deleteBtn').click(function(){
+				if(confirm("")){
+					
+					
+				}
+				
+			})
+		
+		});
+		
 
+	</script>
    <div class="container">
 
       <!-- Main hero unit for a primary marketing message or call to action -->
@@ -60,7 +74,7 @@
 					<td><c:out value="${code2.cxgubun }"/></td>
 					<td><c:out value="${code2.cxcode }"/></td>
 					<td><c:out value="${code2.cxname }"/></td>
-					<td></td>
+					<td><button class="btn btn-small" type="button" id="deleteBtn">삭제</button></td>
 				</tr>
 			</c:forEach>
           </table>

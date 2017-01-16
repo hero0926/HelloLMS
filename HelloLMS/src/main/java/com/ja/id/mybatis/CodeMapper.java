@@ -10,4 +10,6 @@ public interface CodeMapper {
 
 	public List<HashMap> selectCode(Map map);
 
+	public int deleteCode(Map map);
+
 }

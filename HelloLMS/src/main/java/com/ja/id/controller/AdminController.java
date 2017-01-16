@@ -63,6 +63,8 @@ public class AdminController {
 		if(null!=id&&id.equals("admin")&&null!=pass&&pass.equals("1234")){
 			session.setAttribute("UID", "admin");
 			session.setAttribute("UNAME", "관리자");
+			session.setAttribute("UDIV", "A");
+
 			return "redirect:/admin/";
 		} else {
 			return "member/ad_login";
@@ -74,12 +76,9 @@ public class AdminController {
 		logger.info("controller start insert.", locale);
 		
 		int count = 0;
-		System.out.println(map);
 
 		try {
-			System.out.println(codeService);
 			count = codeService.insertCode(map);
-			System.out.println("2");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -94,5 +93,28 @@ public class AdminController {
 		
 		return "common/common_alert";
 	}
+
 	
+	@RequestMapping(value = "/deleteCode", method = RequestMethod.POST)
+	public String deleteCode(Locale locale, Model model, @RequestParam Map map) {
+		logger.info("controller delete code.", locale);
+		
+		int count = 0;
+
+		try {
+			count = codeService.deleteCode(map);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			model.addAttribute("success_flag", "N");
+		}
+		if (0 < count) {
+			model.addAttribute("success_flag", "Y");
+		} else {
+			model.addAttribute("success_flag", "N");
+		}
+		model.addAttribute("forward_url", "/admin/");
+		
+		return "common/common_alert";
+	}
 }

@@ -30,4 +30,11 @@ public class CodeDAOImpl implements CodeDAO{
 		return mapper.selectCode(map);
 	}
 
+	@Override
+	public int deleteCode(Map map) {
+		// TODO Auto-generated method stub
+		CodeMapper mapper = sqlSession.getMapper(CodeMapper.class);
+		return mapper.deleteCode(map);
+	}
+
 }

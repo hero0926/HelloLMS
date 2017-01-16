@@ -2,9 +2,6 @@ package com.ja.id.filter;
 
 import java.io.IOException;
 
-//jjj
-//jjjjjjjjjjjjj
-
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;

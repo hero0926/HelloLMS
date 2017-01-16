@@ -42,11 +42,11 @@ public class MemberController {
 		return "member/register1";
 	}
 	
-	@RequestMapping(value = "/register1", method = RequestMethod.POST)
+	@RequestMapping(value = "/register2", method = RequestMethod.POST)
 	public String register(Locale locale, Model model, @RequestParam Map map) {
 		logger.info("회원가입 하기", locale);
 		
-		return "member/register1";
+		return "member/register2";
 	}
 
 	

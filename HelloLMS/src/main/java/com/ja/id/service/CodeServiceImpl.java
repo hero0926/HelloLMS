@@ -31,4 +31,10 @@ public class CodeServiceImpl implements CodeService{
 		return codeDAO.selectCode(map);
 	}
 
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
+	public int deleteCode(Map map) {
+		// TODO Auto-generated method stub
+		return codeDAO.deleteCode(map);
+	}
+
 }
