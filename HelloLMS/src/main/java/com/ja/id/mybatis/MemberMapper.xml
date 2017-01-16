@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mapper namespace="com.ja.id.mybatis.MemberMapper">
+
+	<insert id="insertMember" parameterType="java.util.HashMap">
+	<!-- 회원 가입 하기 -->
+		insert into member (mxid, mxpw, mxname, mxmail, mxoffice, mxdiv)
+		values (#{mxid}, #{mxpw}, #{mxname}, #{mxmail}, #{mxoffice}, #{mxdiv})
+	</insert>
+
+	<select id="loginMember" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+	<!--  로그인시 회원인지 확인하기 -->
+		select cxseq, cxgubun, cxcode, cxname
+		from code
+		where cxseq is not null
+		<if test="'top'==level">
+	    	and cxgubun = '000'
+		</if>
+		<if test="'sub'==level">
+		    <if test="null != cxgubun">
+		    	and cxgubun = #{cxgubun}
+		    </if>
+		</if>
+		<if test="null != cxseq">
+	    	and cxseq = #{cxseq}
+	    </if>
+		order by cxcode, cxname 
+	</select>
+</mapper>
