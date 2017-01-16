@@ -35,7 +35,7 @@ public class MemberController {
 	 * 김설화
 	 */
 	
-	@RequestMapping(value = "/register1", method = RequestMethod.POST)
+	@RequestMapping(value = "/register1")
 	public String prereg(Locale locale, Model model, @RequestParam Map map) {
 		logger.info("회원가입 약관 폼", locale);
 		

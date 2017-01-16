@@ -8,9 +8,9 @@
 </head>
 <body>
 
-
+<!-- 나중에 붓스트랩 적용하세요 ㅋㅋ -->
  <form action="../MemberJoin.do" method="post">
- <table border = "1" bgcolor = "lightyellow" cellpadding = "5">
+ <table border = "1" cellpadding = "5">
     <tr>
      <td> 아이디 </td>
      <td> <input type = "text" name = mxid> </td>
@@ -28,12 +28,16 @@
      <td> <input type = "text" name = "mxmail"> </td>
      <!-- 회사는 코드 테이블에서 가져오는 int형 이예요. -->
       <td> 회사 </td>
-     <td> <input type = "text" name = "mxoffice"> </td>
+     <td> 개발중</td>
     </tr>
     <tr>
      <!-- 회원 구분은 S T A로 나뉘어요. -->
     <td>회원 구분</td>
-    <td><
+    <td>
+    <input type="radio" name="S" value="S">학생
+	<input type="radio" name="T" value="T">선생님
+	<input type="radio" name="A" value="A">기업
+    </td>
     </tr>
   
     <tr>

@@ -17,14 +17,13 @@ import com.ja.id.dao.MemberDAO;
 public class MemberServiceImpl implements MemberService{
 	
 	@Autowired
-	MemberDAO memberdao;
+	MemberDAO MemberDAO;
 	
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
-	@Override
 	public int insertMember(Map map) throws Exception {
 		// TODO Auto-generated method stub
 		System.out.println("회원가입 하기");
-		return memberdao.insertMember(map);
+		return MemberDAO.insertMember(map);
 	}
 
 }
