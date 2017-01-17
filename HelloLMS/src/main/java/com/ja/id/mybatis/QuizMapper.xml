@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ja.id.mybatis.QuizMapper">
+
+	<insert id="insertQuiz" parameterType="java.util.HashMap">
+	<!-- 퀴즈 등록하기 -->
+		insert into quiz (lxseq, qxorder, qxcont, qxcorrect, regdate)
+		values (#{lxseq}, #{qxorder}, #{qxcont}, #{qxcorrect}, #{regdate})
+	
+	</insert>
+
+	<select id="selectQuiz" parameterType="java.util.HashMap">
+	
+	
+	
+	</select>
+
+	<delete id="deleteQuiz" parameterType="java.util.HashMap">
+		delete from quiz
+		where qxseq = #{qxseq}
+	
+	</delete>
+
+
+</mapper>
