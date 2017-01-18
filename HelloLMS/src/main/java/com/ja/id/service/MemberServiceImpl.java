@@ -22,7 +22,7 @@ public class MemberServiceImpl implements MemberService{
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
 	public int insertMember(Map map) throws Exception {
 		// TODO Auto-generated method stub
-		System.out.println("íšŒì›ê°€ì… í•˜ê¸°");
+		System.out.println("È¸¿ø°¡ÀÔ ÇÏ±â");
 		return MemberDAO.insertMember(map);
 	}
 
