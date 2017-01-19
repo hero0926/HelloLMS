@@ -14,7 +14,7 @@
 div#test{ border:#000 1px solid; padding:10px 40px 40px 40px; }
 
 body{
-	background-color: lightblue;
+	background-color: blue;
 }
 h1 {
 	color: white;
