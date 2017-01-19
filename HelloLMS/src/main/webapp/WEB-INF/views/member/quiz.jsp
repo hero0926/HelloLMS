@@ -9,7 +9,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <title>quiz</title>
-<!-- 실선 박스 -->
+<!-- 실선 박스  -->
 <style> 
 div#test{ border:#000 1px solid; padding:10px 40px 40px 40px; }
 
