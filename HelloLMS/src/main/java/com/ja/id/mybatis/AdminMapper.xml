@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ja.id.mybatis.AdminMapper">
+	<insert id="insertCode" parameterType="java.util.HashMap">
+		insert into code (cxgubun, cxcode, cxname)
+		values (#{cxgubun}, #{cxcode}, #{cxname})
+	</insert>
+
+	<select id="selectCode" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select cxseq, cxgubun, cxcode, cxname
+		from code
+		where cxseq is not null
+		<if test="'top'==level">
+	    	and cxgubun = '000'
+		</if>
+		<if test="'sub'==level">
+		    <if test="null != cxgubun">
+		    	and cxgubun = #{cxgubun}
+		    </if>
+		</if>
+		<if test="null != cxseq">
+	    	and cxseq = #{cxseq}
+	    </if>
+		order by cxcode, cxname 
+	</select>
+	
+	<delete id="deleteCode" parameterType="java.util.HashMap">
+		delete from code
+		where cxseq = #{cxseq}
+	</delete>
+	
+	<select id="selectCourse" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select a.coxseq, a.coxcate, a.coxname, a.coxstart,
+    		a.coxend, a.coxreqstart, a.coxreqend, a.tuxseq,
+			a.coxintro, a.coxopen, a.coxprog, a.coxscore,
+			a.coxoffice, a.regdate, b.cxname
+		from course a, code b
+		where a.coxcate = b.cxseq
+		<if test="null != coxoffice">
+	    	and a.coxoffice = #{coxoffice}
+	    </if>
+	    <if test="null != coxseq">
+	    	and a.coxseq = #{coxseq}
+	    </if>
+	    <if test="null != term">
+	    	and date_format(now(), '%Y%m%d')  between a.coxstart and a.coxend 
+	    </if>
+	    <if test="null != coxname">
+	    	and a.coxname like CONCAT('%', #{coxname}, '%')
+	    </if>
+
+		 order by a.coxstart desc, a.coxseq desc
+	</select>
+	
+	
+	<select id="selectTutor" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select a.tuxseq, b.mxname
+		from tutor a, member b
+		where a.mxseq = b.mxseq
+		<if test="null != tuxseq">
+	    	and a.tuxseq = #{tuxseq}
+	    </if>
+		order by 2
+	</select>
+	
+	<insert id="insertCourse" parameterType="java.util.HashMap">
+		insert into course (
+			coxcate, coxname, coxstart, coxend,
+			coxreqstart, coxreqend, tuxseq, coxintro,
+			coxopen, coxprog, coxscore, coxoffice,
+			regdate, mxseq )
+		values (#{coxcate}, #{coxname}, #{coxstart}, #{coxend},
+			#{coxreqstart}, #{coxreqend}, #{tuxseq}, #{coxintro},
+			#{coxopen}, CAST(#{coxprog} AS UNSIGNED), CAST(#{coxscore} AS UNSIGNED), #{coxoffice},
+			date_format(now(), '%Y%m%d'), #{mxseq})
+	</insert>
+	
+	<update id="updateCourse" parameterType="java.util.HashMap">
+		update course set
+			coxcate = #{coxcate},
+			coxname = #{coxname},
+			coxstart = #{coxstart},
+			coxend = #{coxend},
+			coxreqstart = #{coxreqstart},
+			coxreqend = #{coxreqend},
+			tuxseq = #{tuxseq},
+			coxintro = #{coxintro},
+			coxopen = #{coxopen},
+			coxprog = #{coxprog},
+			coxscore = #{coxscore}
+		where coxseq = #{coxseq}
+	</update>
+	
+	<delete id="deleteCourse" parameterType="java.util.HashMap">
+		delete from course
+		where coxseq = #{coxseq}
+	</delete>
+</mapper>

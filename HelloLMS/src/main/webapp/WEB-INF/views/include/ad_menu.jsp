@@ -11,34 +11,26 @@
           <a class="brand" href="#">Hello LMS!(Admin)</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li <c:if test="${ '1'==adMenu }">class="active"</c:if>><a href="#">코드관리</a></li>
+              <li <c:if test="${ '1'==adMenu }">class="active"</c:if>><a href="/admin/">코드관리</a></li>
               <li <c:if test="${ '2'==adMenu }">class="active"</c:if>><a href="#about">회원관리</a></li>
-              <li <c:if test="${ '3'==adMenu }">class="active"</c:if>><a href="#contact">강좌관리</a></li>
-              <li class="dropdown">
+              <li <c:if test="${ '3'==adMenu }">class="active"</c:if>><a href="/admin/courseList">강좌관리</a></li>
+              <li class="dropdown <c:if test="${ '4'==adMenu }">active</c:if>">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">평가관리 <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                  <li><a href="#">공지사항</a></li>
-                  <li><a href="#">FAQ</a></li>
-                  <li><a href="#">Q&A</a></li>
-                  <li class="divider"></li>
-                  <li class="nav-header">Nav header</li>
-                  <li><a href="#">Separated link</a></li>
-                  <li><a href="#">One more separated link</a></li>
+                  <li><a href="#">평가문제관리</a></li>
+                  <li><a href="#">평가지관리</a></li>
+                  <li><a href="#">평가현황</a></li>
                 </ul>
               </li>
-              <li class="dropdown">
+              <li class="dropdown <c:if test="${ '4'==adMenu }">active</c:if>">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">게시글 관리 <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                   <li><a href="#">공지사항</a></li>
                   <li><a href="#">FAQ</a></li>
                   <li><a href="#">Q&A</a></li>
-                  <li class="divider"></li>
-                  <li class="nav-header">Nav header</li>
-                  <li><a href="#">Separated link</a></li>
-                  <li><a href="#">One more separated link</a></li>
                 </ul>
               </li>
-              <li><a href="#contact">팝업관리</a></li>
+              <li <c:if test="${ '6'==adMenu }">class="active"</c:if>><a href="#contact">팝업관리</a></li>
             </ul>
             
           </div><!--/.nav-collapse -->

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ja.id.dao.CodeDAO;
 import com.ja.id.dao.MemberDAO;
 
 @Component
@@ -22,7 +21,7 @@ public class MemberServiceImpl implements MemberService{
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
 	public int insertMember(Map map) throws Exception {
 		// TODO Auto-generated method stub
-		System.out.println("х╦©Ь╟║ют го╠Б");
+		System.out.println("х╦О©╫О©╫О©╫О©╫О©╫О©╫ О©╫о╠О©╫");
 		return MemberDAO.insertMember(map);
 	}
 

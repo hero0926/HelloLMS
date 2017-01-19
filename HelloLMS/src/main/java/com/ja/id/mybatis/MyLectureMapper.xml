@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ja.id.mybatis.MyLectureMapper">
+	
+	<select id="getAllApplyCourse" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+	    SELECT b.axseq, b.coxseq, a.coxname, a.coxstart, a.coxend, a.regdate, b.axstatus
+		FROM course a, apply b
+		WHERE b.coxseq = a.coxseq
+			and b.mxseq = #{USEQ}
+			and DATE_FORMAT(NOW(), '%Y%m%d') between a.coxreqstart and a.coxreqend
+		ORDER BY a.coxreqend asc
+	</select>
+	
+	<select id="getAllCourse" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+	    SELECT a.coxname, a.coxstart, a.coxend, c.tuxname, a.coxprog, a.coxseq
+		FROM course a, apply b, tutor c
+		WHERE b.coxseq = a.coxseq
+			AND b.mxseq = #{USEQ}
+			AND b.axstatus = 'A'
+			AND a.tuxseq = c.tuxseq
+	</select>
+	
+	<select id="getAllCnt" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+	    SELECT COUNT(*) AS cnt FROM lecture WHERE coxseq=#{coxseq}
+	</select>
+	
+	<select id="getCnt" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		SELECT count(a.regdate) AS cnt
+		FROM lexstudy a
+			LEFT OUTER JOIN lecture b
+			ON a.lxseq = b.lxseq
+				AND a.mxseq = #{USEQ}
+    	WHERE b.coxseq=#{coxseq} AND a.mxseq=#{USEQ}
+	</select>
+	
+	<select id="getLectrue" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		SELECT c.coxname, c.coxseq, a.lxseq, a.lxnum, a.lxname, a.lxlink, a.lxfile, a.lxtype, b.regdate
+		FROM lecture a
+			LEFT OUTER JOIN lexstudy b
+			ON a.lxseq = b.lxseq
+				AND b.mxseq = #{USEQ}
+			, course c
+		WHERE a.coxseq = 1
+		ORDER BY a.lxnum asc
+	</select>
+	
+	<select id="islexstudy" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		SELECT regdate
+	    FROM lexstudy
+	    WHERE mxseq = #{USEQ} and lxseq=#{lxseq}
+	</select>
+	
+	<insert id="lexstudyinsert" parameterType="java.util.HashMap">
+		INSERT INTO
+			lexstudy (regdate, lxseq, mxseq)
+		VALUES (DATE_FORMAT(NOW(), '%Y%m%d'), #{lxseq}, #{USEQ})
+	</insert>
+	
+	<update id="lexstudyupdate" parameterType="java.util.HashMap">
+		UPDATE lexstudy
+		SET regdate=DATE_FORMAT(NOW(), '%Y%m%d')
+		WHERE mxseq = #{USEQ} and lxseq=#{lxseq}
+	</update>
+	
+	<insert id="lexstudyloginsert" parameterType="java.util.HashMap">
+		INSERT INTO
+			lexstudylog (lxseq, mxseq)
+		VALUES (#{lxseq}, #{USEQ})
+	</insert>
+	
+</mapper>
