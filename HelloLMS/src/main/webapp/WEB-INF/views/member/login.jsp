@@ -33,6 +33,21 @@
            -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
                 box-shadow: 0 1px 2px rgba(0,0,0,.05);
       }
+      
+      .div-ohter {
+        max-width: 500px;
+        padding: 39px 39px 39px;
+        margin: 0 auto 40px;
+        background-color: #fff;
+        border: 1px solid #e5e5e5;
+        -webkit-border-radius: 5px;
+           -moz-border-radius: 5px;
+                border-radius: 5px;
+        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+           -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+                box-shadow: 0 1px 2px rgba(0,0,0,.05);
+      }
+      
       .form-signin .form-signin-heading,
       .form-signin .checkbox {
         margin-bottom: 10px;
@@ -61,12 +76,25 @@
 <div class="container">
 
 <form class="form-signin" action="/member/loginPost" method="post">
-        <h2 class="form-signin-heading">Please sign in</h2>
+        <h2 class="form-signin-heading">로그인하세요</h2>
         <input type="text" class="input-block-level" name="mxid" placeholder="ID">
         <input type="password" class="input-block-level" name="mxpw" placeholder="Password">
         
-        <button class="btn btn-large btn-primary" type="submit">Sign in</button>
+        <button class="btn btn-large btn-primary" type="submit">로그인</button>
         
+</form>
+</div>
+
+<hr>
+
+<div class="container" align="center">
+<form class="div-ohter">
+<h2 class="form-signin-heading">처음이신가요?</h2>
+<a href="/member/register1"><button class="btn btn-large btn-warning" type="button">회원가입</button></a>
+<br><br><hr><br><Br>
+<h2 class="form-signin-heading">문제가 있으신가요?</h2>
+<button class="btn btn-large btn-danger" type="button">ID 찾기</button>&nbsp;&nbsp;&nbsp;
+<button class="btn btn-large btn-inverse" type="button">비밀번호 찾기</button>
 </form>
 </div>
 

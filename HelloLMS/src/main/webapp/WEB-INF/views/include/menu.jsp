@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -13,7 +14,8 @@
           </button>
           <a class="brand" href="#">Hello LMS</a>
           
-<c:if test="${!empty mxid }">
+          
+<c:if test="${!empty USEQ }">
 
           <div class="nav-collapse collapse">
             <ul class="nav">
@@ -24,7 +26,7 @@
 				  <li class="dropdown-submenu">
 				    <a tabindex="-1" href="#">내강의</a>
 				    <ul class="dropdown-menu">
-				      <li><a href="#about">수강신청한 과정</a></li>
+				      <li><a href="/mypage/mylecture/myApplyCourse">수강신청한 과정</a></li>
 				      <li><a href="#about">수강중인 과정</a></li>
 				    </ul>
 				  </li>
@@ -51,12 +53,12 @@
 			  <input type="text" class="search-query" placeholder="Search : 과정명">
 			</form>
             <form class="navbar-form pull-right" action="/member/logout" >
-	          <font style="color: white; font-style: inherit;">${mxname }님 반갑습니다.</font>
+	          <font style="color: white; font-style: inherit;">${UNAME }님 반갑습니다.</font>
               <button type="submit" class="btn">Sign off</button>
             </form>
           </div><!--/.nav-collapse -->
 </c:if>
-<c:if test="${empty mxid }">
+<c:if test="${empty USEQ }">
 
           <div class="nav-collapse collapse">
             <ul class="nav">

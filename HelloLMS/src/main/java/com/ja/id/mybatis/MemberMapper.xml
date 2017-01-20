@@ -12,6 +12,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="login" resultType="com.ja.id.domain.MemberVO">
 	<!--  로그인 -->
-		select mxid, mxpw, mxname from member where mxid=#{mxid} and mxpw=#{mxpw}	
+		select mxid, mxpw, mxname, mxseq, mxdiv, mxoffice from member where mxid=#{mxid} and mxpw=#{mxpw}	
 	</select>
 </mapper>

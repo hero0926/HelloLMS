@@ -57,28 +57,38 @@ public class MemberController {
 	public void loginGET(@ModelAttribute("dto") LoginDTO dto) {
 		
 	}
-	
 	@RequestMapping(value = "/loginPost", method = RequestMethod.POST)
 	public String loginPOST(LoginDTO dto, HttpSession session, Model model) throws Exception {
 		
 		MemberVO vo = memberservice.login(dto);
 		
 		if(vo==null){
+			session.setAttribute("USEQ", null);
 			return "member/login";
-		}
+		}else{
+			
+		session.setAttribute("USEQ", vo.getMxseq());
+		session.setAttribute("UID", vo.getMxid());
+		session.setAttribute("UNAME", vo.getMxname());
+		session.setAttribute("UDIV", vo.getMxdiv());
+		session.setAttribute("UOFFICE", vo.getMxoffice());
 		
-		session.setAttribute("mxid", vo.getMxid());
-		session.setAttribute("mxname", vo.getMxname());
+		
 		model.addAttribute("memberVO", vo);
 		
 		return "home";
+		}
 		
 	}
 	
 	@RequestMapping(value = "/logout")
 	public String logOUT(HttpSession session) throws Exception {
 		
-		session.removeAttribute("mxid");
+		session.removeAttribute("USEQ");
+		session.removeAttribute("UID");
+		session.removeAttribute("UNAME");
+		session.removeAttribute("UDIV");
+		session.removeAttribute("UOFFICE");
 		//session.invalidate();
 		return "home";
 	}
