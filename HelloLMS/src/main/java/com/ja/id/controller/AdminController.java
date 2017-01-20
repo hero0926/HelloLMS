@@ -60,10 +60,10 @@ public class AdminController {
 		String pass = (String) map.get("password");
 
 		if(null!=id&&id.equals("admin")&&null!=pass&&pass.equals("1234")){
-			session.setAttribute("USEQ", "1"); //로그인 부분 완성 하면 이 부분 뺄것
+			/*session.setAttribute("USEQ", "1"); //로그인 부분 완성 하면 이 부분 뺄것
 			session.setAttribute("UID", "admin");
 			session.setAttribute("UNAME", "관리자");
-			session.setAttribute("UDIV", "A");
+			session.setAttribute("UDIV", "A");*/
 
 			return "redirect:/admin/";
 		} else {

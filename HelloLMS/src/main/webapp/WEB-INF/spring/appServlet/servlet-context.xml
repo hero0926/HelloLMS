@@ -27,6 +27,18 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
+	<!-- 로그인하기 -->
+	
+	<beans:bean id="loginInterceptor" class="com.ja.id.interceptor.LoginInterceptor">
+	</beans:bean>
+	
+	<interceptors>
+	<interceptor>
+		<mapping path="/member/loginPost"/>
+		<beans:ref bean="loginInterceptor"/>
+	</interceptor>
+	</interceptors>
+	
 	<beans:bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
 	

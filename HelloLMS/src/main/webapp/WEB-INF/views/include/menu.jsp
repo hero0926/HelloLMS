@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -12,7 +13,7 @@
           </button>
           <a class="brand" href="#">Hello LMS</a>
           
-<c:if test="${!empty USEQ }">
+<c:if test="${!empty mxid }">
 
           <div class="nav-collapse collapse">
             <ul class="nav">
@@ -49,13 +50,13 @@
             <form class="navbar-search pull-left">
 			  <input type="text" class="search-query" placeholder="Search : 과정명">
 			</form>
-            <form class="navbar-form pull-right">
-	          <font style="color: white; font-style: inherit;">${UNAME }님 반갑습니다.</font>
+            <form class="navbar-form pull-right" action="/member/logout" >
+	          <font style="color: white; font-style: inherit;">${mxname }님 반갑습니다.</font>
               <button type="submit" class="btn">Sign off</button>
             </form>
           </div><!--/.nav-collapse -->
 </c:if>
-<c:if test="${empty USEQ }">
+<c:if test="${empty mxid }">
 
           <div class="nav-collapse collapse">
             <ul class="nav">
@@ -92,9 +93,9 @@
             <form class="navbar-search pull-left">
 			  <input type="text" class="search-query" placeholder="Search : 과정명">
 			</form>
-            <form class="navbar-form pull-right">
-              <input class="span2" type="text" placeholder="ID">
-              <input class="span2" type="password" placeholder="Password">
+            <form class="navbar-form pull-right" action="/member/loginPost" method="post">
+              <input class="span2" type="text" name="mxid" placeholder="ID">
+              <input class="span2" type="password" name ="mxpw" placeholder="Password">
               <button type="submit" class="btn">Sign in</button>
             </form>
           </div><!--/.nav-collapse -->

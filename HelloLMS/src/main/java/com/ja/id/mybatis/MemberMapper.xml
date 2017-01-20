@@ -10,7 +10,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		values (#{mxid}, #{mxpw}, #{mxname}, #{mxmail}, #{mxoffice}, #{mxdiv})
 	</insert>
 
-	<select id="loginMember" resultType="java.util.HashMap" parameterType="java.util.HashMap">
-	<!--  로그인시 회원인지 확인하기(빨리만들어) -->	
+	<select id="login" resultType="com.ja.id.domain.MemberVO">
+	<!--  로그인 -->
+		select mxid, mxpw, mxname from member where mxid=#{mxid} and mxpw=#{mxpw}	
 	</select>
 </mapper>
