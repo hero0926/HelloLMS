@@ -72,4 +72,11 @@ public class AdminDAOImpl implements AdminDAO{
 		return mapper.deleteCourse(map);
 	}
 
+	@Override
+	public List<HashMap> selectTestpool(Map map) {
+		// TODO Auto-generated method stub
+		AdminMapper mapper = sqlSession.getMapper(AdminMapper.class);
+		return mapper.selectTestpool(map);
+	}
+
 }

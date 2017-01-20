@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 public interface AdminMapper {
 
 	public int insertCode(Map map);
@@ -21,4 +22,7 @@ public interface AdminMapper {
 	public int updateCourse(Map map);
 
 	public int deleteCourse(Map map);
+
+	public List<HashMap> selectTestpool(Map map);
+
 }

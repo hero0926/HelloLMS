@@ -88,4 +88,12 @@ public class AdminServiceImpl implements AdminService{
 		return result;
 	}
 
+	@Override
+	public List<HashMap> selectTestpool(Map map) {
+		// TODO Auto-generated method stub
+		return adminDAO.selectTestpool(map);
+	}
+
+
+
 }

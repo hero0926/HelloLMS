@@ -68,7 +68,7 @@ public class AdminController {
 			return "redirect:/admin/";
 		} else {
 			return "member/ad_login";
-		}
+		}  
 	}
 
 	@RequestMapping(value = "/insertCode", method = RequestMethod.POST)
@@ -130,6 +130,7 @@ public class AdminController {
 		String coxoffice = (String)map.get("coxoffice");
 		if(null==coxoffice){
 			coxoffice = String.valueOf((int)bizList.get(0).get("cxseq"));
+			
 			map.put("coxoffice", coxoffice);
 		}
 		List<HashMap> courseList = adminService.selectCourse(map);
@@ -235,7 +236,29 @@ public class AdminController {
 		List<HashMap> courseList = adminService.selectCourse(map);
 		model.addAttribute("courseList", courseList);
 		
+		List<HashMap> testpoolList = adminService.selectTestpool(map);
+		model.addAttribute("testpoolList", testpoolList);
+		
+		
+		
 		session.setAttribute("adMenu", "4");
 		return "exam/ad_testpoolList";
+	}
+	
+	@RequestMapping(value = "/testpoolWriteForm", method = {RequestMethod.POST, RequestMethod.GET})
+	public String testpoolWriteForm(Locale locale, Model model, @RequestParam Map map) {
+		logger.info("controller testpoolWriteForm.", locale);
+
+		String coxseq = (String)map.get("coxseq");
+		model.addAttribute("coxseq", coxseq);
+		
+		
+		String txseq = (String)map.get("txseq");
+		if(null!=txseq){
+			List<HashMap> testpoolList = adminService.selectTestpool(map);
+			model.addAttribute("testpool", testpoolList.get(0));
+		}
+		
+		return "course/ad_testpoolWrite";
 	}
 }

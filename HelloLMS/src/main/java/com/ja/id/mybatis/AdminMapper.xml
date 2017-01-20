@@ -97,4 +97,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		delete from course
 		where coxseq = #{coxseq}
 	</delete>
+
+	<select id="selectTestpool" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select a.txseq, a.coxseq, a.lxseq, a.txtype,
+			a.txcont, b.lxnum, b.lxname, a.txcont,
+			a.tx1, a.tx2, a.tx3, a.tx4,
+			a.tx5, a.txcorrect, c.cxname
+		from testpool a, lecture b, code c
+		where a.coxseq = 1
+		and a.lxseq = b.lxseq
+		and a.txtype = c.cxcode
+		and c.cxgubun = '004'
+
+		<if test="null != txseq">
+	    	and a.txseq = #{txseq}
+	    </if>
+		order by b.lxnum, a.txseq
+	</select>
+
 </mapper>

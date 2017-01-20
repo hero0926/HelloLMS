@@ -22,4 +22,6 @@ public interface AdminDAO {
 
 	public int deleteCourse(Map map);
 
+	public List<HashMap> selectTestpool(Map map);
+
 }

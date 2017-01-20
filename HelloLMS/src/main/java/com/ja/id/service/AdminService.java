@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 public interface AdminService {
 
 	public int insertCode(Map map) throws Exception;
@@ -21,4 +22,7 @@ public interface AdminService {
 	public int updateCourse(Map map);
 
 	public int deleteCourse(Map map) throws Exception;
+
+	public List<HashMap> selectTestpool(Map map);
+
 }

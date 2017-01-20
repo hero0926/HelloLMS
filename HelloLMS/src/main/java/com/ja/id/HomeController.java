@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -15,7 +16,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * Handles requests for the application home page.
+ * js
+* 김설화업로드
+ * kj
+ * 김설화업로드2 3 3 3 웅 앵 dh js
+ * 
+ * JS
  */
+ 
 @Controller
 public class HomeController {
 	
@@ -23,11 +31,15 @@ public class HomeController {
 	
 	/**
 	 * Simply selects the home view to render by returning its name.
+	 * 
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, Model model, HttpSession session) {
+	public String home(Locale locale, Model model, HttpSession session, HttpServletRequest request) {
 		logger.info("Welcome home! The client locale is {}.", locale);
 		session.setAttribute("Menu", "1");
+		String uri = (String)request.getServerName();
+		 
+		session.setAttribute("UBIZ", uri);
 		return "home";
 	}
 	

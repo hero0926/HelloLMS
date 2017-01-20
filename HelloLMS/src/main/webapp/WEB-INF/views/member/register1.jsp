@@ -7,7 +7,7 @@
 <title>회원 가입 약관 폼</title>
 </head>
 <body>
-<form action="/member/register2.do" method="post">
+<form action="/member/register2" method="post">
 엥 동의한다...어쩌구
 <br>
 저쩌구
