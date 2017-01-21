@@ -18,15 +18,7 @@ public class MemberDAOImpl implements MemberDAO{
 	@Autowired
 	private SqlSession sqlSession;
 
-	@Override
-	public int insertMember(Map map) {
-		// TODO Auto-generated method stub
-		
-		MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
-			
-		return mapper.insertMember(map);
-		
-	}
+	
 
 	@Override
 	public MemberVO login(LoginDTO dto) throws Exception {
@@ -36,5 +28,18 @@ public class MemberDAOImpl implements MemberDAO{
 		
 		return mapper.login(dto);
 	}
+
+
+
+	@Override
+	public void insertMember(MemberVO vo) {
+		// TODO Auto-generated method stub
+		
+		MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
+		
+		mapper.insertMember(vo);
+		
+	}
+
 
 }

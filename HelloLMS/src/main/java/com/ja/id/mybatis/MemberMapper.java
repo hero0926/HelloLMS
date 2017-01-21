@@ -7,7 +7,7 @@ import com.ja.id.dto.LoginDTO;
 
 public interface MemberMapper {
 	
-	public int insertMember(Map map);
+	public void insertMember(MemberVO vo);
 	
 	public MemberVO login(LoginDTO dto);
 }

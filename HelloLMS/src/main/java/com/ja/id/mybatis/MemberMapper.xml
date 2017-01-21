@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ja.id.mybatis.MemberMapper">
 
-	<insert id="insertMember" parameterType="java.util.HashMap">
+	<insert id="insertMember">
 	<!-- 회원 가입 하기 -->
 		insert into member (mxid, mxpw, mxname, mxmail, mxoffice, mxdiv)
 		values (#{mxid}, #{mxpw}, #{mxname}, #{mxmail}, #{mxoffice}, #{mxdiv})

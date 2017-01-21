@@ -7,7 +7,7 @@ import com.ja.id.dto.LoginDTO;
 
 public interface MemberDAO {
 	
-	public int insertMember(Map map);
+	public void insertMember(MemberVO vo);
 	
 	public MemberVO login(LoginDTO dto) throws Exception;
 

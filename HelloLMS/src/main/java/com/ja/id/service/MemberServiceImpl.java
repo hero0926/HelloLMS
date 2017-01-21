@@ -22,17 +22,20 @@ public class MemberServiceImpl implements MemberService{
 	@Autowired
 	MemberDAO MemberDAO;
 	
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
-	public int insertMember(Map map) throws Exception {
-		// TODO Auto-generated method stub
-		System.out.println("ȸ������ �ϱ�");
-		return MemberDAO.insertMember(map);
-	}
 
 	@Override
 	public MemberVO login(LoginDTO dto) throws Exception {
 		// TODO Auto-generated method stub
 		return MemberDAO.login(dto);
+	}
+
+
+	@Override
+	public void insertMember(MemberVO vo) {
+		// TODO Auto-generated method stub
+		
+		MemberDAO.insertMember(vo);
+		
 	}
 
 }
