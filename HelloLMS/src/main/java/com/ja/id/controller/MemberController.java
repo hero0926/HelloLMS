@@ -41,32 +41,42 @@ public class MemberController {
 	
 	@RequestMapping(value = "/register1")
 	public String prereg(Locale locale, Model model, @RequestParam Map map) {
-		logger.info("회원가입 약관 폼", locale);
-		
+		logger.info("회원가입 약관 폼", locale);		
 		return "member/register1";
 	}
 	
 	@RequestMapping(value = "/register2")
 	public String register(Locale locale, Model model, @RequestParam Map map) {
-		logger.info("회원가입 하기", locale);
-		
+		logger.info("회원가입 하기", locale);		
 		return "member/register2";
 	}
 	
-	@RequestMapping(value = "/loginPost", method = RequestMethod.GET)
-	public void loginGET(@ModelAttribute("dto") LoginDTO dto) {
+	@RequestMapping(value = "/registered")
+	public String registered(Locale locale, Model model, @RequestParam Map map) {
+		logger.info("회원가입 되기", locale);
 		
+		
+		
+		return "home";
 	}
+	
+	@RequestMapping(value = "/loginPost", method = RequestMethod.GET)
+	public void loginGET(@ModelAttribute("dto") LoginDTO dto) {		
+	}
+	
 	@RequestMapping(value = "/loginPost", method = RequestMethod.POST)
 	public String loginPOST(LoginDTO dto, HttpSession session, Model model) throws Exception {
 		
 		MemberVO vo = memberservice.login(dto);
 		
 		if(vo==null){
+			//로그인 실패
+			session.setAttribute("LOGIN", null);
 			session.setAttribute("USEQ", null);
 			return "member/login";
 		}else{
-			
+			//로그인 성공
+			session.setAttribute("LOGIN", "success");
 		session.setAttribute("USEQ", vo.getMxseq());
 		session.setAttribute("UID", vo.getMxid());
 		session.setAttribute("UNAME", vo.getMxname());

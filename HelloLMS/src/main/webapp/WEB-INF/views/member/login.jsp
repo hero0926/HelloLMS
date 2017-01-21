@@ -71,7 +71,11 @@
 </head>
 <body>
 
-
+<c:if test="${empty LOGIN }">
+	<script>
+	alert("아이디와 비밀번호를 정확히 입력하세요");
+	</script>
+</c:if>
 
 <div class="container">
 
@@ -81,7 +85,7 @@
         <input type="password" class="input-block-level" name="mxpw" placeholder="Password">
         
         <button class="btn btn-large btn-primary" type="submit">로그인</button>
-        
+            
 </form>
 </div>
 
