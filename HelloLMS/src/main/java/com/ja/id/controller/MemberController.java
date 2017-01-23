@@ -55,10 +55,8 @@ public class MemberController {
 	@Transactional(readOnly = false)
 	@RequestMapping(value = "/registered")
 	public String registered(Locale locale, MemberVO vo) {
-		logger.info("회원가입 되기", locale);
-		
-		memberservice.insertMember(vo);
-		
+		logger.info("회원가입 되기", locale);		
+		memberservice.insertMember(vo);		
 		return "home";
 	}
 	
@@ -103,6 +101,11 @@ public class MemberController {
 		session.removeAttribute("UOFFICE");
 		//session.invalidate();
 		return "home";
+	}
+	
+	@RequestMapping(value = "/id")
+	public void idfind(Locale locale, MemberVO vo) {
+		logger.info("아이디 찾기", locale);	
 	}
 	
 }

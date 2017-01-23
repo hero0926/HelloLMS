@@ -60,7 +60,8 @@ function call()
 {
 	var m1 = document.getElementById("email1").value;
 	var m2 = document.getElementById("email2").value;
-	document.getElementById("mxmail").value = m1+"@"+m2;
+	var mxmail = m1+"@"+m2; 
+	document.getElementById("mxmail").value = mxmail;
 }
 		
 //라디오버튼 선택 체크하기
@@ -90,9 +91,9 @@ function call()
  	<tr>
      <th> 이메일 </th>
      <td>     
- <input name="email1" type="text" class="box" id="email1"  onkeyup='call()'> @
- <input name="email2" type="text" class="box" id="email2" value="" onkeyup='call()'>
- 	<select name="email_select" class="box" id="email_select" onChange="checkemailaddy();">
+ <input name="email1" type="text" class="box" id="email1" onkeyup="call()"> @
+ <input name="email2" type="text" class="box" id="email2" value="" onkeyup="call()">
+ 	<select name="email_select" class="box" id="email_select" onChange="checkemailaddy();" onclick="call();">
     <option value="" selected>선택</option>
     <option value="naver.com">naver.com</option>
     <option value="hanmail.net">hanmail.net</option>    
@@ -103,7 +104,7 @@ function call()
     <option value="1">직접입력</option>
 </select>
 
-<input type="text" name="mxmail" id="mxmail" value="" style="display:none">
+<input type="text" name="mxmail" id="mxmail" value="" style="display:none" onchange='call()'>
 
    
      </td>

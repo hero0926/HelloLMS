@@ -59,7 +59,7 @@
         margin-bottom: 15px;
         padding: 7px 9px;
       }
-
+      
     </style>
    <link href="/resources/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
    <script src="/resources/js/jquery-2.1.1.min.js"></script>
@@ -73,9 +73,10 @@
 
 <c:if test="${empty LOGIN }">
 	<script>
-	alert("아이디와 비밀번호를 정확히 입력하세요");
+	//alert("아이디와 비밀번호를 정확히 입력하세요");
 	</script>
 </c:if>
+
 
 <div class="container">
 
@@ -95,14 +96,12 @@
 <form class="div-ohter">
 <h2 class="form-signin-heading">처음이신가요?</h2>
 <a href="/member/register1"><button class="btn btn-large btn-warning" type="button">회원가입</button></a>
-<br><br><hr><br><Br>
-<h2 class="form-signin-heading">문제가 있으신가요?</h2>
-<button class="btn btn-large btn-danger" type="button">ID 찾기</button>&nbsp;&nbsp;&nbsp;
+<br><br><hr>
+<h2 class="form-signin-heading" >문제가 있으신가요?</h2>
+<button class="btn btn-large btn-success" type="button" >ID 찾기</button>
+&nbsp;&nbsp;&nbsp;
 <button class="btn btn-large btn-inverse" type="button">비밀번호 찾기</button>
-</form>
 </div>
-
-
 
 </body>
 </html>
