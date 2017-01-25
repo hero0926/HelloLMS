@@ -79,4 +79,32 @@ public class AdminDAOImpl implements AdminDAO{
 		return mapper.selectTestpool(map);
 	}
 
+	@Override
+	public List<HashMap> selectLecture(Map map) {
+		// TODO Auto-generated method stub
+		AdminMapper mapper = sqlSession.getMapper(AdminMapper.class);
+		return mapper.selectLecture(map);
+	}
+
+	@Override
+	public int updateTestpool(Map map) {
+		// TODO Auto-generated method stub
+		AdminMapper mapper = sqlSession.getMapper(AdminMapper.class);
+		return mapper.updateTestpool(map);
+	}
+
+	@Override
+	public int insertTestpool(Map map) {
+		// TODO Auto-generated method stub
+		AdminMapper mapper = sqlSession.getMapper(AdminMapper.class);
+		return mapper.insertTestpool(map);
+	}
+
+	@Override
+	public int deleteTestpool(Map map) {
+		// TODO Auto-generated method stub
+		AdminMapper mapper = sqlSession.getMapper(AdminMapper.class);
+		return mapper.deleteTestpool(map);
+	}
+
 }

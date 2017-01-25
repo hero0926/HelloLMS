@@ -4,19 +4,21 @@
 <%@ include file="../include/ad_menu.jsp" %>
 	<script>
 		$(document).ready(function (e){
-			$('#goSelect').click(function(){
-				$('#form1').attr('action','/admin/testpoolList');
-				$('#form1').submit();
-			});
 			$('#goInsert').click(function(){
 				$('#form1').attr('action','/admin/testpoolWriteForm');
 				$('#form1').submit();
 			});
 		});
+
 		
+		function goSelect() {
+			$('#form1').attr('action','/admin/testpoolList');
+			$('#form1').submit();
+		}
 		function goDelete(n) {
 			if(confirm("문제를 삭제 하시겠습니까?")){
 				$('#txseq').val(n);
+				$('#coxseq2').val($('#coxseq1').val());
 				$('#frm2').attr('action','/admin/testpoolDelete');
 				$('#frm2').submit();
 			}
@@ -48,7 +50,7 @@
 	         <div class="row">
         		<div class="span12">
 				  <div class="span8">
-					<select class="span2" name="coxseq" placeholder="과정" id="courseList">
+					<select class="span2" name="coxseq" id="coxseq1" placeholder="과정" onChange="javascript:goSelect();">
 						<c:forEach var="course" items="${courseList}">
 							<option value='<c:out value="${course.coxseq }"/>' <c:if test="${ !empty course && course.coxseq==coxseq }">selected</c:if>><c:out value="${course.coxname }"/></option>
 							
@@ -63,6 +65,7 @@
 			</form>
 			<form id="frm2" method="post">
 				<input type="hidden" name="txseq" id="txseq" />
+				<input type="hidden" name="coxseq" id="coxseq2" />
 			</form>
 		</div>
 		<c:if test="${ !empty testpoolList }">
@@ -78,7 +81,7 @@
 				<tr>
 					<td><c:out value="${testpool.txseq }"/></td>
 					<td><c:out value="${testpool.lxnum }"/>-<c:out value="${testpool.lxname }"/></td>
-					<td><c:out value="${testpool.cxname }"/></td>
+					<td><a href="javascript:goWrite('${testpool.txseq }');"><c:out value="${testpool.cxname }"/></a></td>
 					<td><c:out value="${testpool.txcont }"/></td>
 					<td>
 						<button class="btn btn-small" type="button" onClick="goWrite('${testpool.txseq }');">수정</button>

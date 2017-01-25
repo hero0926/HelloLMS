@@ -1,5 +1,3 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page language="java"  contentType="text/html; charset=UTF-8" pageEncoding="utf-8"%>
 <%@ include file="../include/header.jsp" %>
 <%@ include file="../include/ad_menu.jsp" %>
@@ -12,7 +10,7 @@
 			$('#goInsert').click(function(){
 				$('#form1').attr('action','/admin/courseWriteForm');
 				$('#form1').submit();
-			});
+			})
 		});
 		
 		function goDelete(n) {
@@ -29,11 +27,10 @@
 			$('#frm2').attr('action','/admin/courseWriteForm');
 			$('#frm2').submit();
 		}
-		function goLecture(n) {
-			$('#coxseq').val(n);
-			$('#coxoffice2').val($('#coxoffice1').val());
-			//$('#frm2').attr('action','/admin/lectureList');
-			//$('#frm2').submit();
+		function goLecture(coxseq) {
+			$('#coxseq').val(coxseq);
+			$('#frm2').attr('action','/admin/lecture/lectureList');
+			$('#frm2').submit();
 		}
 		function goApply(n) {
 			$('#coxseq').val(n);

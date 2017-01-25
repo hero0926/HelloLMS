@@ -1,9 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-
+<%
+/* session.setAttribute("USEQ", "1"); //로그인 부분 완성 하면 이 부분 뺄것
+session.setAttribute("UID", "test");
+session.setAttribute("UNAME", "홍길동");
+session.setAttribute("UDIV", "S");
+session.setAttribute("UOFFICE", "8");
+ */
+session.getAttribute("UID");
+ session.getAttribute("UNAME");
+ session.getAttribute("UDIV");
+ session.getAttribute("UOFFICE");
+ session.getAttribute("UMAIL");
+%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -12,6 +23,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
+	<link rel="shortcut icon" href="/resources/bootstrap/img/glyphicons-329-podium.png">
 
     <!-- Le styles -->
     <link href="/resources/bootstrap/css/bootstrap.css" rel="stylesheet">

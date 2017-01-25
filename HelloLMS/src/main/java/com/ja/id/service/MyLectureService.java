@@ -25,5 +25,7 @@ public interface MyLectureService {
 	public List<HashMap> getAllCnt(Map map) throws Exception;
 
 	public List<HashMap> getCnt(Map map) throws Exception;
+
+	public int applyCourseDelete(Map map) throws Exception;
 	
 }

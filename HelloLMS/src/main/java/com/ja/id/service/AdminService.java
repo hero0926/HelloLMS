@@ -25,4 +25,12 @@ public interface AdminService {
 
 	public List<HashMap> selectTestpool(Map map);
 
+	public List<HashMap> selectLecture(Map map);
+
+	public int updateTestpool(Map map);
+
+	public int insertTestpool(Map map);
+
+	public int deleteTestpool(Map map);
+
 }

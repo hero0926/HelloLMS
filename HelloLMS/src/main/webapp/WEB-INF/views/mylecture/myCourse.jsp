@@ -1,4 +1,3 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java"  contentType="text/html; charset=UTF-8" pageEncoding="utf-8"%>
 <%@ include file="../include/header.jsp" %>
 <%@ include file="../include/menu.jsp" %>
@@ -43,8 +42,11 @@
 	  					<c:forEach var="course" items="${list}" varStatus="status">
 							<tr>
 								<td><a href="myLecture?coxseq=${course.coxseq}"><c:out value="${course.coxname}"/></a></td>
-								<td><c:out value="${course.coxstart}"/> ~ <c:out value="${course.coxend}"/></td>
-								<td><c:out value="${course.tuxname}"/></td>
+								<td><fmt:parseDate value="${course.coxstart}" var="dateFmt1" pattern="yyyyMMdd"/>
+									<fmt:formatDate value="${dateFmt1}" pattern="yyyy-MM-dd"/> ~ 
+									<fmt:parseDate value="${course.coxend}" var="dateFmt2" pattern="yyyyMMdd"/>
+									<fmt:formatDate value="${dateFmt2}" pattern="yyyy-MM-dd"/></td>
+								<td><c:out value="${course.mxname}"/></td>
 								<td><c:out value="${course.coxprog}"/></td>
 								<td><a href="javascript:testpopupOpen();">평가</a></td>
 								<td><a href="javascript:historypopupOpen();"><button type="submit" class="btn">수강이력</button></a></td>

@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ja.id.mybatis.MemberMapper">
 
-	<insert id="insertMember" parameterType="java.util.HashMap">
+	<insert id="insertMember">
 	<!-- 회원 가입 하기 -->
 		insert into member (mxid, mxpw, mxname, mxmail, mxoffice, mxdiv)
 		values (#{mxid}, #{mxpw}, #{mxname}, #{mxmail}, #{mxoffice}, #{mxdiv})
@@ -12,6 +12,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="login" resultType="com.ja.id.domain.MemberVO">
 	<!--  로그인 -->
-		select mxid, mxpw, mxname, mxseq, mxdiv, mxoffice from member where mxid=#{mxid} and mxpw=#{mxpw}	
+		select mxseq, mxid, mxpw, mxname, mxseq, mxdiv, mxoffice, mxmail from member where mxid=#{mxid} and mxpw=#{mxpw}	
 	</select>
+	
+	<!-- 회원정보 수정하기 -->
+	<update id="updateMember">
+	update member set mxpw=#{mxpw}, mxname=#{mxname}, mxmail=#{mxmail} where mxid=#{mxid}
+	</update>
+	
+	<!-- 회원 탈퇴하기 -->
+	<delete id="deleteMember">
+	delete from member where mxid=#{mxid}
+	</delete>
+	
+	<!-- 아이디 찾기 -->
+	<select id="id" resultType="String" parameterType="String">
+	select mxid from member where mxname=#{mxname} and mxmail=#{mxmail}
+	</select>
+	
 </mapper>

@@ -6,6 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="insertCode" parameterType="java.util.HashMap">
 		insert into code (cxgubun, cxcode, cxname)
 		values (#{cxgubun}, #{cxcode}, #{cxname})
+		
 	</insert>
 
 	<select id="selectCode" resultType="java.util.HashMap" parameterType="java.util.HashMap">
@@ -22,6 +23,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</if>
 		<if test="null != cxseq">
 	    	and cxseq = #{cxseq}
+	    </if>
+		<if test="null != cxname">
+	    	and cxname = #{cxname}
 	    </if>
 		order by cxcode, cxname 
 	</select>
@@ -102,17 +106,62 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select a.txseq, a.coxseq, a.lxseq, a.txtype,
 			a.txcont, b.lxnum, b.lxname, a.txcont,
 			a.tx1, a.tx2, a.tx3, a.tx4,
-			a.tx5, a.txcorrect, c.cxname
-		from testpool a, lecture b, code c
-		where a.coxseq = 1
+			a.tx5, a.txcorrect, c.cxname, d.coxname
+		from testpool a, lecture b, code c, course d
+		where a.coxseq is not null
 		and a.lxseq = b.lxseq
 		and a.txtype = c.cxcode
 		and c.cxgubun = '004'
+		and a.coxseq = d.coxseq
+		and a.coxseq = #{coxseq}
 
-		<if test="null != txseq">
+		<if test="null != txseq and '' !=txseq ">
 	    	and a.txseq = #{txseq}
 	    </if>
 		order by b.lxnum, a.txseq
 	</select>
+	
+	<select id="selectLecture" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select lxseq, lxnum, coxseq, lxname, lxtype,
+		lxlink, lxfile, regdate, mxseq
+		from lecture
+		where coxseq = #{coxseq}
+		<if test="null != lxseq">
+	    	and lxseq = #{lxseq}
+	    </if>
+		order by coxseq, lxnum
+	</select>
 
+	<update id="updateTestpool" parameterType="java.util.HashMap">
+		update testpool set
+		lxseq = #{lxseq},
+		txtype = #{txtype},
+		txcont = #{txcont},
+		tx1 = #{tx1},
+		tx2 = #{tx2},
+		tx3 = #{tx3},
+		tx4 = #{tx4},
+		tx5 = #{tx5},
+		txcorrect = #{txcorrect}
+		where txseq = #{txseq}
+	</update>
+	
+	<insert id="insertTestpool" parameterType="java.util.HashMap">
+		insert into testpool (
+			coxseq, lxseq, txtype, txcont,
+			tx1, tx2, tx3, tx4, 
+			tx5, txcorrect, regdate, mxseq)
+		values(
+			#{coxseq}, #{lxseq}, #{txtype}, #{txcont},
+			#{tx1}, #{tx2}, #{tx3}, #{tx4}, 
+			#{tx5}, #{txcorrect}, date_format(now(), '%Y%m%d'), #{mxseq}
+		)
+
+	</insert>
+	
+	<delete id="deleteTestpool" parameterType="java.util.HashMap">
+		delete from testpool
+		where txseq = #{txseq}	
+	</delete>
+	
 </mapper>

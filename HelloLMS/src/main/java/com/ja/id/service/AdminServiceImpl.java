@@ -94,6 +94,28 @@ public class AdminServiceImpl implements AdminService{
 		return adminDAO.selectTestpool(map);
 	}
 
+	@Override
+	public List<HashMap> selectLecture(Map map) {
+		// TODO Auto-generated method stub
+		return adminDAO.selectLecture(map);
+	}
 
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
+	public int updateTestpool(Map map) {
+		// TODO Auto-generated method stub
+		return adminDAO.updateTestpool(map);
+	}
+
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
+	public int insertTestpool(Map map) {
+		// TODO Auto-generated method stub
+		return adminDAO.insertTestpool(map);
+	}
+
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
+	public int deleteTestpool(Map map) {
+		// TODO Auto-generated method stub
+		return adminDAO.deleteTestpool(map);
+	}
 
 }

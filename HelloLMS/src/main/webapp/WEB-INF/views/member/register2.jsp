@@ -60,9 +60,7 @@ function call()
 {
 	var m1 = document.getElementById("email1").value;
 	var m2 = document.getElementById("email2").value;
-	var mxmail = document.getElementById("mxmail").value;
-	
-	mxmail = m1+"@"+m2;		
+	document.getElementById("mxmail").value = m1+"@"+m2;
 }
 		
 //라디오버튼 선택 체크하기
@@ -72,7 +70,7 @@ function call()
 </head>
 <body>
 <div class="row span 5" align="center">
- <form name = "frm" action="/member/registered" method="post" >
+ <form name = "frm" action="/member/register2" method="post" >
  <table class="table table-hover" align="center">
      <tr>
      <th> 아이디 </th>
@@ -93,9 +91,8 @@ function call()
      <th> 이메일 </th>
      <td>     
  <input name="email1" type="text" class="box" id="email1"  onkeyup='call()'> @
- <input name="email2" type="text" class="box" id="email2"  onkeyup='call()'>
-     
-     <select name="email_select" class="box" id="email_select" onChange="checkemailaddy();">
+ <input name="email2" type="text" class="box" id="email2" value="" onkeyup='call()'>
+ 	<select name="email_select" class="box" id="email_select" onclick='call()' onChange="checkemailaddy();">
     <option value="" selected>선택</option>
     <option value="naver.com">naver.com</option>
     <option value="hanmail.net">hanmail.net</option>    
@@ -106,7 +103,8 @@ function call()
     <option value="1">직접입력</option>
 </select>
 
-<input type='text' name='mxmail' id='mxmail' style="display:none" >
+<input type="text" name="mxmail" id="mxmail" value="" style="display:none">
+
    
      </td>
      
@@ -115,7 +113,7 @@ function call()
      <tr>
      <!-- 회사는 코드 테이블에서 가져오는 int형 이예요. -->
       <th> 회사 </th>
-     <td><input type="text" value="2" id="mxoffice" name="mxoffice"  disabled="disabled"></td>
+     <td><input type="text" value="2" id="mxoffice" name="mxoffice"></td>
     </tr>
     
     <tr>

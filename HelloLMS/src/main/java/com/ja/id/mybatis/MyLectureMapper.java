@@ -30,4 +30,6 @@ public interface MyLectureMapper {
 	
 	public List<HashMap> getCnt(Map map);
 
+	public int applyCourseDelete(Map map);
+
 }

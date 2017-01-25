@@ -51,7 +51,7 @@ function nochk(){
 
 
 <body>
-<form action="member/register2" name="form" method="post">
+<form action="member/register2" name="form" method="get">
 
 <div align="center">
  <table>

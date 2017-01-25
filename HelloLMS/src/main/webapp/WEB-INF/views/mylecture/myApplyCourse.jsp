@@ -1,7 +1,17 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java"  contentType="text/html; charset=UTF-8" pageEncoding="utf-8"%>
 <%@ include file="../include/header.jsp" %>
 <%@ include file="../include/menu.jsp" %>
+	
+	<script>
+		function Delete(mxseq, coxseq) {
+			if(confirm("수강을 취소하시겠습니까?")){
+				$('#mxseq').val(mxseq);
+				$('#coxseq').val(coxseq);
+				$('#frm2').attr('action','/mypage/mylecture/myApplyCourseDelete');
+				$('#frm2').submit();
+			}
+		}
+	</script>
 
 	<div class="container">
 	
@@ -14,6 +24,10 @@
         		<h3>내가 수강신청한 과정</h3>
         		<div class="alert alert-info">
 	          	</div>
+	          	<form id="frm2" method="post">
+					<input type="hidden" name="coxseq" id="coxseq" />
+					<input type="hidden" name="mxseq" id="mxseq" />
+				</form>
 	        		<table class="table table-bordered">
 		  				<tr>
 			  				<th>과정명</th>
@@ -28,10 +42,27 @@
 	  					<c:forEach var="applycourse" items="${list}" varStatus="status">
 							<tr>
 								<td><c:out value="${applycourse.coxname}"/></td>
-								<td><c:out value="${applycourse.coxstart}"/> ~ <c:out value="${applycourse.coxend}"/></td>
-								<td><c:out value="${applycourse.regdate}"/></td>
-								<td><c:out value="${applycourse.axstatus}"/></td>
-								<td><button type="submit" class="btn">수강취소</button></td>
+								<td><fmt:parseDate value="${applycourse.coxstart}" var="dateFmt1" pattern="yyyyMMdd"/>
+									<fmt:formatDate value="${dateFmt1}" pattern="yyyy-MM-dd"/> ~ 
+									<fmt:parseDate value="${applycourse.coxend}" var="dateFmt2" pattern="yyyyMMdd"/>
+									<fmt:formatDate value="${dateFmt2}" pattern="yyyy-MM-dd"/></td>
+								<td><fmt:parseDate value="${applycourse.regdate}" var="dateFmt3" pattern="yyyyMMdd"/>
+									<fmt:formatDate value="${dateFmt3}" pattern="yyyy-MM-dd"/></td>
+								<td><c:choose>
+										<c:when test="${applycourse.axstatus=='R'}">
+											신청
+										</c:when>
+										<c:when test="${applycourse.axstatus=='A'}">
+											승인
+										</c:when>
+										<c:when test="${applycourse.axstatus=='C'}">
+											수강불가
+										</c:when>
+										<c:otherwise>
+											입력 오류
+										</c:otherwise>
+									</c:choose><%-- <c:out value="${applycourse.axstatus}"/> --%></td>
+								<td><button type="button" onClick="Delete('${mxseq}', '${applycourse.coxseq}');">수강취소</button></td>
 							</tr>
 						</c:forEach>
 					</c:if>

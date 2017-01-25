@@ -1,20 +1,19 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java"  contentType="text/html; charset=UTF-8" pageEncoding="utf-8"%>
 <%@ include file="../include/header.jsp" %>
 <%@ include file="../include/ad_menu.jsp" %>
 	<script>
-		$(document).ready(function (){
+		$(document).ready(function (e){
 			
-			$('#deleteBtn').click(function(){
-				if(confirm("")){
-					
-					
-				}
-				
-			})
+			
 		
 		});
 		
+		function deleteCode(n) {
+			if(confirm("코드를 삭제하시겠습니까?")){
+				$('#cxseq').val(n);
+				$('#frm2').submit();
+			}
+		}
 
 	</script>
    <div class="container">
@@ -53,14 +52,17 @@
         <h3>코드상세</h3>
                      
 		<div class="alert alert-info">
-	        <form class="form-inline" action="insertCode" method="post">
+	        <form class="form1" action="insertCode" method="post">
 			  분류
-			 <input type="text" class="span1" id="cxgubun" name="cxgubun" maxlength="3" size="3" placeholder="분류">
-			 <input type="text" class="span1" id="cxcode" name="cxcode" maxlength="3" size="3" placeholder="코드">
-			 <input type="text" id="cxname" name="cxname" maxlength="25" size="25" placeholder="코드명">
+			 <input type="text" class="span1" id="cxgubun" name="cxgubun" maxlength="3" placeholder="분류">
+			 <input type="text" class="span1" id="cxcode" name="cxcode" maxlength="3" placeholder="코드">
+			 <input type="text" id="cxname" name="cxname" maxlength="25" placeholder="코드명">
 			 <button type="submit" class="btn">등록</button>
 			</form>
 		</div>
+		<form id="frm2" action="deleteCode" method="post">
+			<input type="hidden" name="cxseq" id="cxseq" />
+		</form>
 		<c:if test="${ !empty list2 }">
           <table class="table table-bordered">
   			<tr>
@@ -74,7 +76,7 @@
 					<td><c:out value="${code2.cxgubun }"/></td>
 					<td><c:out value="${code2.cxcode }"/></td>
 					<td><c:out value="${code2.cxname }"/></td>
-					<td><button class="btn btn-small" type="button" id="deleteBtn">삭제</button></td>
+					<td><button class="btn btn-small" type="button" onclick="deleteCode('${code2.cxseq }')">삭제</button></td>
 				</tr>
 			</c:forEach>
           </table>

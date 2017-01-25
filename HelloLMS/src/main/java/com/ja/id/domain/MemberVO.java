@@ -5,6 +5,7 @@ public class MemberVO {
 	private String mxid;
 	private String mxpw;
 	private String mxname;
+	private String mxmail;
 	private int mxseq;
 	private int mxoffice;
 	private char mxdiv;
@@ -75,22 +76,34 @@ public class MemberVO {
 	}
 
 
-	public MemberVO(String mxid, String mxpw, String mxname, int mxseq, int mxoffice, char mxdiv) {
-		super();
-		this.mxid = mxid;
-		this.mxpw = mxpw;
-		this.mxname = mxname;
-		this.mxseq = mxseq;
-		this.mxoffice = mxoffice;
-		this.mxdiv = mxdiv;
+	public String getMxmail() {
+		return mxmail;
+	}
+
+
+	public void setMxmail(String mxmail) {
+		this.mxmail = mxmail;
 	}
 
 
 	@Override
 	public String toString() {
-		return "MemberVO [mxid=" + mxid + ", mxpw=" + mxpw + ", mxname=" + mxname + ", mxseq=" + mxseq + ", mxoffice="
-				+ mxoffice + ", mxdiv=" + mxdiv + "]";
+		return "MemberVO [mxid=" + mxid + ", mxpw=" + mxpw + ", mxname=" + mxname + ", mxmail=" + mxmail + ", mxseq="
+				+ mxseq + ", mxoffice=" + mxoffice + ", mxdiv=" + mxdiv + "]";
 	}
+
+
+	public MemberVO(String mxid, String mxpw, String mxname, String mxmail, int mxseq, int mxoffice, char mxdiv) {
+		super();
+		this.mxid = mxid;
+		this.mxpw = mxpw;
+		this.mxname = mxname;
+		this.mxmail = mxmail;
+		this.mxseq = mxseq;
+		this.mxoffice = mxoffice;
+		this.mxdiv = mxdiv;
+	}
+
 	
 	
 	

@@ -7,8 +7,14 @@ import com.ja.id.dto.LoginDTO;
 
 public interface MemberService {
 	
-	public int insertMember(Map map) throws Exception;
+	public void insertMember(MemberVO vo);
 	
-	public MemberVO login(LoginDTO dto) throws Exception;
+	public MemberVO login(LoginDTO dto) throws Exception;	
+
+	public void update(MemberVO vo) throws Exception;
+	
+	public void deleteMember(String mxid) throws Exception;
+	
+	public String id(String mxname, String mxmail);
 
 }

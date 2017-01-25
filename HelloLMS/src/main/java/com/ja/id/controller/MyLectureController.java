@@ -57,6 +57,22 @@ public class MyLectureController {
 		List<HashMap> applycourselist;
 		applycourselist = mylectureService.getAllApplyCourse(map);
 		model.addAttribute("list", applycourselist);
+		model.addAttribute("mxseq", session.getAttribute("USEQ"));
+		
+		return "mylecture/myApplyCourse";
+	}
+	
+	@RequestMapping(value = "/myApplyCourseDelete", method = {RequestMethod.POST, RequestMethod.GET})
+	public String myApplyCourseDelete(Locale locale, Model model, HttpSession session, @RequestParam Map map) throws Exception {
+		
+		mylectureService.applyCourseDelete(map);
+		
+		map.put("USEQ", session.getAttribute("USEQ"));
+		
+		List<HashMap> applycourselist;
+		applycourselist = mylectureService.getAllApplyCourse(map);
+		model.addAttribute("list", applycourselist);
+		model.addAttribute("mxseq", session.getAttribute("USEQ"));
 		
 		return "mylecture/myApplyCourse";
 	}

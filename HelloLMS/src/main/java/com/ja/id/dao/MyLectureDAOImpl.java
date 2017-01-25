@@ -86,4 +86,11 @@ public class MyLectureDAOImpl implements MyLectureDAO{
 		return mapper.getCnt(map);
 	}
 
+	@Override
+	public int applyCourseDelete(Map map) {
+		// TODO Auto-generated method stub
+		MyLectureMapper mapper = sqlSession.getMapper(MyLectureMapper.class);
+		return mapper.applyCourseDelete(map);
+	}
+
 }

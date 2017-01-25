@@ -28,15 +28,15 @@ public class QuizController {
 	public String quiz(Locale locale, @RequestParam Map map){
 		Logger.info("quiz", locale);
 		
-		return "member/quiz";
+		return "quiz/quiz";
 		
 	}
 	
 	@RequestMapping(value="/quizQuestion")
 	public String quizQuestion(Locale locale, @RequestParam Map map){
-		Logger.info("ÄûÁîÇ®±â", locale);
+		Logger.info("ï¿½ï¿½ï¿½ï¿½Ç®ï¿½ï¿½", locale);
 		
-		return "member/quizQuestion";
+		return "quiz/quizQuestion";
 		
 	}
 	

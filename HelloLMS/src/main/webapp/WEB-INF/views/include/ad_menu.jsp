@@ -17,12 +17,12 @@
               <li class="dropdown <c:if test="${ '4'==adMenu }">active</c:if>">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">평가관리 <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                  <li><a href="#">평가문제관리</a></li>
+                  <li><a href="/admin/testpoolList">평가문제관리</a></li>
                   <li><a href="#">평가지관리</a></li>
                   <li><a href="#">평가현황</a></li>
                 </ul>
               </li>
-              <li class="dropdown <c:if test="${ '4'==adMenu }">active</c:if>">
+              <li class="dropdown <c:if test="${ '5'==adMenu }">active</c:if>">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">게시글 관리 <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                   <li><a href="#">공지사항</a></li>

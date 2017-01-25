@@ -60,10 +60,10 @@ public class AdminController {
 		String pass = (String) map.get("password");
 
 		if(null!=id&&id.equals("admin")&&null!=pass&&pass.equals("1234")){
-			/*session.setAttribute("USEQ", "1"); //로그인 부분 완성 하면 이 부분 뺄것
+			session.setAttribute("USEQ", "1"); //로그인 부분 완성 하면 이 부분 뺄것
 			session.setAttribute("UID", "admin");
 			session.setAttribute("UNAME", "관리자");
-			session.setAttribute("UDIV", "A");*/
+			session.setAttribute("UDIV", "A");
 
 			return "redirect:/admin/";
 		} else {
@@ -233,13 +233,15 @@ public class AdminController {
 	public String testpoolList(Locale locale, Model model, HttpSession session, @RequestParam Map map) {
 		logger.info("controller testpoolList.", locale);
 		
-		List<HashMap> courseList = adminService.selectCourse(map);
-		model.addAttribute("courseList", courseList);
+		String coxseq = (String)map.get("coxseq");
+		model.addAttribute("coxseq", coxseq);
 		
 		List<HashMap> testpoolList = adminService.selectTestpool(map);
 		model.addAttribute("testpoolList", testpoolList);
 		
-		
+		map.put("coxseq", null);
+		List<HashMap> courseList = adminService.selectCourse(map);
+		model.addAttribute("courseList", courseList);
 		
 		session.setAttribute("adMenu", "4");
 		return "exam/ad_testpoolList";
@@ -249,16 +251,88 @@ public class AdminController {
 	public String testpoolWriteForm(Locale locale, Model model, @RequestParam Map map) {
 		logger.info("controller testpoolWriteForm.", locale);
 
-		String coxseq = (String)map.get("coxseq");
-		model.addAttribute("coxseq", coxseq);
-		
 		
 		String txseq = (String)map.get("txseq");
 		if(null!=txseq){
 			List<HashMap> testpoolList = adminService.selectTestpool(map);
 			model.addAttribute("testpool", testpoolList.get(0));
+
+			model.addAttribute("course", testpoolList.get(0).get("coxname"));
+			model.addAttribute("coxseq", testpoolList.get(0).get("coxseq"));
+			map.put("coxseq", testpoolList.get(0).get("coxseq"));
+		} else {
+			String coxseq = (String)map.get("coxseq");
+			List<HashMap> courseList = adminService.selectCourse(map);
+			model.addAttribute("course", courseList.get(0).get("coxname"));
+			model.addAttribute("coxseq", coxseq);
 		}
 		
-		return "course/ad_testpoolWrite";
+		List<HashMap> lexList = adminService.selectLecture(map);
+		model.addAttribute("lexList", lexList);
+		
+		return "exam/ad_testpoolWrite";
 	}
+	
+	@RequestMapping(value = "/testpoolWrite", method = {RequestMethod.POST, RequestMethod.GET})
+	public String testpoolWrite(Locale locale, Model model, @RequestParam Map map, HttpSession session) {
+		logger.info("controller start testpoolWrite.", locale);
+		
+		int count = 0;
+		String coxseq = (String)map.get("coxseq");
+		String txseq = (String)map.get("txseq");
+		if (txseq==null) txseq= "";
+
+		try {
+			map.put("mxseq", session.getAttribute("USEQ"));
+			if (txseq.length()>0){
+				count = adminService.updateTestpool(map);
+			} else {
+				count = adminService.insertTestpool(map);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			model.addAttribute("success_flag", "N");
+			model.addAttribute("forward_url", "/admin/testpoolWriteForm?txseq="+txseq+"&coxseq="+coxseq);
+		}
+		if (0 < count) {
+			model.addAttribute("success_flag", "Y");
+			model.addAttribute("forward_url", "/admin/testpoolList?coxseq="+coxseq);
+		} else {
+			model.addAttribute("success_flag", "N");
+			model.addAttribute("forward_url", "/admin/testpoolWriteForm?txseq="+txseq+"&coxseq="+coxseq);
+		}
+		
+		return "common/common_alert";
+	}
+
+	
+	@RequestMapping(value = "/testpoolDelete", method = {RequestMethod.POST, RequestMethod.GET})
+	public String testpoolDelete(Locale locale, Model model, @RequestParam Map map) {
+		logger.info("controller start testpoolWrite.", locale);
+		
+		int count = 0;
+		String coxseq = (String)map.get("coxseq");
+		String txseq = (String)map.get("txseq");
+
+		try {
+			count = adminService.deleteTestpool(map);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			model.addAttribute("success_flag", "N");
+			model.addAttribute("forward_url", "/admin/testpoolWriteForm?txseq="+txseq+"&coxseq="+coxseq);
+		}
+		if (0 < count) {
+			model.addAttribute("success_flag", "Y");
+			model.addAttribute("forward_url", "/admin/testpoolList?coxseq="+coxseq);
+		} else {
+			model.addAttribute("success_flag", "N");
+			model.addAttribute("forward_url", "/admin/testpoolWriteForm?txseq="+txseq+"&coxseq="+coxseq);
+		}
+		
+		return "common/common_alert";
+	}
+
+	
 }

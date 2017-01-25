@@ -1,5 +1,3 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page language="java"  contentType="text/html; charset=UTF-8" pageEncoding="utf-8"%>
 <%@ include file="../include/header.jsp" %>
 <%@ include file="../include/ad_menu.jsp" %>
@@ -21,15 +19,14 @@
 		function checkVal() {
 			if(confirm("자료를 등록 하시겠습니까?")){
 				if($("input[required='required']").val()=='') {
-					alert("false");
+					alert("입력이 필요한 항목이 있습니다.");
 					return false;
 				}
 				//$("input[type='number']").attr('value', '333');
 				if(!$.isNumeric($("input[type='number']").val())) {
 					return false;
 				}
-				
-				
+					
 			}
 		}
 
@@ -72,14 +69,14 @@
 					</c:forEach>
 				</select><br>
 			과정소개 : <input type="text" class="span6" id="" name="coxintro" maxlength="100" placeholder="과정소개" value="${course.coxintro }"><br>
-			<label class="radio">
+			<label class="radio inline">
 			  <input type="radio" name="coxopen" value="Y" <c:if test="${ !empty course && 'Y'==course.coxopen }">checked</c:if>>
 			  공개
 			</label>
-			<label class="radio">
+			<label class="radio inline">
 			  <input type="radio" name="coxopen" value="N" <c:if test="${ empty course || 'N'==course.coxopen }">checked</c:if>>
 			  비공개
-			</label>
+			</label><br>
 			이수기준 진도 : <input type="number" class="span2" id="coxprog" name="coxprog" min="0" max="100"  placeholder="진도" value="${course.coxprog }" required="required"><br>
 			이수기준 평가점수 : <input type="number" class="span2" id="coxscore" name="coxscore" min="0" max="100"  placeholder="점수" value="${course.coxscore }" required="required"><br>
 			

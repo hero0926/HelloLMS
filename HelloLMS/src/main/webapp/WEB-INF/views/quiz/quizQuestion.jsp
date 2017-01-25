@@ -41,6 +41,7 @@ function renderQuestion(){
 		_("test_status").innerHTML = "퀴즈 완료";
 		pos = 0;
 		correct = 0;
+		test.innerHTML += "<button type='button' class='btn btn-success' onclick='checkAnswer()'>확인</button>"
 		return false;
 	}
 	_("test_status").innerHTML = "퀴즈 "+questions.length+" 문제 중 "+(pos+1)+"번 문제";

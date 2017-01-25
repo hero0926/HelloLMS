@@ -4,15 +4,57 @@
 <%@ include file="include/header.jsp" %>
 <%@ include file="include/menu.jsp" %>
 
+<script>
+$('.carousel').carousel({
+	  interval: 2000
+	})
+</script>
+
+<style>
+
+img.no-resize {
+
+ width: 1000px;
+    height: 350px;
+    max-height : auto;
+}
+
+</style>
 
    <div class="container">
 
       <!-- Main hero unit for a primary marketing message or call to action -->
-      <div class="hero-unit">
+      <!-- <div class="hero-unit">
         <h1>Hello, LMS!</h1>
         <p>This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
         <p><a href="#" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
-      </div>
+      </div> -->
+      
+      <!-- 슬라이드쇼  -->
+      
+     <div id="myCarousel" class="carousel slide">
+  <ol class="carousel-indicators">
+    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+    <li data-target="#myCarousel" data-slide-to="1"></li>
+    <li data-target="#myCarousel" data-slide-to="2"></li>
+  </ol>
+  <!-- Carousel items -->
+  <div class="carousel-inner">
+    <div class="active item" align="center">
+     <img class="no-resize" src="resources/upload/banner1.JPG" alt="">
+    </div>
+    <div class="item" align="center">    
+     <img class="no-resize"  src="resources/upload/banner2.JPG" alt="">
+    </div>    
+  <div class="item" align="center">    
+     <img class="no-resize"  src="resources/upload/banner3.JPG" alt="">
+  </div>
+    
+  </div>
+  <!-- Carousel nav -->
+  <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+  <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+</div>
 
       <!-- Example row of columns -->
       <div class="row">

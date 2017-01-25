@@ -12,6 +12,7 @@ public class LoginDTO {
 	public LoginDTO() {
 		// TODO Auto-generated constructor stub
 	}
+	
 
 	public LoginDTO(String mxid, String mxpw, String mxname, int mxseq, int mxoffice, char mxdiv) {
 		super();

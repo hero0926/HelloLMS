@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.ja.id.mybatis.MyLectureMapper">
 	
 	<select id="getAllApplyCourse" resultType="java.util.HashMap" parameterType="java.util.HashMap">
-	    SELECT b.axseq, b.coxseq, a.coxname, a.coxstart, a.coxend, a.regdate, b.axstatus
+	    SELECT b.axseq, b.coxseq, a.coxname, a.coxstart, a.coxend, b.regdate, b.axstatus
 		FROM course a, apply b
 		WHERE b.coxseq = a.coxseq
 			and b.mxseq = #{USEQ}
@@ -13,13 +13,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ORDER BY a.coxreqend asc
 	</select>
 	
+	<delete id="applyCourseDelete" parameterType="java.util.HashMap">
+		DELETE FROM apply
+		WHERE coxseq=#{coxseq}
+		AND mxseq=#{mxseq}
+	</delete>
+	
 	<select id="getAllCourse" resultType="java.util.HashMap" parameterType="java.util.HashMap">
-	    SELECT a.coxname, a.coxstart, a.coxend, c.tuxname, a.coxprog, a.coxseq
-		FROM course a, apply b, tutor c
+	    <!-- SELECT a.coxname, a.coxstart, a.coxend, c.mxname, a.coxprog, a.coxseq
+		FROM course a, apply b, member c, tutor d
 		WHERE b.coxseq = a.coxseq
 			AND b.mxseq = #{USEQ}
 			AND b.axstatus = 'A'
-			AND a.tuxseq = c.tuxseq
+			AND a.tuxseq = d.tuxseq -->
+		SELECT a.coxname, a.coxstart, a.coxend, a.coxprog, a.coxseq, d.mxname
+		FROM course a
+		  LEFT OUTER JOIN apply b
+		  ON a.coxseq=b.coxseq
+		  , tutor c, member d
+		WHERE b.mxseq = #{USEQ}
+		  AND b.axstatus='A'
+		  AND a.tuxseq=c.tuxseq
+		  AND c.mxseq = d.mxseq
 	</select>
 	
 	<select id="getAllCnt" resultType="java.util.HashMap" parameterType="java.util.HashMap">
@@ -40,9 +55,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM lecture a
 			LEFT OUTER JOIN lexstudy b
 			ON a.lxseq = b.lxseq
-				AND b.mxseq = #{USEQ}
-			, course c
-		WHERE a.coxseq = 1
+				AND b.mxseq =1
+			LEFT OUTER JOIN  course c
+      		ON c.coxseq = a.coxseq
+		WHERE a.coxseq = #{coxseq}
 		ORDER BY a.lxnum asc
 	</select>
 	
