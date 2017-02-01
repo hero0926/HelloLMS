@@ -31,8 +31,8 @@
 	        		<table class="table table-bordered">
 		  				<tr>
 			  				<th>과정명</th>
-			  				<th>기간</th>
-			  				<th>신청일</th>
+			  				<th>수강 신청 기간</th>
+			  				<th>수강 신청일</th>
 			  				<th>승인여부</th>
 			  				<th>수강 취소</th>
 			  			</tr>
@@ -42,9 +42,9 @@
 	  					<c:forEach var="applycourse" items="${list}" varStatus="status">
 							<tr>
 								<td><c:out value="${applycourse.coxname}"/></td>
-								<td><fmt:parseDate value="${applycourse.coxstart}" var="dateFmt1" pattern="yyyyMMdd"/>
+								<td><fmt:parseDate value="${applycourse.coxreqstart}" var="dateFmt1" pattern="yyyyMMdd"/>
 									<fmt:formatDate value="${dateFmt1}" pattern="yyyy-MM-dd"/> ~ 
-									<fmt:parseDate value="${applycourse.coxend}" var="dateFmt2" pattern="yyyyMMdd"/>
+									<fmt:parseDate value="${applycourse.coxreqend}" var="dateFmt2" pattern="yyyyMMdd"/>
 									<fmt:formatDate value="${dateFmt2}" pattern="yyyy-MM-dd"/></td>
 								<td><fmt:parseDate value="${applycourse.regdate}" var="dateFmt3" pattern="yyyyMMdd"/>
 									<fmt:formatDate value="${dateFmt3}" pattern="yyyy-MM-dd"/></td>
@@ -62,7 +62,14 @@
 											입력 오류
 										</c:otherwise>
 									</c:choose><%-- <c:out value="${applycourse.axstatus}"/> --%></td>
-								<td><button type="button" onClick="Delete('${mxseq}', '${applycourse.coxseq}');">수강취소</button></td>
+								<td><c:choose>
+										<c:when test="${applycourse.axstatus=='R'}">
+											<button type="button" onClick="Delete('${mxseq}', '${applycourse.coxseq}');">수강취소</button>
+										</c:when>
+										<c:otherwise>
+											
+										</c:otherwise>
+									</c:choose></td>
 							</tr>
 						</c:forEach>
 					</c:if>

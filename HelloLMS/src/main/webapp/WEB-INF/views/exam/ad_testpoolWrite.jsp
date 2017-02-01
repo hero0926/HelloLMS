@@ -39,6 +39,11 @@
 					alert("입력이 필요한 항목이 있습니다.");
 					return false;
 				}
+				if($("textarea[required='required']").val()=='') {
+					alert("입력이 필요한 항목이 있습니다.");
+					return false;
+				}
+
 				return true;
 			}
 		}

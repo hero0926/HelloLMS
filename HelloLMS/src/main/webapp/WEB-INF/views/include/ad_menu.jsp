@@ -8,7 +8,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="brand" href="#">Hello LMS!(Admin)</a>
+          <a class="brand" href="/admin/">Hello LMS!(Admin)</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
               <li <c:if test="${ '1'==adMenu }">class="active"</c:if>><a href="/admin/">코드관리</a></li>

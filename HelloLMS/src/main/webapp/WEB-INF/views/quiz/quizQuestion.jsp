@@ -24,7 +24,7 @@ h1 {
 </style>
 
 <script language = javascript> 
-var pos = 0, test, test_status, question, choice, choices, chA, chB, correct = 0;
+var pos = 0, test, test_status, question, choice, choices, anA, anB, correct = 0;
 var questions = [
 	["what is 10+1 = 13?", "Y", "N", "B" ],
 	["5 + 3은 8이 맞나 ? ", "Y", "N", "A" ],
@@ -46,11 +46,11 @@ function renderQuestion(){
 	}
 	_("test_status").innerHTML = "퀴즈 "+questions.length+" 문제 중 "+(pos+1)+"번 문제";
 	question = questions[pos][0];
-	chA = questions[pos][1];
-	chB = questions[pos][2];
+	anA = questions[pos][1];
+	anB = questions[pos][2];
 	test.innerHTML = "<h3>"+question+"</h3>";
-	test.innerHTML += "<input type='radio' name='choices' value='A'> "+chA+"<br>";
-	test.innerHTML += "<input type='radio' name='choices' value='B'> "+chB+"<br><br>";
+	test.innerHTML += "<input type='radio' name='choices' value='A'> "+anA+"<br>";
+	test.innerHTML += "<input type='radio' name='choices' value='B'> "+anB+"<br><br>";
 	test.innerHTML += "<button type='button' class='btn btn-warning' onclick='checkAnswer()'>다음 퀴즈</button>"
 }
 function checkAnswer(){

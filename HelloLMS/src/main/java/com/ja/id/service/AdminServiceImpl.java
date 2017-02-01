@@ -118,4 +118,22 @@ public class AdminServiceImpl implements AdminService{
 		return adminDAO.deleteTestpool(map);
 	}
 
+	@Override
+	public List<HashMap> selectQuiz(Map map) {
+		// TODO Auto-generated method stub
+		return adminDAO.selectQuiz(map);
+	}
+
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
+	public int insertQuiz(Map map) {
+		// TODO Auto-generated method stub
+		return adminDAO.insertQuiz(map);
+	}
+
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
+	public int deleteQuiz(Map map) {
+		// TODO Auto-generated method stub
+		return adminDAO.deleteQuiz(map);
+	}
+
 }

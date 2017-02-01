@@ -129,9 +129,8 @@ public class AdminController {
 		
 		String coxoffice = (String)map.get("coxoffice");
 		if(null==coxoffice){
-			coxoffice = String.valueOf((int)bizList.get(0).get("cxseq"));
-			
-			map.put("coxoffice", coxoffice);
+			//coxoffice = String.valueOf((int)bizList.get(0).get("cxseq"));
+			map.put("coxoffice", bizList.get(0).get("cxseq"));
 		}
 		List<HashMap> courseList = adminService.selectCourse(map);
 		model.addAttribute("courseList", courseList);
@@ -330,6 +329,76 @@ public class AdminController {
 			model.addAttribute("success_flag", "N");
 			model.addAttribute("forward_url", "/admin/testpoolWriteForm?txseq="+txseq+"&coxseq="+coxseq);
 		}
+		
+		return "common/common_alert";
+	}
+
+	@RequestMapping(value = "/quizWriteForm", method = {RequestMethod.POST, RequestMethod.GET})
+	public String quizWriteForm(Locale locale, Model model, @RequestParam Map map) {
+		logger.info("controller quizWriteForm.", locale);
+
+		
+		String lxseq = (String)map.get("lxseq");
+		
+		List<HashMap> quizList = adminService.selectQuiz(map);
+		if (quizList==null||quizList.size()==0){
+			quizList = adminService.selectLecture(map);
+		}
+		model.addAttribute("quizList", quizList);
+		return "quiz/ad_quizWrite";
+	}
+
+
+	
+	
+	
+	
+	
+	@RequestMapping(value = "/quizWrite", method = {RequestMethod.POST, RequestMethod.GET})
+	public String quizWrite(Locale locale, Model model, @RequestParam Map map, HttpSession session) {
+		logger.info("controller start testpoolWrite.", locale);
+		
+		int count = 0;
+		String lxseq = (String)map.get("lxseq");
+		
+		try {
+			count = adminService.insertQuiz(map);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			model.addAttribute("success_flag", "N");
+		}
+		if (0 < count) {
+			model.addAttribute("success_flag", "Y");
+		} else {
+			model.addAttribute("success_flag", "N");
+		}
+		model.addAttribute("forward_url", "/admin/quizWriteForm?lxseq="+lxseq);
+		
+		return "common/common_alert";
+	}
+
+	
+	@RequestMapping(value = "/quizDelete", method = {RequestMethod.POST, RequestMethod.GET})
+	public String quizDelete(Locale locale, Model model, @RequestParam Map map, HttpSession session) {
+		logger.info("controller start testpoolWrite.", locale);
+		
+		int count = 0;
+		String lxseq = (String)map.get("lxseq");
+		
+		try {
+			count = adminService.deleteQuiz(map);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			model.addAttribute("success_flag", "N");
+		}
+		if (0 < count) {
+			model.addAttribute("success_flag", "Y");
+		} else {
+			model.addAttribute("success_flag", "N");
+		}
+		model.addAttribute("forward_url", "/admin/quizWriteForm?lxseq="+lxseq);
 		
 		return "common/common_alert";
 	}

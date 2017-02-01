@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ja.id.mybatis.Admin2Mapper">
+	
+	<select id="getLectureList" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+	    SELECT a.lxseq, a.lxnum, a.lxname, b.coxname,
+			a.lxlink, a.lxfile, count(c.qxseq) qxcnt, b.coxname
+		FROM lecture a
+		LEFT OUTER JOIN quiz c
+		ON a.lxseq = c.lxseq
+		, course b
+		WHERE a.coxseq = #{coxseq}
+		and a.coxseq = b.coxseq
+		group by a.lxseq, a.lxnum, a.lxname, b.coxname, a.lxlink, a.lxfile, b.coxname
+		order by a.lxnum asc
+	</select>
+	
+	<select id="modLecture" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+	    SELECT a.lxname, a.lxlink, a.lxfile, b.coxname, a.lxtype, a.lxnum
+	    FROM lecture a
+	    	LEFT OUTER JOIN course b
+			ON a.coxseq = b.coxseq
+  		WHERE a.coxseq = #{coxseq}
+  		AND a.lxseq=#{lxseq}
+	</select>
+	
+	<update id="lectureMod" parameterType="java.util.HashMap">
+		UPDATE lecture
+		SET regdate = regdate 
+		<if test="lxname != null">
+			,lxname=#{lxname}</if>
+		<if test="lxlink != null">
+	    	,lxlink=#{lxlink}
+	    </if>
+	    <if test="lxfile != null">
+	    	,lxfile=#{lxfile}
+	    </if>
+		WHERE coxseq=#{coxseq}
+			AND lxseq=#{lxseq}
+	</update>
+	
+	<select id="selectCode" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		SELECT cxseq, cxgubun, cxcode, cxname
+		FROM code
+		WHERE cxseq is not null
+	    	and cxgubun = '003'
+		ORDER BY cxseq asc
+	</select>
+	
+	<update id="updateFile" parameterType="java.util.HashMap">
+		UPDATE lecture
+		SET lxfile=#{fileName}
+		WHERE coxseq=#{coxseq}
+			AND lxseq=#{lxseq}
+	</update>
+	
+	<delete id="lectureDel" parameterType="java.util.HashMap">
+		DELETE FROM lecture
+		WHERE coxseq=#{coxseq}
+			AND lxseq=#{lxseq}
+	</delete>
+	
+	<insert id="insertLecture" parameterType="java.util.HashMap">
+		INSERT INTO lecture (lxnum, lxname, lxfile, regdate, coxseq, mxseq)
+		VALUES (#{lxnum}, #{lxname}, #{fileName}, date_format(now(), '%Y%m%d'), #{coxseq}, #{USEQ})
+	</insert>
+	
+	<select id="getApplyList" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+	    SELECT a.axstatus, a.regdate, b.coxname, c.mxname, c.mxid
+		FROM apply a
+		  RIGHT OUTER JOIN course b
+		  ON a.coxseq = b.coxseq
+		  LEFT OUTER JOIN member c
+		  ON a.mxseq = c.mxseq
+		WHERE a.coxseq=#{coxseq}
+	</select>
+
+</mapper>

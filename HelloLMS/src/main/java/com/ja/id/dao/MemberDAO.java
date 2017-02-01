@@ -16,5 +16,10 @@ public interface MemberDAO {
 	public void deleteMember(String mxid) throws Exception;
 	
 	public String id(String mxname, String mxmail);
+	
+	public int chkDupId(MemberVO vo);
+	
+	public int pw(String mxid, String mxname, String mxmail);
+	public void pwupdate(String pw, String mxid);
 
 }

@@ -18,4 +18,10 @@ public interface MemberMapper {
 	public void deleteMember(String mxid) throws Exception;
 	
 	public String id(@Param("mxname")String mxname, @Param("mxmail")String mxmail);
+
+	public int chkDupId(MemberVO vo);
+	
+	public int pw(@Param("mxid")String mxid, @Param("mxname")String mxname, @Param("mxmail")String mxmail );
+
+	public void pwupdate(@Param("pw")String pw, @Param("mxid")String mxid);
 }

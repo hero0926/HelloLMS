@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ja.id.mybatis.BoardMapper">
+
+<insert id="writeNotice" parameterType="java.util.HashMap">
+	insert into board_notice (bxngrid, bxnsubject, bxncontent, bxncnt, regdate) 
+	values (#{bxngrid}, #{bxnsubject}, #{bxncontent}, 0, DATE_FORMAT(NOW(), '%Y%m%d'))
+	<selectKey keyProperty="bxnseq" resultType="java.lang.Integer" order="AFTER">
+		SELECT LAST_INSERT_ID()
+	</selectKey>
+</insert>
+<select id="memberoffice" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+	select mxoffice from member where mxseq=#{mxseq}
+</select>
+<select id="getAllNotice" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+	select b.bxnseq, b.bxngrid, b.bxnsubject, b.bxncontent, b.regdate, b.bxncnt, c.cxname from board_notice as b, code as c, member as m
+	<if test="bxngrid != null">
+	where b.bxngrid=#{bxngrid}
+	AND b.bxngrid=c.cxcode order by bxnseq
+	</if>
+	where c.cxgubun=2
+	AND b.bxngrid=c.cxcode order by bxnseq
+	<!-- AND b.bxngrid=#{bxngrid} -->
+</select>
+<select id="readNotice" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+	select * from board_notice where bxnseq=#{bxnseq}
+	<!-- AND bxngrid=#{bxngrid} -->
+</select>
+<update id="editNotice" parameterType="java.util.HashMap">
+	update board_notice
+	set bxnsubject = #{bxnsubject}, bxncontent = #{bxncontent}
+	where bxnseq=#{bxnseq}
+	<!-- AND bxngrid=#{bxngrid} -->
+</update>
+<update id="updateCnt" parameterType="java.util.HashMap">
+	update board_notice
+	set bxncnt=bxncnt + 1
+	where bxnseq=#{bxnseq}
+	<!-- AND bxngrid=#{bxngrid} -->
+</update>
+<delete id="deleteNotice" parameterType="java.util.HashMap">
+	delete from board_notice WHERE bxnseq = #{bxnseq}
+</delete>
+
+
+
+<insert id="writeQna" parameterType="java.util.HashMap">
+	insert into board_qna (bxqgrid, bxqsubject, bxqcontent, regdate) 
+	values (#{bxqgrid}, #{bxqsubject}, #{bxqcontent}, DATE_FORMAT(NOW(), '%Y%m%d'))
+	<selectKey keyProperty="bxqseq" resultType="java.lang.Integer" order="AFTER">
+		SELECT LAST_INSERT_ID()
+	</selectKey>
+</insert>	
+<select id="getAllQna" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+	select q.bxqseq, q.bxqgrid, q.bxqsubject, q.bxqcontent, q.regdate, c.cxname from board_qna as q, code as c, member as m
+	<if test="bxqgrid != null">
+	where q.bxqgrid=#{bxqgrid}
+	AND q.bxqgrid=c.cxcode order by bxqseq
+	</if>
+	where c.cxgubun=2
+	AND q.bxqgrid=c.cxcode order by bxqseq
+</select>
+
+
+
+</mapper>

@@ -63,18 +63,86 @@ function call()
 	document.getElementById("mxmail").value = m1+"@"+m2;
 }
 		
-//라디오버튼 선택 체크하기
+//ID 중복검사하기
+
+function chkDupId(){
+	
+  var mxid = $('#mxid').val();
+  
+  $.ajax({
+
+	     type : 'POST',  
+	     data:"mxid="+ mxid,
+	     dataType : 'text',
+	     url : '/member/chkDupId.do',  
+	     success : function(rData, textStatus, xhr) {
+	      var chkRst = rData;
+	      if(chkRst == 0){
+	       alert("등록 가능 합니다.");
+	       $("#idChk").val('Y');
+	      }else{
+	       alert("중복 되어 있습니다.");
+	       $("#idChk").val('N');
+	      }
+	     },
+	     error : function(xhr, status, e) {  
+	      alert(e);
+	     }
+	  });  
+	 }
+
+function insertChk(){
+	
+	  
+	  var frm = document.companyForm; 
+	  
+	  if($("#idChk").val() == 'N'){
+		  alert("ID 중복체크를 해주세요!");
+		  $('#mxid').focus();
+	  }
+	  
+	  if($("#idChk").val() == 'Y'){
+		  document.getElementById("submitbtn").disabled = false;
+	  }
+}
+
+//라디오버튼 체크하기
+
+function chk_radio() 
+{ 
+	var chk_radio = document.getElementsByName('mxdiv');
+	var sel_type = null;
+	for(var i=0;i<chk_radio.length;i++){
+		if(chk_radio[i].checked == true){ 
+			sel_type = chk_radio[i].value;
+		}
+	}
+
+	if(sel_type == null){
+        alert("회원유형을 선택하세요."); 
+        
+        event.preventDefault();
+        
+	}
+}
 
 </script>
 
 </head>
 <body>
+
+
 <div class="row span 5" align="center">
  <form name = "frm" action="/member/register2" method="post" >
  <table class="table table-hover" align="center">
      <tr>
      <th> 아이디 </th>
-     <td> <input type = "text" name = "mxid" onkeyup="trimcheck(this);" onchange="trimcheck(this);" onkeydown="iskor(this);" style="ime-mode:disabled;"  > </td>
+     <td> 
+     <input type="hidden" id="idChk" value="N" />
+     <input type = "text" name = "mxid" id="mxid" onkeyup="trimcheck(this);" onchange="trimcheck(this);" onkeydown="iskor(this);" style="ime-mode:disabled;"  >
+     <input type="button" value="Id체크" onclick="javascript:chkDupId();" />    
+     </td>    
+     
      </tr>
     
     <tr>
@@ -90,8 +158,8 @@ function call()
  	<tr>
      <th> 이메일 </th>
      <td>     
- <input name="email1" type="text" class="box" id="email1"  onkeyup='call()'> @
- <input name="email2" type="text" class="box" id="email2" value="" onkeyup='call()'>
+ <input name="email1" type="text" class="box" id="email1"  onkeyup='call()' onkeydown ="insertChk();"> @
+ <input name="email2" type="text" class="box" id="email2" value="" onkeyup='call()' >
  	<select name="email_select" class="box" id="email_select" onclick='call()' onChange="checkemailaddy();">
     <option value="" selected>선택</option>
     <option value="naver.com">naver.com</option>
@@ -128,7 +196,7 @@ function call()
   
     <tr>
      <td colspan = "4"> 
-     <button class="btn btn-primary" type="submit" />전송</button>
+     <button class="btn btn-primary" id="submitbtn" type="submit" onclick="chk_radio()" disabled='true'/>전송</button>
      <button class="btn" type="reset" />취소</button>
     </tr>
     </table>

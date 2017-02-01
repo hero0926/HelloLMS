@@ -45,10 +45,10 @@ public class MyLectureController {
 	@RequestMapping(value = "/myApplyCourse", method = {RequestMethod.POST, RequestMethod.GET})
 	public String myApplyCourse(Locale locale, Model model, HttpSession session, @RequestParam Map map) throws Exception {
 		
-		session.setAttribute("USEQ", "1"); //로그인 부분 완성 하면 이 부분 뺄것
+		/*session.setAttribute("USEQ", "1"); //로그인 부분 완성 하면 이 부분 뺄것
 		session.setAttribute("UID", "test");
 		session.setAttribute("UNAME", "홍길동");
-		session.setAttribute("UDIV", "S");
+		session.setAttribute("UDIV", "S");*/
 		
 		session.setAttribute("Menu", "1");
 		
@@ -164,11 +164,10 @@ public class MyLectureController {
 		lecturelist = mylectureService.islexstudy(map);
 		if(lecturelist.size()==0){
 			mylectureService.lexstudyinsert(map);
-			mylectureService.lexstudyloginsert(map);
 		}else{
 			mylectureService.lexstudyupdate(map);
-			mylectureService.lexstudyloginsert(map);
 		}
+		mylectureService.lexstudyloginsert(map);
 		
 		return "";
 	}

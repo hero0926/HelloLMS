@@ -17,4 +17,10 @@ public interface MemberService {
 	
 	public String id(String mxname, String mxmail);
 
+	public int chkDupId(MemberVO vo);
+	
+	public int pw(String mxid, String mxname, String mxmail);
+
+	public void pwupdate(String mailtext, String mxid);
+
 }

@@ -58,5 +58,26 @@ public class MemberServiceImpl implements MemberService{
 		return MemberDAO.id(mxname, mxmail);
 	}
 
+	@Override
+	public int chkDupId(MemberVO vo) {
+		// TODO Auto-generated method stub
+		return MemberDAO.chkDupId(vo);
+	}
+
+	@Override
+	public int pw(String mxid, String mxname, String mxmail) {
+		// TODO Auto-generated method stub
+		return MemberDAO.pw(mxid, mxname, mxmail);
+	}
+	
+
+	@Override
+	public void pwupdate(String pw, String mxid) {
+		// TODO Auto-generated method stub		
+
+		MemberDAO.pwupdate(pw, mxid);
+		
+	}
+
 
 }

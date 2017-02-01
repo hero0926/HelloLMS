@@ -3,15 +3,16 @@
 <%@ include file="../include/ad_menu.jsp" %>
 	<script>
 		$(document).ready(function (e){
-			$('#goSelect').click(function(){
-				$('#form1').attr('action','/admin/courseList');
-				$('#form1').submit();
-			});
 			$('#goInsert').click(function(){
 				$('#form1').attr('action','/admin/courseWriteForm');
 				$('#form1').submit();
 			})
 		});
+		
+		function goList() {
+			$('#form1').attr('action','/admin/courseList');
+			$('#form1').submit();
+		}
 		
 		function goDelete(n) {
 			if(confirm("과정을 삭제하시겠습니까? 과정에 관한 모든 정보가 함께 삭제 됩니다.")){
@@ -32,11 +33,11 @@
 			$('#frm2').attr('action','/admin/lecture/lectureList');
 			$('#frm2').submit();
 		}
-		function goApply(n) {
-			$('#coxseq').val(n);
-			$('#coxoffice2').val($('#coxoffice1').val());
-			//$('#frm2').attr('action','/admin/applyList');
-			//$('#frm2').submit();
+		function goApply(coxseq) {
+			$('#coxseq').val(coxseq);
+			//$('#coxoffice2').val($('#coxoffice1').val());
+			$('#frm2').attr('action','/admin/course/applyList');
+			$('#frm2').submit();
 		}
 
 	</script>
@@ -53,14 +54,14 @@
       <div class="row">
         
         <div class="span12">
-        <h3>  </h3>
+        <h3> </h3>
                      
 		<div class="alert alert-info">
 	        <form id="form1" action="/admin/courseList" method="post">
 	         <div class="row">
         		<div class="span12">
 				  <div class="span8">
-					<select class="span2" name="coxoffice" placeholder="회사" id="coxoffice1">
+					<select class="span2" name="coxoffice" placeholder="회사" id="coxoffice1" onChange="javascript:goList();">
 						<c:forEach var="biz" items="${bizList}">
 							<option value='<c:out value="${biz.cxseq }"/>' <c:if test="${ !empty coxoffice && biz.cxseq==coxoffice }">selected</c:if>><c:out value="${biz.cxname }"/></option>
 							
@@ -69,7 +70,7 @@
 					&nbsp;
 					<input type="text" class="span2" id="coxname" name="coxname" maxlength="20" placeholder="과정명">
 					&nbsp;진행중인과정<input type="checkbox" name="term" value="term">
-					<button class="btn" id="goSelect">검색</button>
+					<button class="btn" onClick="javascript:goList();">검색</button>
 				  </div>
 				  <div class="span2" align="right">
 					<button class="btn" id="goInsert">등록</button>

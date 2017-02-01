@@ -13,14 +13,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select cxseq, cxgubun, cxcode, cxname
 		from code
 		where cxseq is not null
-		<if test="'top'==level">
-	    	and cxgubun = '000'
-		</if>
-		<if test="'sub'==level">
-		    <if test="null != cxgubun">
+		<choose>
+         <when test="'top'==level">
+             and cxgubun = '000'
+         </when>
+         <otherwise>
+             <if test="null != cxgubun">
 		    	and cxgubun = #{cxgubun}
-		    </if>
-		</if>
+		     </if>
+         </otherwise>
+	    </choose>
+
 		<if test="null != cxseq">
 	    	and cxseq = #{cxseq}
 	    </if>
@@ -113,11 +116,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		and a.txtype = c.cxcode
 		and c.cxgubun = '004'
 		and a.coxseq = d.coxseq
-		and a.coxseq = #{coxseq}
-
-		<if test="null != txseq and '' !=txseq ">
-	    	and a.txseq = #{txseq}
-	    </if>
+		<choose>
+         <when test="null != txseq and '' !=txseq ">
+             and a.txseq = #{txseq}
+         </when>
+         <otherwise>
+             and a.coxseq = #{coxseq}
+         </otherwise>
+	    </choose>
 		order by b.lxnum, a.txseq
 	</select>
 	
@@ -125,10 +131,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select lxseq, lxnum, coxseq, lxname, lxtype,
 		lxlink, lxfile, regdate, mxseq
 		from lecture
-		where coxseq = #{coxseq}
-		<if test="null != lxseq">
-	    	and lxseq = #{lxseq}
-	    </if>
+		where coxseq is not null
+		<choose>
+         <when test="null != lxseq and '' !=lxseq ">
+             and lxseq = #{lxseq}
+         </when>
+         <otherwise>
+             and coxseq = #{coxseq}
+         </otherwise>
+	    </choose>
 		order by coxseq, lxnum
 	</select>
 
@@ -161,7 +172,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<delete id="deleteTestpool" parameterType="java.util.HashMap">
 		delete from testpool
-		where txseq = #{txseq}	
+		where txseq = #{txseq}
+	</delete>
+	
+	<select id="selectQuiz" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select a.qxseq, a.lxseq, a.qxorder, a.qxcont, a.qxcorrect,
+			b.lxnum, b.lxname, c.coxname, c.coxseq
+		from quiz a, lecture b, course c
+		where a.lxseq = #{lxseq}
+		and a.lxseq = b.lxseq
+		and b.coxseq = c.coxseq
+		order by a.qxorder
+	</select>
+	
+	<insert id="insertQuiz" parameterType="java.util.HashMap">
+		insert into quiz (lxseq, qxorder, qxcont, qxcorrect, regdate)
+		values(#{lxseq}, #{qxorder}, #{qxcont}, #{qxcorrect}, date_format(now(), '%Y%m%d'))
+	</insert>
+	
+	<delete id="deleteQuiz" parameterType="java.util.HashMap">
+		delete from quiz
+		where qxseq = #{qxseq}
 	</delete>
 	
 </mapper>

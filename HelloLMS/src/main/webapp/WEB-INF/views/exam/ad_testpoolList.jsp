@@ -81,8 +81,8 @@
 				<tr>
 					<td><c:out value="${testpool.txseq }"/></td>
 					<td><c:out value="${testpool.lxnum }"/>-<c:out value="${testpool.lxname }"/></td>
-					<td><a href="javascript:goWrite('${testpool.txseq }');"><c:out value="${testpool.cxname }"/></a></td>
-					<td><c:out value="${testpool.txcont }"/></td>
+					<td><c:out value="${testpool.cxname }"/></td>
+					<td><a href="javascript:goWrite('${testpool.txseq }');"><c:out value="${testpool.txcont }"/></a></td>
 					<td>
 						<button class="btn btn-small" type="button" onClick="goWrite('${testpool.txseq }');">수정</button>
 						<button class="btn btn-small" type="button" onClick="goDelete('${testpool.txseq }');">삭제</button>

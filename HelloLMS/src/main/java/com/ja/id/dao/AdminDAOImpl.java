@@ -107,4 +107,25 @@ public class AdminDAOImpl implements AdminDAO{
 		return mapper.deleteTestpool(map);
 	}
 
+	@Override
+	public List<HashMap> selectQuiz(Map map) {
+		// TODO Auto-generated method stub
+		AdminMapper mapper = sqlSession.getMapper(AdminMapper.class);
+		return mapper.selectQuiz(map);
+	}
+
+	@Override
+	public int insertQuiz(Map map) {
+		// TODO Auto-generated method stub
+		AdminMapper mapper = sqlSession.getMapper(AdminMapper.class);
+		return mapper.insertQuiz(map);
+	}
+
+	@Override
+	public int deleteQuiz(Map map) {
+		// TODO Auto-generated method stub
+		AdminMapper mapper = sqlSession.getMapper(AdminMapper.class);
+		return mapper.deleteQuiz(map);
+	}
+
 }

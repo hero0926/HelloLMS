@@ -76,7 +76,7 @@
       
       .alert{
       
-      	margin-top: 10px;
+        margin-top :15px;
       	font-size: 15px;
       
       }
@@ -88,7 +88,6 @@
    <script src="/resources/js/angular.1.4.8.min.js"></script>
    
    <script> 
-	$('.alert').popover(options);
 
 	//이메일 합치기
 	function call()
@@ -96,7 +95,13 @@
 		var m1 = document.getElementById("email1").value;
 		var m2 = document.getElementById("email2").value;
 		document.getElementById("mxmail").value = m1+"@"+m2;
-		console.log(document.getElementById("mxmail").value);
+	}
+	
+	function call2()
+	{
+		var m1 = document.getElementById("email3").value;
+		var m2 = document.getElementById("email4").value;
+		document.getElementById("mxmail2").value = m1+"@"+m2;
 	}
 	</script>
 
@@ -105,12 +110,12 @@
 </head>
 <body>
 
-<c:if test="${empty LOGIN }">
+<%-- <c:if test="${empty LOGIN }">
 	<script>
-	alert("아이디와 비밀번호를 정확히 입력하세요");
+	
 	</script>
 </c:if>
-
+ --%>
 <div class="container">
 
 <form class="form-signin" action="/member/loginPost" method="post">
@@ -148,17 +153,18 @@
 			  <input type="text" name="mxmail" id="mxmail" value="" style="display:none"></p>
   </div>
   <div class="modal-footer">
-    <button class="btn btn-primary" type="submit" >찾기!</button>
+    <button class="btn btn-primary" id="idfind">찾기!</button>
     </form>
   </div> 
 </div>
+
 
 <c:if test="${not empty mxid}">
 <script>
 $(".alert").alert();
 </script>
 
-   <div class="alert alert-block fade in">
+   <div class="alert alert-block alert-error fade in">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             <strong>고객님의 아이디는</strong><br>${mxid }입니다.
           </div>
@@ -167,13 +173,15 @@ $(".alert").alert();
 
 <c:if test="${empty mxid}">
 <script>
-$(".alert").alert();
-</script>
-   <div class="alert alert-block alert-error fade in">
+alert("아이디와 비밀번호를 정확히 입력하세요");
+</script><!-- 
+
+   <div class="alert alert-block alert-error fade in" id="iddiv" style="display:none" >
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             <strong>고객님의 아이디는</strong><br>없습니다!
-          </div>
+   </div> -->
 </c:if>
+
 
 <a href="#pwmodal" data-toggle="modal">
 <button class="btn btn-large btn-inverse" type="button">비밀번호 찾기</button>
@@ -189,15 +197,27 @@ $(".alert").alert();
   <form action="/member/pw" method="post" >
     <p>아이디 <input type="text" class="class="span2" name = "mxid"></p>  
     <p>이름 <input type="text" class="class="span2" name = "mxname"></p>
-    <p>이메일 <input name="email1" class="class="span1" type="text" class="box" id="email1"  onkeyup='call()'> @
- 			  <input name="email2" type="text" class="box" id="email2" value="" onkeyup='call()'>
-			  <input type="text" name="mxmail" id="mxmail" value="" style="display:none"></p>
+    <p>이메일 <input name="email3" class="class="span1" type="text" class="box" id="email3"  onkeyup='call2()'> @
+ 			  <input name="email4" type="text" class="box" id="email4" value="" onkeyup='call2()'>
+			  <input type="text" name="mxmail2" id="mxmail2" value="" style="display:none"></p>
   </div>
   <div class="modal-footer">
     <button class="btn btn-primary" type="submit" >찾기!</button>
     </form>
   </div> 
 </div>
+
+<c:if test="${not empty msg}">
+<script>
+$(".alert").alert();
+</script>
+
+   <div class="alert alert-block alert-error fade in">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            ${msg }
+          </div>
+
+</c:if>
 
 
 </div>

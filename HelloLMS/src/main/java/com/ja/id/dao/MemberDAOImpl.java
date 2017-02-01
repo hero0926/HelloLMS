@@ -68,5 +68,32 @@ public class MemberDAOImpl implements MemberDAO{
 		return mapper.id(mxname, mxmail);
 	}
 
+	@Override
+	public int chkDupId(MemberVO vo) {
+		// TODO Auto-generated method stub
+		
+		MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
+		
+		return mapper.chkDupId(vo);
+	}
+
+	@Override
+	public int pw(String mxid, String mxname, String mxmail) {
+		// TODO Auto-generated method stub
+		MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
+		
+		return mapper.pw(mxid, mxname, mxmail);
+	}
+
+	
+
+	@Override
+	public void pwupdate(String pw, String mxid) {
+		// TODO Auto-generated method stub
+		MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
+		mapper.pwupdate(pw, mxid);
+		
+	}
+
 
 }

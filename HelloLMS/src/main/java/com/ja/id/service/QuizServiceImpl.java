@@ -13,7 +13,6 @@ import com.ja.id.dao.QuizDAO;
 
 @Component
 @Transactional(readOnly = true)
-
 public class QuizServiceImpl implements QuizService{
 	
 	@Autowired
@@ -22,7 +21,7 @@ public class QuizServiceImpl implements QuizService{
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
 	public int insertQuiz(Map map) throws Exception {
 		// TODO Auto-generated method stub
-		System.out.println("ÄûÁîµî·ÏÇÏ±â");
+		System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½");
 		return QuizDAO.insertQuiz(map);
 	}
 

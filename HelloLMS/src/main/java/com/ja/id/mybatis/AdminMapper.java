@@ -33,4 +33,10 @@ public interface AdminMapper {
 
 	public int deleteTestpool(Map map);
 
+	public List<HashMap> selectQuiz(Map map);
+
+	public int insertQuiz(Map map);
+
+	public int deleteQuiz(Map map);
+
 }

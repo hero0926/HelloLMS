@@ -38,9 +38,9 @@ function popupOpen(){
    <script type="text/javascript">
 			function setDisable(elementid) {
 				alert("\"" + elementid +"\"를 누르셨습니다."+ " 푸시겠습니까?");
-				//var el = document.getElementById(elementid);
+				var el = document.getElementById(elementid);
 				//alert(el);
-				//el.disabled = 'true';
+				el.disabled = 'false';
 			}
 		</script>
    

@@ -30,4 +30,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	select mxid from member where mxname=#{mxname} and mxmail=#{mxmail}
 	</select>
 	
+	<!-- 아이디 중복검사 -->
+	<select id="chkDupId" resultType="int">
+	select count(*) as cnt from member a where 1=1 and a.mxid = #{mxid}	
+	</select>
+	
+	<!-- 비밀번호 찾기 -->
+	<select id="pw" resultType="int" parameterType="String">
+	select count(*) as cnt from member a where 1=1 and a.mxid = #{mxid} and a.mxname=#{mxname} and a.mxmail=#{mxmail}
+	</select>
+	
+	<!-- 비밀번호 자동생성 -->
+	<update id="pwupdate" parameterType="String">
+	update member set mxpw=#{pw} where mxid=#{mxid}
+	</update>
 </mapper>
