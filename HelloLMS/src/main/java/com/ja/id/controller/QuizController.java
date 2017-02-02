@@ -15,10 +15,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ja.id.service.QuizService;
 
-@RequestMapping(value = "/*")
+//@RequestMapping(value = "/*")
 @Controller
 public class QuizController {
 	
@@ -38,21 +39,35 @@ public class QuizController {
 	@RequestMapping(value = "/quiz", method = {RequestMethod.POST, RequestMethod.GET})
 	public String quiz(Locale locale, Model model, @RequestParam Map map) {
 		logger.info("controller quiz.", locale);
-		
-		List<HashMap> quizList = quizService.selectQuiz(map);
-		model.addAttribute("quizList", quizList);
-		
+		model.addAttribute("lxseq", map.get("lxseq"));
 		return "quiz/quiz";
 	}
 	
 	@RequestMapping(value="/quizQuestion")
-	public String quizQuestion(Locale locale, @RequestParam Map map){
-		logger.info("����Ǯ��", locale);
-		
+	public String quizQuestion(Locale locale, Model model, HttpSession session, @RequestParam Map map){
+		logger.info("quizQuestion", locale);
+		map.put("mxseq", session.getAttribute("USEQ"));
+		List<HashMap> quizList = quizService.selectQuiz(map);
+		model.addAttribute("quizList", quizList);
+
 		return "quiz/quizQuestion";
 		
 	}
-	
-	
+
+	@RequestMapping(value="/quizAjax")
+	@ResponseBody
+	public String quizAnswer(Locale locale, Model model, HttpSession session, @RequestParam Map map){
+		logger.info("quizAnswer", locale);
+		map.put("mxseq", session.getAttribute("USEQ"));
+		int result = 0;
+		if(map.get("qaxseq")==null||((String)map.get("qaxseq")).trim().length()<1){
+			result = quizService.insertQxanswer(map);
+		} else {
+			result = quizService.updateQxanswer(map);
+		}
+
+		return "ok";
+		
+	}
 
 }

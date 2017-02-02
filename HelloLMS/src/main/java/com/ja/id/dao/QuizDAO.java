@@ -12,4 +12,8 @@ public interface QuizDAO {
 	
 	public int deleteQuiz(Map map);
 
+	public int insertQxanswer(Map map);
+
+	public int updateQxanswer(Map map);
+
 }

@@ -127,14 +127,18 @@ public class AdminController {
 		List<HashMap> bizList = adminService.selectCode(map);
 		model.addAttribute("bizList", bizList);
 		
-		String coxoffice = (String)map.get("coxoffice");
-		if(null==coxoffice){
-			//coxoffice = String.valueOf((int)bizList.get(0).get("cxseq"));
+		if(null!=map.get("coxseq")){
+			map.put("coxoffice", adminService.selectCourse(map).get(0).get("coxoffice"));
+			
+		}
+		
+		if(null==map.get("coxoffice")){
 			map.put("coxoffice", bizList.get(0).get("cxseq"));
 		}
+		
 		List<HashMap> courseList = adminService.selectCourse(map);
 		model.addAttribute("courseList", courseList);
-		model.addAttribute("coxoffice", coxoffice);
+		model.addAttribute("coxoffice", map.get("coxoffice"));
 		
 		session.setAttribute("adMenu", "3");
 		return "course/ad_courseList";
@@ -148,11 +152,11 @@ public class AdminController {
 		List<HashMap> cateList = adminService.selectCode(map);
 		model.addAttribute("cateList", cateList);
 
-		String coxoffice = (String)map.get("coxoffice");
+		//String coxoffice = (String)map.get("coxoffice");
 		
 		map.put("level", "sub");
 		map.put("cxgubun", "002");
-		map.put("cxseq", coxoffice);
+		map.put("cxseq", map.get("coxoffice"));
 		model.addAttribute("coxofficenm", adminService.selectCode(map).get(0).get("cxname"));
 		List<HashMap> tutorList = adminService.selectTutor(map);
 		model.addAttribute("tutorList", tutorList);
@@ -162,7 +166,7 @@ public class AdminController {
 			List<HashMap> courseList = adminService.selectCourse(map);
 			model.addAttribute("course", courseList.get(0));
 		}
-		model.addAttribute("coxoffice", coxoffice);
+		model.addAttribute("coxoffice", map.get("coxoffice"));
 		
 		return "course/ad_courseWrite";
 	}
@@ -232,8 +236,8 @@ public class AdminController {
 	public String testpoolList(Locale locale, Model model, HttpSession session, @RequestParam Map map) {
 		logger.info("controller testpoolList.", locale);
 		
-		String coxseq = (String)map.get("coxseq");
-		model.addAttribute("coxseq", coxseq);
+		//String coxseq = (String)map.get("coxseq");
+		model.addAttribute("coxseq", map.get("coxseq"));
 		
 		List<HashMap> testpoolList = adminService.selectTestpool(map);
 		model.addAttribute("testpoolList", testpoolList);
@@ -251,8 +255,8 @@ public class AdminController {
 		logger.info("controller testpoolWriteForm.", locale);
 
 		
-		String txseq = (String)map.get("txseq");
-		if(null!=txseq){
+		//String txseq = (String)map.get("txseq");
+		if(null!=map.get("txseq")){
 			List<HashMap> testpoolList = adminService.selectTestpool(map);
 			model.addAttribute("testpool", testpoolList.get(0));
 
@@ -347,11 +351,6 @@ public class AdminController {
 		model.addAttribute("quizList", quizList);
 		return "quiz/ad_quizWrite";
 	}
-
-
-	
-	
-	
 	
 	
 	@RequestMapping(value = "/quizWrite", method = {RequestMethod.POST, RequestMethod.GET})

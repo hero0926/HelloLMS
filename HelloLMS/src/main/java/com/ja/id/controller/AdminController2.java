@@ -216,10 +216,31 @@ public class AdminController2 {
 		applyList = adminService.getApplyList(map);
 		
 		model.addAttribute("list", applyList);
-		model.addAttribute("coxname", applyList.get(0).get("coxnmae"));
-		System.out.println("bbbbbbbbbbbbbbbbbbbbbbbbbbbb----"+applyList);
+		model.addAttribute("coxname", applyList.get(0).get("coxname"));
+		model.addAttribute("coxseq", map.get("coxseq"));
 		
 		return "course/ad_courseApplyMemberList";
+	}
+	
+	@RequestMapping(value = "/applyStatusMod", method = {RequestMethod.POST, RequestMethod.GET})
+	public String applyStatusMod(Locale locale, Model model, HttpSession session, @RequestParam Map map) throws Exception {
+		adminService.statusUpdate(map);
+		
+		List<HashMap> applyList;
+		applyList = adminService.getApplyList(map);
+		
+		model.addAttribute("list", applyList);
+		model.addAttribute("coxname", applyList.get(0).get("coxname"));
+		model.addAttribute("coxseq", map.get("coxseq"));
+		
+		return "course/ad_courseApplyMemberList";
+	}
+	
+	@RequestMapping(value = "/historyPopup", method = {RequestMethod.POST, RequestMethod.GET})
+	public String historyPopup(Locale locale, Model model, HttpSession session, @RequestParam Map map) throws Exception {
+		
+		
+		return "lecture/ad_historyPopup";
 	}
 	
 }

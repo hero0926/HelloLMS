@@ -16,25 +16,37 @@ import com.ja.id.dao.QuizDAO;
 public class QuizServiceImpl implements QuizService{
 	
 	@Autowired
-	QuizDAO QuizDAO;
+	QuizDAO quizDAO;
 
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
 	public int insertQuiz(Map map) throws Exception {
 		// TODO Auto-generated method stub
 		System.out.println("�������ϱ�");
-		return QuizDAO.insertQuiz(map);
+		return quizDAO.insertQuiz(map);
 	}
 
 	@Override
 	public List<HashMap> selectQuiz(Map map) {
 		// TODO Auto-generated method stub
-		return QuizDAO.selectQuiz(map);
+		return quizDAO.selectQuiz(map);
 	}
 
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
 	public int deleteQuiz(Map map) {
 		// TODO Auto-generated method stub
-		return QuizDAO.deleteQuiz(map);
+		return quizDAO.deleteQuiz(map);
+	}
+
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
+	public int insertQxanswer(Map map) {
+		// TODO Auto-generated method stub
+		return quizDAO.insertQxanswer(map);
+	}
+
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
+	public int updateQxanswer(Map map) {
+		// TODO Auto-generated method stub
+		return quizDAO.updateQxanswer(map);
 	}
 	
 	

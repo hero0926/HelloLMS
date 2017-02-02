@@ -1,6 +1,8 @@
 package com.ja.id;
 
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ja.id.service.AdminService;
+import com.ja.id.util.UploadController;
 
 /**
  * Handles requests for the application home page.
@@ -42,18 +45,21 @@ public class HomeController {
 
 	/**
 	 * Simply selects the home view to render by returning its name.
+	 * @throws UnknownHostException 
 	 * 
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, HttpSession session, HttpServletRequest request, @RequestParam Map map) {
+	public String home(Locale locale, HttpSession session, HttpServletRequest request, @RequestParam Map map) throws UnknownHostException {
 		logger.info("Welcome home! The client locale is {}.", locale);
 		session.setAttribute("Menu", "1");
 		
+		String uri = request.getServerName();
 		
-		String uri = (String)request.getServerName();
+		 System.out.println( InetAddress.getLocalHost().getHostName() );
+	     System.out.println( InetAddress.getLocalHost().getHostAddress() );
+		
 		if(uri.equals("localhost")){
-			session.setAttribute("UOFFICE", 8);
-			
+			session.setAttribute("UOFFICE", 8);			
 		} else {
 			map.put("cxname", uri.substring(0, uri.indexOf(".")));
 			map.put("cxgubun", "002");

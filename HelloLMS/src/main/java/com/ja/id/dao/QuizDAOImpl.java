@@ -38,6 +38,20 @@ public class QuizDAOImpl implements QuizDAO{
 		QuizMapper mapper = sqlSession.getMapper(QuizMapper.class);
 		return mapper.deleteQuiz(map);
 	}
+
+	@Override
+	public int insertQxanswer(Map map) {
+		// TODO Auto-generated method stub
+		QuizMapper mapper = sqlSession.getMapper(QuizMapper.class);
+		return mapper.insertQxanswer(map);
+	}
+
+	@Override
+	public int updateQxanswer(Map map) {
+		// TODO Auto-generated method stub
+		QuizMapper mapper = sqlSession.getMapper(QuizMapper.class);
+		return mapper.updateQxanswer(map);
+	}
 	
 	
 

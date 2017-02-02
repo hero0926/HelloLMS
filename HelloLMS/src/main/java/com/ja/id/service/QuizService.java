@@ -11,6 +11,10 @@ public interface QuizService {
 	public List<HashMap> selectQuiz(Map map);
 	
 	public int deleteQuiz(Map map);
+
+	public int insertQxanswer(Map map);
+
+	public int updateQxanswer(Map map);
 	
 
 }

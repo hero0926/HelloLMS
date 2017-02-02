@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ja.id.dao.MemberDAO;
 import com.ja.id.domain.MemberVO;
 import com.ja.id.dto.LoginDTO;
+import com.ja.id.util.SHA256;
 
 @Component
 @Transactional(readOnly = true)
@@ -25,6 +26,9 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public void insertMember(MemberVO vo) {
 		// TODO Auto-generated method stub
+		String password = vo.getMxpw();
+		
+		vo.setMxpw(SHA256.encryptSHA256(password));
 		
 		MemberDAO.insertMember(vo);
 		
@@ -33,12 +37,22 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public MemberVO login(LoginDTO dto) throws Exception {
 		// TODO Auto-generated method stub
+		
+		String password = dto.getMxpw();
+		
+		dto.setMxpw(SHA256.encryptSHA256(password));
+		
 		return MemberDAO.login(dto);
 	}
 
 	@Override
 	public void update(MemberVO vo) throws Exception {
 		// TODO Auto-generated method stub
+		
+		String password = vo.getMxpw();
+		
+		vo.setMxpw(SHA256.encryptSHA256(password));
+		
 		
 		MemberDAO.update(vo);
 		

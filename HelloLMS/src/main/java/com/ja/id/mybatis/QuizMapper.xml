@@ -12,9 +12,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 
 	<select id="selectQuiz" resultType="java.util.HashMap" parameterType="java.util.HashMap">
-		SELECT qxorder, qxcont, qxcorrect
-		FROM quiz
-		WHERE lxseq = #{lxseq}
+		SELECT a.qxseq, a.lxseq, a.qxorder, a.qxcont,
+			a.qxcorrect, a.regdate, b.qaxseq
+		FROM quiz a
+		left outer join qxanswer b
+		on b.mxseq = #{mxseq}
+		and a.qxseq = b.qxseq
+		WHERE a.lxseq = #{lxseq}
+		order by a.qxorder
 	
 	</select>
 
@@ -23,6 +28,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where qxseq = #{qxseq}
 	
 	</delete>
+	
+	<insert id="insertQxanswer">
+		insert into qxanswer (qxseq, mxseq, qaxans, qaxresult, regdate)
+		values (#{qxseq}, #{mxseq}, #{qaxans}, #{qaxresult}, date_format(now(), '%Y%m%d'))	
+	</insert>
+	
 
-
+	<update id="updateQxanswer">
+		update qxanswer set 
+		qaxans=#{qaxans},
+		qaxresult=#{qaxresult}
+		where qaxseq=#{qaxseq}
+	
+	</update>
 </mapper>
