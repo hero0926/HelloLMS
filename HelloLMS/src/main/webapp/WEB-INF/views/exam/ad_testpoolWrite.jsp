@@ -111,7 +111,7 @@
 			
 			정답 : <input type="text" class="span10" id="txcorrect" name="txcorrect" maxlength="30" placeholder="정답" value="${testpool.txcorrect }" required="required"><br>
 			
-			<button type="submit" class="btn" id="btnSubmit">
+			<button type="button" class="btn" id="btnSubmit">
 				<c:if test="${ !empty testpool.txseq }">수정</c:if>
 				<c:if test="${ empty testpool.txseq }">등록</c:if>
 			</button>

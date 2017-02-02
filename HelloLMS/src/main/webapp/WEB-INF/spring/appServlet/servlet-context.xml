@@ -14,6 +14,11 @@
 <!-- 파일 업로드/다운로드용 설정~ -->
 	<context:property-placeholder location="classpath:project.properties" />
 	
+	<beans:bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver" >
+		<beans:property name="maxUploadSize" value="30586793"></beans:property>
+		</beans:bean>
+		
 	<aop:aspectj-autoproxy />
 	
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
@@ -44,7 +49,5 @@
 	</interceptor>
 	</interceptors>
 	
-	<beans:bean id="multipartResolver"
-		class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
-	
+		
 </beans:beans>

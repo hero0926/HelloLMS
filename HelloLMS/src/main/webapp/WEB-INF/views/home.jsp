@@ -31,7 +31,17 @@ img.no-resize {
       </div> -->
       
       <!-- 슬라이드쇼  -->
+   
+   <div class="container">
+
+      <!-- Main hero unit for a primary marketing message or call to action -->
+      <!-- <div class="hero-unit">
+        <h1>Hello, LMS!</h1>
+        <p>This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+        <p><a href="#" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+      </div> -->
       
+      <!-- 슬라이드쇼  -->
      <div id="myCarousel" class="carousel slide">
   <ol class="carousel-indicators">
     <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
@@ -41,13 +51,13 @@ img.no-resize {
   <!-- Carousel items -->
   <div class="carousel-inner">
     <div class="active item" align="center">
-     <img class="no-resize" src="resources/upload/banner1.JPG" alt="">
+     <img class="no-resize" src="http://localhost/displayFile?fileName=${b1}" alt="">
     </div>
     <div class="item" align="center">    
-     <img class="no-resize"  src="resources/upload/banner2.JPG" alt="">
+     <img class="no-resize"  src="http://localhost/displayFile?fileName=${b2}" alt="">
     </div>    
   <div class="item" align="center">    
-     <img class="no-resize"  src="resources/upload/banner3.JPG" alt="">
+     <img class="no-resize"  src="http://localhost/displayFile?fileName=${b3}" alt="">
   </div>
     
   </div>

@@ -68,7 +68,7 @@
 	          <h3>강의 : ${quizList.get(0).lxnum }-${quizList.get(0).lxname }&nbsp;<button class="btn" id="btnList">◀강의실로 돌아가기</button></h3>
 			</div>
 			 순서 : <input type="number" class="span2" id="qxorder" name="qxorder" min="0" max="9"  placeholder="순서" required="required">
-			 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type="submit" class="btn" id="btnSubmit">등록</button>
+			 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn" id="btnSubmit">등록</button>
 			 <br>
 			 문제 : <textarea rows="3" class="span10" name="qxcont" placeholder="문제" required="required"></textarea><br>
 			 정답 : <label class="radio inline">

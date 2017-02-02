@@ -1,14 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<title>quiz</title>
+<%@ page language="java"  contentType="text/html; charset=UTF-8" pageEncoding="utf-8"%>
+
+<%@ include file="../include/header.jsp" %>
+
+
+
 <!-- 실선 박스  -->
 <style> 
 div#test{ border:#000 1px solid; padding:10px 40px 40px 40px; }
@@ -26,9 +21,9 @@ h1 {
 <script language = javascript> 
 var pos = 0, test, test_status, question, choice, choices, anA, anB, correct = 0;
 var questions = [
-	["what is 10+1 = 13?", "Y", "N", "B" ],
-	["5 + 3은 8이 맞나 ? ", "Y", "N", "A" ],
-	["정삼각형은 3변이 같은가 ?", "Y", "N", "A" ],
+	<c:forEach var="quiz" items="${quizList}" varStatus="i">
+		["<c:out value='${quiz.qxcont }'/>", "Y", "N", "<c:out value='${quiz.qxcorrect }'/>", "<c:out value='${quiz.qxseq }'/>", "<c:out value='${quiz.qaxseq }'/>" ],
+	</c:forEach>
 ];
 
 function _(x){
@@ -41,7 +36,7 @@ function renderQuestion(){
 		_("test_status").innerHTML = "퀴즈 완료";
 		pos = 0;
 		correct = 0;
-		test.innerHTML += "<button type='button' class='btn btn-success' onclick='checkAnswer()'>확인</button>"
+		test.innerHTML += "<button type='button' class='btn btn-success' onclick='window.close();'>확인</button>"
 		return false;
 	}
 	_("test_status").innerHTML = "퀴즈 "+questions.length+" 문제 중 "+(pos+1)+"번 문제";
@@ -49,8 +44,8 @@ function renderQuestion(){
 	anA = questions[pos][1];
 	anB = questions[pos][2];
 	test.innerHTML = "<h3>"+question+"</h3>";
-	test.innerHTML += "<input type='radio' name='choices' value='A'> "+anA+"<br>";
-	test.innerHTML += "<input type='radio' name='choices' value='B'> "+anB+"<br><br>";
+	test.innerHTML += "<input type='radio' name='choices' value='1'> "+anA+"<br>";
+	test.innerHTML += "<input type='radio' name='choices' value='2'> "+anB+"<br><br>";
 	test.innerHTML += "<button type='button' class='btn btn-warning' onclick='checkAnswer()'>다음 퀴즈</button>"
 }
 function checkAnswer(){
@@ -60,11 +55,32 @@ function checkAnswer(){
 			choice = choices[i].value;
 		}
 	}
+	var ok = 'N';
 	if(choice == questions[pos][3]){
 		correct++;
+		ok = 'Y';
 	}
+	doAjax(questions[pos][4], choice, ok, questions[pos][5]);
 	pos++;
 	renderQuestion();
+}
+
+function doAjax(qxseq, qaxans, qaxresult, qaxseq) {
+	
+	//alert(qxseq+":"+qaxans+":"+ qaxresult);
+	$.ajax({
+		type : "POST",
+		url : "/quizAjax",
+		data : {
+			qxseq:qxseq,
+			qaxans:qaxans,
+			qaxresult:qaxresult,
+			qaxseq:qaxseq
+		},
+		dataType : "text"
+	}).done(function(msg) {
+		//alert(msg.message);
+	});
 }
 
 window.addEventListener("load", renderQuestion, false);
@@ -72,9 +88,7 @@ window.addEventListener("load", renderQuestion, false);
 
 
 </script>
-</head>
 
-<body>
 <h1>My Quiz!!</h1>
 <form action="/" method="post">
 <h2 id = "test_status"> </h2>

@@ -11,6 +11,7 @@
 				}
 			});
 			$('#btnList').click(function(){
+				$('#coxname').val('');
 				$('#form1').attr('action','/admin/courseList');
 				$('#form1').submit();
 			});
@@ -26,7 +27,10 @@
 				if(!$.isNumeric($("input[type='number']").val())) {
 					return false;
 				}
+				return true;
 					
+			} else {
+				return false;
 			}
 		}
 
@@ -80,7 +84,7 @@
 			이수기준 진도 : <input type="number" class="span2" id="coxprog" name="coxprog" min="0" max="100"  placeholder="진도" value="${course.coxprog }" required="required"><br>
 			이수기준 평가점수 : <input type="number" class="span2" id="coxscore" name="coxscore" min="0" max="100"  placeholder="점수" value="${course.coxscore }" required="required"><br>
 			
-			<button type="submit" class="btn" id="btnSubmit">
+			<button type="button" class="btn" id="btnSubmit">
 				<c:if test="${ !empty course.coxseq }">수정</c:if>
 				<c:if test="${ empty course.coxseq }">등록</c:if>
 			</button>

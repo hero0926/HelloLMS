@@ -12,7 +12,7 @@
           <div class="nav-collapse collapse">
             <ul class="nav">
               <li <c:if test="${ '1'==adMenu }">class="active"</c:if>><a href="/admin/">코드관리</a></li>
-              <li <c:if test="${ '2'==adMenu }">class="active"</c:if>><a href="#about">회원관리</a></li>
+              <li <c:if test="${ '2'==adMenu }">class="active"</c:if>><a href="/admin/member">회원관리</a></li>
               <li <c:if test="${ '3'==adMenu }">class="active"</c:if>><a href="/admin/courseList">강좌관리</a></li>
               <li class="dropdown <c:if test="${ '4'==adMenu }">active</c:if>">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">평가관리 <b class="caret"></b></a>
@@ -30,7 +30,7 @@
                   <li><a href="#">Q&A</a></li>
                 </ul>
               </li>
-              <li <c:if test="${ '6'==adMenu }">class="active"</c:if>><a href="#contact">팝업관리</a></li>
+              <li <c:if test="${ '6'==adMenu }">class="active"</c:if>><a href="/admin/aduploadForm">팝업관리</a></li>
             </ul>
             
           </div><!--/.nav-collapse -->
