@@ -23,4 +23,6 @@ public interface Admin2Mapper {
 
 	public int lectureMod(Map map);
 
+	public int statusUpdate(Map map);
+
 }

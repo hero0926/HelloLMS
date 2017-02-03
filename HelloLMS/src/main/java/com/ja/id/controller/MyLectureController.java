@@ -65,7 +65,7 @@ public class MyLectureController {
 	@RequestMapping(value = "/myApplyCourseDelete", method = {RequestMethod.POST, RequestMethod.GET})
 	public String myApplyCourseDelete(Locale locale, Model model, HttpSession session, @RequestParam Map map) throws Exception {
 		
-		mylectureService.applyCourseDelete(map);
+/*		mylectureService.applyCourseDelete(map);
 		
 		map.put("USEQ", session.getAttribute("USEQ"));
 		
@@ -74,7 +74,26 @@ public class MyLectureController {
 		model.addAttribute("list", applycourselist);
 		model.addAttribute("mxseq", session.getAttribute("USEQ"));
 		
-		return "mylecture/myApplyCourse";
+		return "mylecture/myApplyCourse";*/
+		
+		int count = 0;
+
+		try {
+			count = mylectureService.applyCourseDelete(map);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			model.addAttribute("success_flag", "N");
+		}
+		if (0 < count) {
+			model.addAttribute("success_flag", "Y");
+		} else {
+			model.addAttribute("success_flag", "N");
+		}
+		model.addAttribute("forward_url", "/mypage/mylecture/myApplyCourse");
+		
+		return "common/common_alert";
+		
 	}
 	
 	@RequestMapping(value = "/myCourse", method = {RequestMethod.POST, RequestMethod.GET})
@@ -132,8 +151,10 @@ public class MyLectureController {
 		List<HashMap> lecturelist;
 		lecturelist = mylectureService.getLecture(map);
 		model.addAttribute("list", lecturelist);
+		System.out.println("myLecture-----------------------------"+lecturelist);
 		
 		return "mylecture/myLecture";
+		
 	}
 	
 	@RequestMapping(value = "/lecture", method = {RequestMethod.POST, RequestMethod.GET})

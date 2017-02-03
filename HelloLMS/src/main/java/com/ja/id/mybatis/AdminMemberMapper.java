@@ -12,4 +12,5 @@ public interface AdminMemberMapper {
 
 	public int updateMemberT(Map map);
 
+
 }

@@ -6,8 +6,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<insert id="insertMember">
 	<!-- 회원 가입 하기 -->
-		insert into member (mxid, mxpw, mxname, mxmail, mxoffice, mxdiv)
-		values (#{mxid}, #{mxpw}, #{mxname}, #{mxmail}, #{mxoffice}, #{mxdiv})
+		insert into member (mxid, mxpw, mxname, mxmail, mxoffice, mxdiv, regdate)
+		values (#{mxid}, #{mxpw}, #{mxname}, #{mxmail}, #{mxoffice}, #{mxdiv}, DATE_FORMAT(NOW(), '%Y%m%d'))
 	</insert>
 
 	<select id="login" resultType="com.ja.id.domain.MemberVO">

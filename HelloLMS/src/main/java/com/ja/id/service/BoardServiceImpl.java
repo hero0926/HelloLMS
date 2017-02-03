@@ -75,7 +75,7 @@ public class BoardServiceImpl implements BoardService {
 		} else {
 			throw new Exception();
 		}
-		map.put("bxnseq", map.get("bxnseq"));
+		map.put("bxqseq", map.get("bxqseq"));
 		return result;
 	}
 	
@@ -86,9 +86,27 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public Object readQna(Map map) {
-		// TODO Auto-generated method stub
-		return null;
+	public Map readQna(Map map) {
+		return boardDAO.readQna(map);
+	}
+	
+	@Override
+	public List<HashMap> repCheck(Map map) {
+		//map.put("bxqno", map.get("bxqno"));
+		return boardDAO.repCheck(map);
+	}
+	
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public int writeQnarep(Map map) throws Exception {
+		result = boardDAO.writeQnarep(map);
+
+		if (result == 1) {
+
+		} else {
+			throw new Exception();
+		}
+		map.put("bxqseq", map.get("bxqseq"));
+		return result;
 	}
 
 }

@@ -33,7 +33,7 @@ public class BoardController {
 	
 	@RequestMapping(value="/notice/write", method = RequestMethod.GET)
 	public String write(Locale locale, Model model) {
-		return "/notice/write";
+		return "/board/write";
 	}
 	
 	@RequestMapping(value="/notice/writeNotice", method = {RequestMethod.GET, RequestMethod.POST})
@@ -44,7 +44,7 @@ public class BoardController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "/notice/read";
+		return "/board/read";
 	}
 	
 	@RequestMapping(value = "/notice/readNotice", method = {RequestMethod.GET,
@@ -126,25 +126,24 @@ public class BoardController {
 	
 	@RequestMapping(value="/qna", method = RequestMethod.GET)
 	public String qna(Locale locale, Model model, @RequestParam Map map) {
-		model.addAttribute("qna", boardService.getAllQna(map));
-		
+		model.addAttribute("rep", boardService.repCheck(map));
 		return "/board/qna";
 	}
 	
 	@RequestMapping(value="/qna/write", method = RequestMethod.GET)
 	public String write2(Locale locale, Model model) {
-		return "/qna/write";
+		return "/board/qnawrite";
 	}
 	
 	@RequestMapping(value="/qna/writeQna", method = {RequestMethod.GET, RequestMethod.POST})
 	public String writeQna(Locale locale, HttpSession session, Model model, @RequestParam Map map) {
 		try {
 			int result = boardService.writeQna(map);
-			model.addAttribute("notice", boardService.readQna(map));
+			model.addAttribute("qna", boardService.readQna(map));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "/qna/read";
+		return "/board/readQna";
 	}
 	
 	@RequestMapping(value = "/qna/readQna", method = {RequestMethod.GET,
@@ -156,8 +155,19 @@ public class BoardController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return "/qna/read";
+		return "/board/readQna";
 
+	}
+	
+	@RequestMapping(value="/qna/writeQnarep", method = {RequestMethod.GET, RequestMethod.POST})
+	public String writeQnarep(Locale locale, HttpSession session, Model model, @RequestParam Map map) {
+		try {
+			int result = boardService.writeQnarep(map);
+			model.addAttribute("qna", boardService.readQna(map));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "/board/readQna";
 	}
 
 }

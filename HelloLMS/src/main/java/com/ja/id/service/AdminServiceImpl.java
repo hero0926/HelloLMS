@@ -136,4 +136,28 @@ public class AdminServiceImpl implements AdminService{
 		return adminDAO.deleteQuiz(map);
 	}
 
+	@Override
+	public List<HashMap> selectTestpaper(Map map) {
+		// TODO Auto-generated method stub
+		return adminDAO.selectTestpaper(map);
+	}
+
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
+	public int updateTestpaper(Map map) {
+		// TODO Auto-generated method stub
+		return adminDAO.updateTestpaper(map);
+	}
+
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
+	public int insertTestpaper(Map map) {
+		// TODO Auto-generated method stub
+		return adminDAO.insertTestpaper(map);
+	}
+
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
+	public int deleteTestpaper(Map map) {
+		// TODO Auto-generated method stub
+		return adminDAO.deleteTestpaper(map);
+	}
+
 }

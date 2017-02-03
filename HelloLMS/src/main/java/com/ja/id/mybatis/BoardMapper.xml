@@ -44,7 +44,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	delete from board_notice WHERE bxnseq = #{bxnseq}
 </delete>
 
+<select id="repCheck" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+	select a.bxqseq, a.bxqgrid, a.bxqsubject, a.bxqcontent, a.regdate as qnadate, b.bxqno, b.bxqrepcontent, b.regdate as repdate
+	from board_qna a
+	left outer join board_qnarep b
+	on a.bxqseq = b.bxqno
+	where a.bxqgrid = #{bxqgrid}
+	order by a.bxqseq asc
 
+</select>
 
 <insert id="writeQna" parameterType="java.util.HashMap">
 	insert into board_qna (bxqgrid, bxqsubject, bxqcontent, regdate) 
@@ -63,6 +71,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	AND q.bxqgrid=c.cxcode order by bxqseq
 </select>
 
+<select id="readQna" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+	select a.bxqseq, a.bxqgrid, a.bxqsubject, a.bxqcontent, a.regdate as qnadate, b.bxqno, b.bxqrepcontent, b.regdate as repdate 
+	from board_qna a
+	left outer join board_qnarep b
+	on a.bxqseq = b.bxqno
+	where a.bxqseq=#{bxqseq}
+	<if test="bxqno != null">
+	and b.bxqno=#{bxqno} order by a.bxqseq
+	</if>
+</select>
 
-
+<insert id="writeQnarep" parameterType="java.util.HashMap">
+	insert into board_qnarep (bxqno, bxqrepcontent, regdate) 
+	values (#{bxqno}, #{bxqrepcontent}, DATE_FORMAT(NOW(), '%Y%m%d'))
+</insert>
 </mapper>

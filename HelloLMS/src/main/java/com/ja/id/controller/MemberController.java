@@ -31,7 +31,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ja.id.domain.MemberVO;
 import com.ja.id.dto.LoginDTO;
+import com.ja.id.service.AdminMemberService;
 import com.ja.id.service.MemberService;
+import com.ja.id.service.UploadService;
 import com.ja.id.util.Email;
 import com.ja.id.util.EmailSender;
 
@@ -60,14 +62,12 @@ public class MemberController {
 	@RequestMapping(value = "/register1")
 	public String prereg(Locale locale, Model model, @RequestParam Map map) {
 		logger.info("회원가입 약관 폼", locale);
-		
 		return "member/register1";
 	}
 	
 	@RequestMapping(value = "/register2", method=RequestMethod.GET)
 	public String register(Locale locale, Model model, @RequestParam Map map) {
-		logger.info("회원가입 하기", locale);
-		
+		logger.info("회원가입 하기", locale);		
 		return "member/register2";
 	}
 	
@@ -88,7 +88,8 @@ public class MemberController {
 	
 	@RequestMapping(value = "/loginPost", method = RequestMethod.POST)
 	public String loginPOST(LoginDTO dto, HttpSession session, Model model) throws Exception {
-		//dto.setMxoffice((int)session.getAttribute("UOFFICE"));
+		//dto.setMxoffice((int)session.getAttribute("UOFFICE"));	
+		
 		MemberVO vo = memberservice.login(dto);
 		
 		if(vo==null){

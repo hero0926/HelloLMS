@@ -23,4 +23,7 @@ public interface Admin2Service {
 
 	public int lectureMod(Map map) throws Exception;
 
+	public int statusUpdate(Map map) throws Exception;
+
+
 }

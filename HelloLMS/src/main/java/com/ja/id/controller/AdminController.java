@@ -403,4 +403,99 @@ public class AdminController {
 	}
 
 	
+	
+	@RequestMapping(value = "/testpaperList", method = {RequestMethod.POST, RequestMethod.GET})
+	public String testpaperList(Locale locale, Model model, HttpSession session, @RequestParam Map map) {
+		logger.info("controller testpaperList.", locale);
+		
+		List<HashMap> testpaperList = adminService.selectTestpaper(map);
+		model.addAttribute("testpaperList", testpaperList);
+		
+		session.setAttribute("adMenu", "4");
+		return "exam/ad_testpaperList";
+	}
+	
+	@RequestMapping(value = "/testpaperWriteForm", method = {RequestMethod.POST, RequestMethod.GET})
+	public String testpaperWriteForm(Locale locale, Model model, @RequestParam Map map) {
+		logger.info("controller testpaperWriteForm.", locale);
+
+		
+		//String tpxseq = (String)map.get("tpxseq");
+		if(null!=map.get("tpxseq")){
+			List<HashMap> testpaperList = adminService.selectTestpaper(map);
+			model.addAttribute("testpaper", testpaperList.get(0));
+		}
+		
+		List<HashMap> courseList = adminService.selectCourse(map);
+		model.addAttribute("courseList", courseList);
+		
+		return "exam/ad_testpaperWrite";
+	}
+	
+	@RequestMapping(value = "/testpaperWrite", method = {RequestMethod.POST, RequestMethod.GET})
+	public String testpaperWrite(Locale locale, Model model, @RequestParam Map map, HttpSession session) {
+		logger.info("controller start testpaperWrite.", locale);
+		
+		int count = 0;
+		String tpxseq = (String)map.get("tpxseq");
+		if (tpxseq==null) tpxseq= "";
+
+		try {
+			map.put("mxseq", session.getAttribute("USEQ"));
+			map.put("tpxfrom", ((String)map.get("tpxfrom")).replace("-", "").replace(":", "").replace("T", ""));
+			map.put("tpxto", ((String)map.get("tpxto")).replace("-", "").replace(":", "").replace("T", ""));
+
+			if (tpxseq.length()>0){
+				count = adminService.updateTestpaper(map);
+			} else {
+				count = adminService.insertTestpaper(map);
+			}
+			
+			//이곳에 평가지 생성 루틴 만들어야 함
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			model.addAttribute("success_flag", "N");
+			model.addAttribute("forward_url", "/admin/testpaperWriteForm?tpxseq="+tpxseq);
+		}
+		if (0 < count) {
+			model.addAttribute("success_flag", "Y");
+			model.addAttribute("forward_url", "/admin/testpaperList");
+		} else {
+			model.addAttribute("success_flag", "N");
+			model.addAttribute("forward_url", "/admin/testpaperWriteForm?tpxseq="+tpxseq);
+		}
+		
+		return "common/common_alert";
+	}
+
+	
+	@RequestMapping(value = "/testpaperDelete", method = {RequestMethod.POST, RequestMethod.GET})
+	public String testpaperDelete(Locale locale, Model model, @RequestParam Map map) {
+		logger.info("controller start testpaperWrite.", locale);
+		
+		int count = 0;
+		String tpxseq = (String)map.get("tpxseq");
+
+		try {
+			count = adminService.deleteTestpaper(map);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			model.addAttribute("success_flag", "N");
+			model.addAttribute("forward_url", "/admin/testpaperWriteForm?tpxseq="+tpxseq);
+		}
+		if (0 < count) {
+			model.addAttribute("success_flag", "Y");
+			model.addAttribute("forward_url", "/admin/testpaperList");
+		} else {
+			model.addAttribute("success_flag", "N");
+			model.addAttribute("forward_url", "/admin/testpaperWriteForm?tpxseq="+tpxseq);
+		}
+		
+		return "common/common_alert";
+	}	
+	
+	
 }

@@ -38,4 +38,12 @@ public interface AdminDAO {
 
 	public int deleteQuiz(Map map);
 
+	public List<HashMap> selectTestpaper(Map map);
+
+	public int updateTestpaper(Map map);
+
+	public int insertTestpaper(Map map);
+
+	public int deleteTestpaper(Map map);
+
 }

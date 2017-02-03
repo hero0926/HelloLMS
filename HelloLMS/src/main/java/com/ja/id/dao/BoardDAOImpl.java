@@ -63,5 +63,23 @@ public class BoardDAOImpl implements BoardDAO {
 		BoardMapper mapper=sqlSession.getMapper(BoardMapper.class);
 		return mapper.writeQna(map);
 	}
+	
+	@Override
+	public List<HashMap> repCheck(Map map) {
+		BoardMapper mapper=sqlSession.getMapper(BoardMapper.class);
+		return mapper.repCheck(map);
+	}
+
+	@Override
+	public Map readQna(Map map) {
+		BoardMapper mapper=sqlSession.getMapper(BoardMapper.class);
+		return mapper.readQna(map);
+	}
+	
+	@Override
+	public int writeQnarep(Map map) {
+		BoardMapper mapper=sqlSession.getMapper(BoardMapper.class);
+		return mapper.writeQnarep(map);
+	}
 
 }

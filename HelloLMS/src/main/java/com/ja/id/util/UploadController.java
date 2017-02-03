@@ -4,14 +4,19 @@ package com.ja.id.util;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.net.UnknownHostException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
@@ -26,6 +31,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ja.id.service.AdminService;
+import com.ja.id.service.UploadService;
+
 /**
  * Handles requests for the application upload page.
 
@@ -38,6 +46,9 @@ public class UploadController {
 	private static final Logger logger = LoggerFactory.getLogger(UploadController.class);
 	@Value("${file.upload.path}")
 	private String fileUploadPath;
+	
+	@Autowired
+	private UploadService us;
 	
 	
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
@@ -60,6 +71,7 @@ public class UploadController {
 				file.transferTo(newFile);
 				fileName += file.getOriginalFilename() + "|";
 				model.addAttribute("originalFileName", fileName);
+				
 			}
 		}
 
@@ -71,8 +83,8 @@ public class UploadController {
 	//김설화
 	
 	@RequestMapping(value = "/admin/adupload", method = RequestMethod.POST)
-	public String adupload(Locale locale, Model model, @RequestParam(value = "file") List<MultipartFile> files, String uploadpath, HttpServletRequest req)
-			throws Exception {		
+	public String adupload(Locale locale, Model model,  @RequestParam Map map, @RequestParam(value = "file") List<MultipartFile> files, String uploadpath, HttpServletRequest req)
+			throws Exception {	
 
 		String sub = uploadpath; //sub에 etc,board,main 등을 넣어서 업로드 폴더를 구분한다.
 		if (sub=="main") {
@@ -87,11 +99,11 @@ public class UploadController {
 		for (int i = 0; i < files.size(); i++) {
 			MultipartFile file = (MultipartFile) files.get(i);
 			if (!file.isEmpty()){
-				String fileName = file.getOriginalFilename();
+				String fileName = file.getOriginalFilename();/*
 				int pos = fileName.lastIndexOf( "." );
 				String ext = fileName.substring(pos);
 				
-					fileName = String.valueOf(i+1)+ext;
+					fileName = String.valueOf(i+1)+ext;*/
 					File newFile = new File(fileUploadPath+fileName);
 					modelfile += fileName + ":";
 
@@ -104,20 +116,34 @@ public class UploadController {
 		String[] banner = modelfile.split(":");		
 		String b1 = banner[0];
 		String b2 = banner[1];
-		String b3 = banner[2];		
+		String b3 = banner[2];
 		
-		model.addAttribute("b1", b1);
-		model.addAttribute("b2", b2);
-		model.addAttribute("b3", b3);
+		map.put("adxname1", b1);
+		map.put("adxname2", b2);
+		map.put("adxname3", b3);
+		
+		us.updatead(map);
+		
 		
 		return "adupload";
 
 	}
 	
 	@RequestMapping(value = "/admin/aduploadForm", method = RequestMethod.GET)
-	public String aduploadForm(Locale locale) {
+	public String aduploadForm(Locale locale, @RequestParam Map map) {			
+		
 		return "adupload";
 	}
+	
+
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String home(Locale locale, HttpSession session, HttpServletRequest request, Model model, @RequestParam Map map) throws UnknownHostException {
+				
+		List<HashMap> b = us.selectad(map);
+		model.addAttribute("b", b);
+		return "home";
+	}	
+	
 
 	
 	//사진을 보여주는 메서드

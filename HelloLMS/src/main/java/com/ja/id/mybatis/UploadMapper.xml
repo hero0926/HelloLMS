@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ja.id.mybatis.UploadMapper">
+
+<insert id="insertad" parameterType="java.util.HashMap">
+		insert into advertisement (adxname1, adxurl1, adxname2, adxurl2, adxname3, adxurl3, regdate)
+		values (#{adxname1}, #{adxurl1}, #{adxname2}, #{adxurl2}, #{adxname3}, #{adxurl3}, date_format(now(), '%Y%m%d'))		
+	</insert>
+	
+	<select id="selectad" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select * from advertisement where adxseq = (select max(adxseq) from advertisement)
+	</select>
+
+</mapper>

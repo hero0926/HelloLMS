@@ -21,5 +21,11 @@ public interface BoardDAO {
 	public List<HashMap> getAllQna(Map map);
 	
 	public int writeQna(Map map);
+	
+	public List<HashMap> repCheck(Map map);
+	
+	public Map readQna(Map map);
+	
+	public int writeQnarep(Map map);
 
 }

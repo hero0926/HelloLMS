@@ -8,32 +8,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ja.id.dao.AdminMemberDAO;
+import com.ja.id.dao.UploadDAO;
 
 @Component
 @Transactional(readOnly = false)
-public class AdminMemberServiceImpl implements AdminMemberService {
+public class UploadServiceImpl implements UploadService {	
 	
 	@Autowired
-	AdminMemberDAO dao;
+	UploadDAO dao;
 
 	@Override
-	public List<HashMap> selectMember(Map map) {
+	public void updatead(Map map) throws Exception {
 		// TODO Auto-generated method stub
-		return dao.selectMember(map);
+		
+		dao.updatead(map);
+
 	}
 
 	@Override
-	public int deleteMember(Map map) {
+	public List<HashMap> selectad(Map map) {
 		// TODO Auto-generated method stub
-		return dao.deleteMember(map);
-	}
-	
-	
-	@Override
-	public int updateMemberT(Map map) {
-		// TODO Auto-generated method stub
-		return dao.updateMemberT(map);
+		System.out.println("어디까지된겨?? - 서비스단");
+		return dao.selectad(map);
 	}
 
 }

@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ja.id.service.AdminMemberService;
+import com.ja.id.service.UploadService;
+import com.ja.id.service.UploadServiceImpl;
 
 @RequestMapping(value = "/admin")
 @Controller
@@ -33,8 +35,6 @@ public class AdminMemberController {
 		return "member/ad_memlist";
 		
 	}
-	
-	
 
 	@RequestMapping(value="/deleteMember")
 	public String deleteMember(Locale locale, Model model, @RequestParam Map map) {
@@ -58,6 +58,8 @@ public class AdminMemberController {
 	}
 	
 	
+	
+	//회원 구분 바꾸기
 	@RequestMapping(value = "/updateMemberT")
 	public String updateMemberT(Model model, @RequestParam Map map){
 		
@@ -76,7 +78,7 @@ public class AdminMemberController {
 		}
 		model.addAttribute("forward_url", "/admin/member");
 		
-		return "common/common_alert";
+		return "member/ad_updateMemberT";
 		
 		
 	}

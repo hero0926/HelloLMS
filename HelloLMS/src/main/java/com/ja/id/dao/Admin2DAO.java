@@ -22,4 +22,6 @@ public interface Admin2DAO {
 
 	public int lectureMod(Map map);
 
+	public int statusUpdate(Map map);
+
 }

@@ -22,7 +22,13 @@ public interface BoardService {
 
 	public int writeQna(Map map) throws Exception;
 
-	public Object readQna(Map map);
-
 	List<HashMap> getAllQna(Map map);
+	
+	List<HashMap> repCheck(Map map);
+	
+	public Map readQna(Map map);
+	
+	public int writeQnarep(Map map) throws Exception;
+	
+	
 }

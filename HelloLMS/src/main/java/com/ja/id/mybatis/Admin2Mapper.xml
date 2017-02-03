@@ -5,16 +5,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.ja.id.mybatis.Admin2Mapper">
 	
 	<select id="getLectureList" resultType="java.util.HashMap" parameterType="java.util.HashMap">
-	    SELECT a.lxseq, a.lxnum, a.lxname, b.coxname,
-			a.lxlink, a.lxfile, count(c.qxseq) qxcnt, b.coxname
+	    SELECT a.lxseq, a.lxnum, a.lxname, b.coxname, a.lxlink, a.lxfile, count(c.qxseq) qxcnt, b.coxname
 		FROM lecture a
 		LEFT OUTER JOIN quiz c
 		ON a.lxseq = c.lxseq
 		, course b
 		WHERE a.coxseq = #{coxseq}
-		and a.coxseq = b.coxseq
-		group by a.lxseq, a.lxnum, a.lxname, b.coxname, a.lxlink, a.lxfile, b.coxname
-		order by a.lxnum asc
+			AND a.coxseq = b.coxseq
+		GROUP BY a.lxseq, a.lxnum, a.lxname, b.coxname, a.lxlink, a.lxfile, b.coxname
+		ORDER BY a.lxnum asc
 	</select>
 	
 	<select id="modLecture" resultType="java.util.HashMap" parameterType="java.util.HashMap">
@@ -30,12 +29,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		UPDATE lecture
 		SET regdate = regdate 
 		<if test="lxname != null">
-			,lxname=#{lxname}</if>
+			, lxname=#{lxname}
+		</if>
 		<if test="lxlink != null">
-	    	,lxlink=#{lxlink}
+	    	, lxlink=#{lxlink}
+	    	, lxtype=#{lxtype}
 	    </if>
 	    <if test="lxfile != null">
-	    	,lxfile=#{lxfile}
+	    	, lxfile=#{lxfile}
 	    </if>
 		WHERE coxseq=#{coxseq}
 			AND lxseq=#{lxseq}
@@ -63,12 +64,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</delete>
 	
 	<insert id="insertLecture" parameterType="java.util.HashMap">
-		INSERT INTO lecture (lxnum, lxname, lxfile, regdate, coxseq, mxseq)
-		VALUES (#{lxnum}, #{lxname}, #{fileName}, date_format(now(), '%Y%m%d'), #{coxseq}, #{USEQ})
+		INSERT INTO lecture (lxnum, lxname, lxfile, regdate, coxseq, mxseq, lxtype, lxlink)
+		VALUES (#{lxnum}, #{lxname}, #{fileName}, date_format(now(), '%Y%m%d'), #{coxseq}, #{USEQ}, #{lxtype}, #{lxlink})
 	</insert>
 	
 	<select id="getApplyList" resultType="java.util.HashMap" parameterType="java.util.HashMap">
-	    SELECT a.axstatus, a.regdate, b.coxname, c.mxname, c.mxid
+	    SELECT a.axstatus, a.regdate, a.axseq, b.coxname, c.mxname, c.mxid
 		FROM apply a
 		  RIGHT OUTER JOIN course b
 		  ON a.coxseq = b.coxseq
@@ -76,5 +77,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		  ON a.mxseq = c.mxseq
 		WHERE a.coxseq=#{coxseq}
 	</select>
+	
+	<update id="statusUpdate" parameterType="java.util.HashMap">
+		UPDATE apply
+		SET
+		<choose>
+			<when test='status=="R"'>
+				axstatus='A'
+			</when>
+			<when test='status=="A"'>
+				axstatus='C'
+			</when>
+			<when test='status=="C"'>
+				axstatus='A'
+			</when>
+		</choose>
+		WHERE axseq = #{axseq}
+	</update>
 
 </mapper>

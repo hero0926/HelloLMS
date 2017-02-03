@@ -75,4 +75,12 @@ public class Admin2ServiceImpl implements Admin2Service{
 		return adminDAO.lectureMod(map);
 	}
 
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
+	public int statusUpdate(Map map) throws Exception {
+		// TODO Auto-generated method stub
+		return adminDAO.statusUpdate(map);
+	}
+
+
 }

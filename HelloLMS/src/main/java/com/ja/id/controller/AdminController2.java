@@ -123,7 +123,8 @@ public class AdminController2 {
 	
 	@RequestMapping(value = "/lectureInsert", method = {RequestMethod.POST, RequestMethod.GET})
 	public String lectureInsert(Locale locale, Model model, HttpSession session, @RequestParam Map map, @RequestParam(value = "lxfile") List<MultipartFile> files, String uploadpath) throws Exception {
-		
+		System.out.println("lectureInsert-----------------------------"+map);
+		map.put("lxtype", map.get("lxtype"));
 		model.addAttribute("coxseq", map.get("coxseq"));
 		String fileName = "";
 		for (int i = 0; i < files.size(); i++) {
@@ -173,7 +174,9 @@ public class AdminController2 {
 	
 	@RequestMapping(value = "/lectureMod", method = {RequestMethod.POST, RequestMethod.GET})
 	public String lectureMod(Locale locale, Model model, HttpSession session, @RequestParam Map map, @RequestParam(value = "lxfile") List<MultipartFile> files, String uploadpath) throws Exception {
-		
+		System.out.println("lectureMod-----------------------------"+map);
+		//map.put("lxtype", Integer.parseInt(map.get("selCate").toString()));
+		map.put("lxtype", map.get("lxtype"));
 		model.addAttribute("coxseq", map.get("coxseq"));
 		String fileName = "";
 		for (int i = 0; i < files.size(); i++) {
@@ -238,7 +241,7 @@ public class AdminController2 {
 	
 	@RequestMapping(value = "/historyPopup", method = {RequestMethod.POST, RequestMethod.GET})
 	public String historyPopup(Locale locale, Model model, HttpSession session, @RequestParam Map map) throws Exception {
-		
+		//adminService.getHistory(map);
 		
 		return "lecture/ad_historyPopup";
 	}
