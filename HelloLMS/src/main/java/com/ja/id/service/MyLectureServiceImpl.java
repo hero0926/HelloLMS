@@ -92,5 +92,12 @@ public class MyLectureServiceImpl implements MyLectureService{
 		// TODO Auto-generated method stub
 		return mylectureDAO.applyCourseDelete(map);
 	}
+
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
+	public List<HashMap> getHistory(Map map) throws Exception {
+		// TODO Auto-generated method stub
+		return mylectureDAO.getHistory(map);
+	}
 	
 }

@@ -36,7 +36,7 @@ function renderQuestion(){
 		_("test_status").innerHTML = "퀴즈 완료";
 		pos = 0;
 		correct = 0;
-		test.innerHTML += "<button type='button' class='btn btn-success' onclick='window.close();'>확인</button>"
+		test.innerHTML += "<button type='button' class='btn btn-success' onclick='window.close(); opener.parent.location.reload();'>확인</button>"
 		return false;
 	}
 	_("test_status").innerHTML = "퀴즈 "+questions.length+" 문제 중 "+(pos+1)+"번 문제";
@@ -66,7 +66,6 @@ function checkAnswer(){
 }
 
 function doAjax(qxseq, qaxans, qaxresult, qaxseq) {
-	
 	//alert(qxseq+":"+qaxans+":"+ qaxresult);
 	$.ajax({
 		type : "POST",

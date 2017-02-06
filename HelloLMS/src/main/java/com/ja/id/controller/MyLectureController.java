@@ -132,6 +132,11 @@ public class MyLectureController {
 		
 		map.put("USEQ", session.getAttribute("USEQ"));
 		
+		List<HashMap> historyList;
+		historyList = mylectureService.getHistory(map);
+		
+		model.addAttribute("historyList", historyList);
+		
 		return "mylecture/historypopup";
 	}
 	
@@ -176,8 +181,6 @@ public class MyLectureController {
 	@RequestMapping(value = "/lexstudy", method = {RequestMethod.POST, RequestMethod.GET}, produces = "text/plain;charset=UTF-8")
 	@ResponseBody
 	public String lexstudy(Locale locale, Model model, HttpSession session, @RequestParam Map map, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		Gson gson = new Gson();
-		String g = gson.toJson(map);
 		
 		map.put("USEQ", session.getAttribute("USEQ"));
 		
@@ -189,7 +192,7 @@ public class MyLectureController {
 			mylectureService.lexstudyupdate(map);
 		}
 		mylectureService.lexstudyloginsert(map);
-		
+		System.out.println("===================================sssssss");
 		return "";
 	}
 	

@@ -9,5 +9,7 @@ public interface UploadService {
 	public void updatead(Map map) throws Exception;
 
 	public List<HashMap> selectad(Map map);
+	
+	public List<HashMap> selectcourse(Map map);
 
 }

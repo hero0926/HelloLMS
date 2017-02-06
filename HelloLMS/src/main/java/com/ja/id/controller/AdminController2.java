@@ -116,8 +116,6 @@ public class AdminController2 {
 		List<HashMap> cateList = adminService.selectCode(map);
 		model.addAttribute("cateList", cateList);
 		
-		System.out.println("lectureInsertPage-----------------------"+model);
-		
 		return "lecture/ad_lectureInsert";
 	}
 	
@@ -221,6 +219,7 @@ public class AdminController2 {
 		model.addAttribute("list", applyList);
 		model.addAttribute("coxname", applyList.get(0).get("coxname"));
 		model.addAttribute("coxseq", map.get("coxseq"));
+		model.addAttribute("mxseq", map.get("mxseq"));
 		
 		return "course/ad_courseApplyMemberList";
 	}
@@ -241,9 +240,28 @@ public class AdminController2 {
 	
 	@RequestMapping(value = "/historyPopup", method = {RequestMethod.POST, RequestMethod.GET})
 	public String historyPopup(Locale locale, Model model, HttpSession session, @RequestParam Map map) throws Exception {
-		//adminService.getHistory(map);
+		
+		List<HashMap> historyList;
+		historyList = adminService.getHistory(map);
+		
+		model.addAttribute("historyList", historyList);
 		
 		return "lecture/ad_historyPopup";
+	}
+	
+	@RequestMapping(value = "/allApplyStatus", method = {RequestMethod.POST, RequestMethod.GET})
+	public String allApplyStatus(Locale locale, Model model, HttpSession session, @RequestParam Map map) throws Exception {
+		
+		adminService.allApplyStatus(map);
+		
+		List<HashMap> applyList;
+		applyList = adminService.getApplyList(map);
+		
+		model.addAttribute("list", applyList);
+		model.addAttribute("coxname", applyList.get(0).get("coxname"));
+		model.addAttribute("coxseq", map.get("coxseq"));
+		
+		return "course/ad_courseApplyMemberList";
 	}
 	
 }

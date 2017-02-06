@@ -25,6 +25,7 @@
 		
 		function checkVal() {
 			if(confirm("자료를 등록 하시겠습니까?")){
+				var ok=true;
 				if($(':radio[name="txtype"]:checked').val()=="1"){
 					$('#txcorrect').val($(':radio[name="corr"]:checked').val());
 				} else if($(':radio[name="txtype"]:checked').val()=="3"){
@@ -32,18 +33,32 @@
 						$('#txcorrect').val($(':radio[name="corr"]:checked').val());
 					}else{
 						alert("OX의 경우엔 1번(O)과 2번(X) 만 선택할 수 있습니다.");
+						ok=false;
 						return false;
 					}
 				}
-				if($("input[required='required']").val()=='') {
-					alert("입력이 필요한 항목이 있습니다.");
+				$("input[required='required']").each(function(index){
+					if($(this).val()==''){
+						alert("입력이 필요한 항목이 있습니다.");
+						$(this).focus();
+						ok=false;
+						return false;
+					}
+		        });
+				$("textarea[required='required']").each(function(index){
+					if($(this).val()==''){
+						alert("입력이 필요한 항목이 있습니다.");
+						$(this).focus();
+						ok=false;
+						return false;
+					}
+		        });
+				if(ok){
+					return true;
+				}else{
 					return false;
 				}
-				if($("textarea[required='required']").val()=='') {
-					alert("입력이 필요한 항목이 있습니다.");
-					return false;
-				}
-
+				
 				return true;
 			}
 		}

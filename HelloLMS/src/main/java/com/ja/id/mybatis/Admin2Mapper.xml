@@ -16,6 +16,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ORDER BY a.lxnum asc
 	</select>
 	
+	<select id="getHistory" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		SELECT * 
+		FROM lexstudylog a, lecture b
+		WHERE a.mxseq = #{mxseq}
+			AND a.lxseq = b.lxseq
+			AND b.coxseq = #{coxseq}
+	</select>
+	
 	<select id="modLecture" resultType="java.util.HashMap" parameterType="java.util.HashMap">
 	    SELECT a.lxname, a.lxlink, a.lxfile, b.coxname, a.lxtype, a.lxnum
 	    FROM lecture a
@@ -28,7 +36,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="lectureMod" parameterType="java.util.HashMap">
 		UPDATE lecture
 		SET regdate = regdate 
-		<if test="lxname != null">
+		<!-- <if test="lxname != null">
 			, lxname=#{lxname}
 		</if>
 		<if test="lxlink != null">
@@ -37,9 +45,35 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    </if>
 	    <if test="lxfile != null">
 	    	, lxfile=#{lxfile}
-	    </if>
+	    </if> -->
+	    <choose>
+			<when test='lxname != ""'>
+				, lxname=#{lxname}
+			</when>
+			<when test='lxlink != ""'>
+				, lxlink=#{lxlink}
+	    		, lxtype=#{lxtype}
+			</when>
+			<when test='lxfile != ""'>
+	    		, lxfile=#{lxfile}
+			</when>
+		</choose>
 		WHERE coxseq=#{coxseq}
 			AND lxseq=#{lxseq}
+	</update>
+	
+	<update id="allApplyStatus" parameterType="java.util.HashMap">
+		UPDATE apply
+		SET
+		<choose>
+			<when test='status=="A"'>
+				axstatus='A'
+			</when>
+			<when test='status=="C"'>
+				axstatus='C'
+			</when>
+		</choose>
+		WHERE coxseq = #{coxseq}
 	</update>
 	
 	<select id="selectCode" resultType="java.util.HashMap" parameterType="java.util.HashMap">
@@ -69,13 +103,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	
 	<select id="getApplyList" resultType="java.util.HashMap" parameterType="java.util.HashMap">
-	    SELECT a.axstatus, a.regdate, a.axseq, b.coxname, c.mxname, c.mxid
+	    SELECT a.axstatus, a.regdate, a.axseq, b.coxname, c.mxname, c.mxid, c.mxseq
 		FROM apply a
 		  RIGHT OUTER JOIN course b
 		  ON a.coxseq = b.coxseq
-		  LEFT OUTER JOIN member c
-		  ON a.mxseq = c.mxseq
+		  , member c
 		WHERE a.coxseq=#{coxseq}
+			AND a.mxseq = c.mxseq
 	</select>
 	
 	<update id="statusUpdate" parameterType="java.util.HashMap">

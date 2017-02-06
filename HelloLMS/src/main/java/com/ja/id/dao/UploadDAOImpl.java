@@ -31,8 +31,15 @@ public class UploadDAOImpl implements UploadDAO {
 		// TODO Auto-generated method stub
 		UploadMapper mapper = sqlSession.getMapper(UploadMapper.class);
 
-		System.out.println("어디까지된겨?? - dao단");
 		return mapper.selectad(map);
+	}
+
+
+	@Override
+	public List<HashMap> selectcourse(Map map) {
+		// TODO Auto-generated method stub
+		UploadMapper mapper = sqlSession.getMapper(UploadMapper.class);
+		return mapper.selectcourse(map);
 	}
 
 }

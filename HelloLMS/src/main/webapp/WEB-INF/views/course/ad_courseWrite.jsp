@@ -19,15 +19,33 @@
 		
 		function checkVal() {
 			if(confirm("자료를 등록 하시겠습니까?")){
-				if($("input[required='required']").val()=='') {
-					alert("입력이 필요한 항목이 있습니다.");
+				var ok=true;
+				$("input[required='required']").each(function(index){
+					if($(this).val()==''){
+						alert("입력이 필요한 항목이 있습니다.");
+						$(this).focus();
+						ok=false;
+						return false;						
+					}
+		        });
+				$("input[type='number']").each(function(index){
+					if($(this).val()=='') {
+						$(this).val("0");
+					}
+					if(!$.isNumeric($(this).val())) {
+						alert("숫자를 입력해야 합니다.");
+						$(this).focus();
+						ok=false;
+						return false;
+					}
+
+		        });
+				if(ok){
+					return true;
+				}else{
 					return false;
 				}
-				//$("input[type='number']").attr('value', '333');
-				if(!$.isNumeric($("input[type='number']").val())) {
-					return false;
-				}
-				return true;
+				
 					
 			} else {
 				return false;
@@ -63,10 +81,10 @@
 			<fmt:parseDate value="${course.coxend}" var="dateFmt2" pattern="yyyyMMdd"/>
 			<fmt:parseDate value="${course.coxreqstart}" var="dateFmt3" pattern="yyyyMMdd"/>
 			<fmt:parseDate value="${course.coxreqend}" var="dateFmt4" pattern="yyyyMMdd"/>
-			과정시작일 : <input type="date" class="span3" id="coxstart" name="coxstart" placeholder="과정시작일" value='<fmt:formatDate value="${dateFmt1}" pattern="yyyy-MM-dd"/>' required="required"><br>
-			과정종료일 : <input type="date" class="span3" id="coxend" name="coxend" placeholder="과정종료일" value='<fmt:formatDate value="${dateFmt2}" pattern="yyyy-MM-dd"/>' required="required"><br>
-			수강신청시작일 : <input type="date" class="span3" id="coxreqstart" name="coxreqstart" placeholder="수강신청시작일" value='<fmt:formatDate value="${dateFmt3}" pattern="yyyy-MM-dd"/>' required="required"><br>
-			수강신청종료일 : <input type="date" class="span3" id="coxreqend" name="coxreqend" placeholder="수강신청종료일" value='<fmt:formatDate value="${dateFmt4}" pattern="yyyy-MM-dd"/>' required="required"><br>
+			과정시작일 : <input type="date" class="span3" id="coxstart" name="coxstart" value='<fmt:formatDate value="${dateFmt1}" pattern="yyyy-MM-dd"/>' required="required"><br>
+			과정종료일 : <input type="date" class="span3" id="coxend" name="coxend" value='<fmt:formatDate value="${dateFmt2}" pattern="yyyy-MM-dd"/>' required="required"><br>
+			수강신청시작일 : <input type="date" class="span3" id="coxreqstart" name="coxreqstart" value='<fmt:formatDate value="${dateFmt3}" pattern="yyyy-MM-dd"/>' required="required"><br>
+			수강신청종료일 : <input type="date" class="span3" id="coxreqend" name="coxreqend" value='<fmt:formatDate value="${dateFmt4}" pattern="yyyy-MM-dd"/>' required="required"><br>
 			강사 : <select class="span2" name="tuxseq">
 					<c:forEach var="tutor" items="${tutorList}">
 						<option value='<c:out value="${tutor.tuxseq }"/>' <c:if test="${ !empty course && tutor.tuxseq==course.tuxseq }">selected</c:if>><c:out value="${tutor.mxname }"/></option>

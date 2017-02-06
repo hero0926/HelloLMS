@@ -31,9 +31,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ja.id.domain.MemberVO;
 import com.ja.id.dto.LoginDTO;
-import com.ja.id.service.AdminMemberService;
 import com.ja.id.service.MemberService;
-import com.ja.id.service.UploadService;
 import com.ja.id.util.Email;
 import com.ja.id.util.EmailSender;
 
@@ -62,12 +60,14 @@ public class MemberController {
 	@RequestMapping(value = "/register1")
 	public String prereg(Locale locale, Model model, @RequestParam Map map) {
 		logger.info("회원가입 약관 폼", locale);
+		
 		return "member/register1";
 	}
 	
 	@RequestMapping(value = "/register2", method=RequestMethod.GET)
 	public String register(Locale locale, Model model, @RequestParam Map map) {
-		logger.info("회원가입 하기", locale);		
+		logger.info("회원가입 하기", locale);
+		
 		return "member/register2";
 	}
 	
@@ -88,8 +88,7 @@ public class MemberController {
 	
 	@RequestMapping(value = "/loginPost", method = RequestMethod.POST)
 	public String loginPOST(LoginDTO dto, HttpSession session, Model model) throws Exception {
-		//dto.setMxoffice((int)session.getAttribute("UOFFICE"));	
-		
+		//dto.setMxoffice((int)session.getAttribute("UOFFICE"));
 		MemberVO vo = memberservice.login(dto);
 		
 		if(vo==null){
@@ -233,6 +232,26 @@ public class MemberController {
 		return buffer.toString();
 
 		}
+	
+	@RequestMapping(value ="/contact")
+	public ModelAndView contact(HttpServletRequest req, @RequestParam Map<String, Object> paramMap, ModelMap model) throws Exception{
+		
+		ModelAndView mav;		
+		
+		String name = (String) paramMap.get("name");
+		String mail = (String) paramMap.get("mail");
+		String message = (String) paramMap.get("message");					
+			
+			email.setContent(message);
+			email.setReceiver("gd3heroisme@gmail.com");
+			email.setSubject(name+"님 께서 문의사항을 보내셨습니다!");
+			
+			emailSender.SendEmail(email);
+			
+			return mav = new ModelAndView("redirect:/");
+	
+		
+	}
 
 	
 

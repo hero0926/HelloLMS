@@ -12,7 +12,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="brand" href="#">Hello LMS</a>
+          <a class="brand" href="/">Hello LMS</a>
           
 <c:if test="${!empty USEQ }">
 
@@ -34,17 +34,17 @@
               <li class="dropdown <c:if test="${ '2'==Menu }">active</c:if>">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">강의실 <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                  <li><a href="/course/main">수강신청가능한 강좌</a></li>
+                  <li><a href="/course/viewcourse">수강신청가능한 강좌</a></li>
                   <li><a href="/course/apply">진행중인 강좌</a></li>
-                  <li><a href="#">공개 강좌</a></li>
+                  <li><a href="/course/openCourse">공개 강좌</a></li>
                 </ul>
               </li>
               <li class="dropdown <c:if test="${ '3'==Menu }">active</c:if>">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">고객센터 <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                  <li><a href="/notice/">공지사항</a></li>
+                  <li><a href="/board/notice/">공지사항</a></li>
                   <li><a href="#">FAQ</a></li>
-                  <li><a href="#">Q&A</a></li>
+                  <li><a href="/board/qna?bxqgrid=1">Q&A</a></li>
                 </ul>
               </li>
             </ul>
@@ -85,7 +85,7 @@
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">고객센터 <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                  <li><a href="/notice/">공지사항</a></li>
+                  <li><a href="/board/notice/">공지사항</a></li>
                   <li><a href="#">FAQ</a></li>
                   <li><a href="#" onClick="alert('로그인 하세요.');">Q&A</a></li>
                 </ul>

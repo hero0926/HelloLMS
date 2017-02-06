@@ -143,15 +143,37 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
-	public int updateTestpaper(Map map) {
+	public int updateTestpaper(Map map) throws Exception {
 		// TODO Auto-generated method stub
-		return adminDAO.updateTestpaper(map);
+		int result = adminDAO.selectCntTestresult(map);
+		
+		if (result<1) {
+			result = adminDAO.updateTestpaper(map);
+			result = adminDAO.deleteAllTestanswer(map);
+			result = adminDAO.insertTestanswer(map);
+		} else {
+			throw new Exception();
+		}
+		
+		return result;
+
 	}
 
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
-	public int insertTestpaper(Map map) {
+	public int insertTestpaper(Map map) throws Exception {
 		// TODO Auto-generated method stub
-		return adminDAO.insertTestpaper(map);
+		
+		int result = adminDAO.insertTestpaper(map);
+		System.out.println("SEQ:" + map.get("tpxseq"));
+		if (1 == result) {
+
+			result = adminDAO.insertTestanswer(map);
+
+		} else {
+			throw new Exception();
+		}
+		
+		return result;
 	}
 
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })

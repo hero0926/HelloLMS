@@ -23,20 +23,42 @@
 
 		function checkVal() {
 			if(confirm("자료를 등록 하시겠습니까?")){
-				if($("input[required='required']").val()=='') {
-					alert("입력이 필요한 항목이 있습니다.");
-					return false;
-				}
+				var ok=true;
+				$("input[required='required']").each(function(index){
+					if($(this).val()==''){
+						alert("입력이 필요한 항목이 있습니다.");
+						$(this).focus();
+						ok=false;
+						return false;
+					}
+		        });
+				$("textarea[required='required']").each(function(index){
+					if($(this).val()==''){
+						alert("입력이 필요한 항목이 있습니다.");
+						$(this).focus();
+						ok=false;
+						return false;
+					}
+		        });
 
-				if($("textarea[required='required']").val()=='') {
-					alert("입력이 필요한 항목이 있습니다.");
+				$("input[type='number']").each(function(index){
+					if($(this).val()=='') {
+						$(this).val("0");
+					}
+					if(!$.isNumeric($(this).val())) {
+						alert("숫자를 입력해야 합니다.");
+						$(this).focus();
+						ok=false;
+						return false;
+					}
+
+		        });
+				if(ok){
+					return true;
+				}else{
 					return false;
 				}
-				//$("input[type='number']").attr('value', '333');
-				if(!$.isNumeric($("input[type='number']").val())) {
-					return false;
-				}
-				return true;
+				
 			}
 		}
 		

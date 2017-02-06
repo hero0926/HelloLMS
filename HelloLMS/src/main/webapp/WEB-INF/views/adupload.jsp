@@ -7,6 +7,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
+
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
@@ -54,6 +55,42 @@
       }
       
      </style>
+     
+     
+     <Script>
+     
+     function check(){
+    	
+    	if(document.getElementById('f1').value==""){
+    		 alert("첫번째 파일을 넣어주세요");    		 
+    		 return false;
+    	 }if(document.getElementById('f2').value==""){
+    		 alert("두번째 파일을 넣어주세요");
+    		 return false;
+    	 }if(document.getElementById('f3').value==""){
+    		 alert("세번째 파일을 넣어주세요");
+    		 return false;
+    	 }if(document.getElementById('adxurl1').value==""){
+    		 alert("첫번째 주소를 넣어주세요");
+    		 $('#adxurl1').focus();
+    		 return false;
+    	 }if(document.getElementById('adxurl2').value==""){
+    		 alert("두번째 주소를 넣어주세요");
+    		 $('#adxurl2').focus();
+    		 return false;
+    	 }if(document.getElementById('adxurl3').value==""){
+    		 alert("세번째 주소를 넣어주세요");
+    		 $('#adxurl3').focus();
+    		 return false;
+    	 }
+    	 
+    	 else{
+    		 $('#frm1').submit();
+    		 return true;
+    	 }    	 
+     }
+     
+     </Script>
 </head>
 <body>
 
@@ -63,16 +100,16 @@
 <h4>사이즈는 자동 축소됩니다.</h4><br>
 <h4>권장 사이즈는 1000x350px입니다.</h4>
 
-	<form id="frm1" action="/admin/adupload" method="post" enctype="multipart/form-data">
+	<form id="frm1" action="/admin/adupload" method="post" enctype="multipart/form-data"  onSubmit="return check(this)">
 
 		<input type="hidden" name="uploadpath" value="main">
-		<h4>첫번째 광고 <input type="file" name="file" />
+		<h4>첫번째 광고 <input type="file" name="file" id="f1"/> url <input type="text" id="adxurl1" name="adxurl1"/>
 		<br>
-		두번째 광고 <input type="file" name="file" />
+		두번째 광고 <input type="file" name="file" id="f2"/> url <input type="text" id="adxurl2" name="adxurl2"/>
 		<br>
-		세번째 광고 <input type="file" name="file" />
+		세번째 광고 <input type="file" name="file" id="f3"/> url <input type="text" id="adxurl3" name="adxurl3"/>
 		<br>
-		<button class="btn btn-inverse" type="submit">업로드</button>
+		<button class="btn btn-inverse" onclick="check()">업로드</button>
 		</h4>
 	</form>
     </div>
@@ -88,39 +125,12 @@ $(".alert").alert();
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             ${msg }
    </div>
+   
+   <hr>
+   
+   
 
 </c:if>
 
-<br><br><br><hr>
-
-<c:if test="${not empty msg}">
-
-<div class="span 4">
-   <div id="myCarousel" class="carousel slide">
-  <ol class="carousel-indicators">
-    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-    <li data-target="#myCarousel" data-slide-to="1"></li>
-    <li data-target="#myCarousel" data-slide-to="2"></li>
-  </ol>
-  <!-- Carousel items -->
-  <div class="carousel-inner">
-    <div class="active item" align="center">
-     <img class="no-resize" src="http://localhost/displayFile?fileName=${b1}" alt="">
-    </div>
-    <div class="item" align="center">    
-     <img class="no-resize"  src="http://localhost/displayFile?fileName=${b2}" alt="">
-    </div>    
-  <div class="item" align="center">    
-     <img class="no-resize"  src="http://localhost/displayFile?fileName=${b3}" alt="">
-  </div>
-    
-  </div>
-  <!-- Carousel nav -->
-  <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
-  <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
-</div>
-</div>
-
-</c:if>
 </body>
 </html>

@@ -7,27 +7,34 @@
 	<script type="text/javascript">
 			function lecturepopup(lxtype, lxlink, lxseq, coxseq){
 				var popUrl;
+				alert(lxtype);
 				if(lxtype=="12"){
 					popUrl = "lecture?lxlink="+lxlink+"&coxseq="+coxseq;
+					alert(popUrl);
 				} else if(lxtype=="11"){
 					popUrl = "/download?path=/resources/lecture&fileName="+lxlink;
 				} else if(lxtype=="13"){
 					popUrl = lxlink;
 				}
-				winopen(popUrl);
+				winopen(popUrl, "lecture");
 				doStudy(lxseq);
 			}
-			function quizpopupOpen(){
-				winopen("quizpopup");
+			function quizpopupOpen(lxseq){
+				
+				var popOption = "resizable=no, scrollbars=no, status=no, width=500, height=500, top=200, left=500"; //팝업창 옵션
+				window.open("/quiz?lxseq="+lxseq,"quiz",popOption);
+				//winopen("/quiz?lxseq="+lxseq, "quiz");
+				
+				
 /* 				var popUrl = "quizpopup";
 				var popOption = "width=370, height=360, resizable=no, scrollbars=no, status=no;";    //팝업창 옵션(optoin)
 					window.open(popUrl, "", popOption);
  */			}
 			
-			function winopen(url){
+			function winopen(url, title){
 				var popUrl = url;
-				var popOption = "width=1080, height=720, resizable=no, scrollbars=no, status=no;";    //팝업창 옵션(optoin)
-					window.open(popUrl, "", popOption);
+				var popOption = "width=1080, height=600, resizable=no, scrollbars=no, status=no;";    //팝업창 옵션(optoin)
+					window.open(popUrl, title, popOption);
 			}
 			function doStudy(lxseq) {
 				$.ajax({
@@ -36,9 +43,11 @@
 					data : {
 						lxseq : lxseq
 					},
-					dataType : "json"
+					dataType : "text"
 				//contentType: "application/json; charset=utf-8"
 				}).done(function() {
+					location.reload();
+					
 					/* $('.ajaxLayer').hide(); */
 					//alert(msg.message);
 					//var html = '<div>'+msg.message+'</div>';
@@ -63,16 +72,10 @@
 		  				<th>강의 제목</th>
 		  				<th>수강 여부</th>
 		  				<th>강의보기</th>
-		  				<th>다운로드</th>
+		  				<th>강의자료</th>
 		  				<th>Quiz</th>
 		  			</tr>
 		  			
-        			<c:forEach var="test" items="list" end="2" varStatus="status">
-        				<c:set value="${list[status.index].coxseq}" var="coxseq" />
-        			</c:forEach>
-        			<c:forEach var="test" items="list" end="2" varStatus="status">
-        				<c:set value="${list[status.index].lxseq}" var="lxseq" />
-        			</c:forEach>
 					
 	  				<c:if test="${!empty list}">
 	  					<c:forEach var="lecture" items="${list}" varStatus="status">
@@ -81,9 +84,11 @@
 								<td><c:out value="${lecture.lxname}"/></td>
 								<td><c:if test="${empty lecture.regdate}">미</c:if>수강</td>
 								<%-- <td><c:if test="${!empty lecture.lxlink}"><a href="javascript:lecturepopup('${lecture.lxtype}', '${lecture.lxlink}', '${lexture.lxseq}', '${lexture.coxseq}');"><button type="submit" class="btn">강의보기</button></a></c:if></td> --%>
-								<td><c:if test="${!empty lecture.lxlink}"><a href="javascript:lecturepopup('${lecture.lxtype}', '${lecture.lxlink}', '${lxseq}', '${coxseq}');"><button type="submit" class="btn">강의보기</button></a></c:if></td>
-								<td><c:if test="${!empty lecture.lxfile}"><a href="/download?path=/resources/lecture/&fileName=${lecture.lxfile}" ><button type="submit" class="btn" onClick="fileDown();">다운로드</button></a></c:if></td>
-								<td><c:if test="${!empty lecture.quiz}"><a href="javascript:quizpopupOpen();"><button type="submit" class="btn">Quiz</button></a></c:if></td>
+								<td><c:if test="${!empty lecture.lxlink}"><a href="javascript:lecturepopup('${lecture.lxtype}', '${lecture.lxlink}', '${lecture.lxseq}', '${lecture.coxseq}');"><button type="submit" class="btn">강의보기&nbsp;<i class="icon-facetime-video"></i></button></a></c:if></td>
+								<td><c:if test="${!empty lecture.lxfile}"><a href="/download?path=/resources/lecture/&fileName=${lecture.lxfile}" ><c:out value="${lecture.lxfile}"/> <i class="icon-download-alt"></i></a></c:if></td>
+								<td><c:if test="${lecture.qxcnt>0}"><a href="javascript:quizpopupOpen('<c:out value="${lecture.lxseq}"/>');"><button type="submit" class="btn<c:if test="${lecture.qaxcnt>0}"> btn-link</c:if>">Quiz</button></a></c:if>
+									
+								</td>
 								</tr>
 						</c:forEach>
 					</c:if>

@@ -18,6 +18,8 @@ public interface BoardDAO {
 	
 	public int deleteNotice(Map map);
 	
+	public List<HashMap> searchNotice(Map map);
+	
 	public List<HashMap> getAllQna(Map map);
 	
 	public int writeQna(Map map);
@@ -27,5 +29,15 @@ public interface BoardDAO {
 	public Map readQna(Map map);
 	
 	public int writeQnarep(Map map);
-
+	
+	public Map tutor(Map map);
+	
+	public int writeComment(Map map);
+	
+	public List readComment(Map map);
+	
+	public int updateJoayo(Map map);
+	
+	public int selectJoayo(Map map);
+	
 }

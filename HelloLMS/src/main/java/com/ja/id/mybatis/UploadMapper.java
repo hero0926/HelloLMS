@@ -10,4 +10,6 @@ public interface UploadMapper {
 
 	public List<HashMap> selectad(Map map);
 
+	public List<HashMap> selectcourse(Map map);
+
 }

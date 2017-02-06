@@ -53,6 +53,12 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 	
 	@Override
+	public List<HashMap> searchNotice(Map map) {
+		BoardMapper mapper=sqlSession.getMapper(BoardMapper.class);
+		return mapper.searchNotice(map);
+	}
+	
+	@Override
 	public List<HashMap> getAllQna(Map map) {
 		BoardMapper mapper=sqlSession.getMapper(BoardMapper.class);
 		return mapper.getAllQna(map);
@@ -80,6 +86,38 @@ public class BoardDAOImpl implements BoardDAO {
 	public int writeQnarep(Map map) {
 		BoardMapper mapper=sqlSession.getMapper(BoardMapper.class);
 		return mapper.writeQnarep(map);
+	}
+	
+	@Override
+	public Map tutor(Map map) {
+		BoardMapper mapper=sqlSession.getMapper(BoardMapper.class);
+		return mapper.tutor(map);
+	}
+	
+	@Override
+	public int writeComment(Map map) {
+		// TODO Auto-generated method stub
+		BoardMapper mapper=sqlSession.getMapper(BoardMapper.class);
+		return mapper.writeComment(map);
+	}
+
+	@Override
+	public List<HashMap> readComment(Map map) {
+		// TODO Auto-generated method stub
+		BoardMapper mapper=sqlSession.getMapper(BoardMapper.class);
+	    return mapper.readComment(map);
+	}
+
+	@Override
+	public int updateJoayo(Map map) {
+		BoardMapper mapper=sqlSession.getMapper(BoardMapper.class);
+		return mapper.updateJoayo(map);
+	}
+
+	@Override
+	public int selectJoayo(Map map) {
+		BoardMapper mapper=sqlSession.getMapper(BoardMapper.class);
+		return mapper.selectJoayo(map);
 	}
 
 }

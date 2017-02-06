@@ -46,4 +46,10 @@ public interface AdminDAO {
 
 	public int deleteTestpaper(Map map);
 
+	public int insertTestanswer(Map map);
+
+	public int selectCntTestresult(Map map);
+
+	public int deleteAllTestanswer(Map map);
+
 }

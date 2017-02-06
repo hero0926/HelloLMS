@@ -93,4 +93,11 @@ public class MyLectureDAOImpl implements MyLectureDAO{
 		return mapper.applyCourseDelete(map);
 	}
 
+	@Override
+	public List<HashMap> getHistory(Map map) {
+		// TODO Auto-generated method stub
+		MyLectureMapper mapper = sqlSession.getMapper(MyLectureMapper.class);
+		return mapper.getHistory(map);
+	}
+
 }

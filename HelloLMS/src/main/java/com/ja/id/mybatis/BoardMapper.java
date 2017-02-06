@@ -28,4 +28,18 @@ public interface BoardMapper {
 	
 	public int writeQnarep(Map map);
 	
+	public List<HashMap> searchNotice(Map map);
+	
+	public Map tutor(Map map);
+	
+	public int writeComment(Map map);
+
+	public List<HashMap> readComment(Map map);
+	
+	public int updateJoayo(Map map);
+	
+	public int selectJoayo(Map map);
+
+	
+	
 }

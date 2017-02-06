@@ -58,6 +58,7 @@ session.setAttribute("UDIV", "S");
   </head>
 <body>
 <%@ include file="../include/menu.jsp"%>
+<f:parseDate value="${notice.regdate}" var="dateFmt" pattern="yyyyMMdd" />
 <input type="hidden" name="bxngrid" value="${notice.bxngrid}">
 <input type="hidden" name="bxncnt" value="${notice.bxncnt}">
 <table border="0">
@@ -65,7 +66,7 @@ session.setAttribute("UDIV", "S");
 				<td>글쓴이</td>
 				<td>${UOFFICE}</td>
 				<td>작성날짜</td>
-				<td>${notice.regdate}</td>
+				<td><f:formatDate value="${dateFmt}" pattern="yyyy. MM. dd" /></td>
 				<td>조회수</td>
 				<td>${notice.bxncnt}</td>
 			</tr>

@@ -12,5 +12,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectad" resultType="java.util.HashMap" parameterType="java.util.HashMap">
 		select * from advertisement where adxseq = (select max(adxseq) from advertisement)
 	</select>
+	
+	<select id="selectcourse" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select * from course limit 6;
+	</select>
 
 </mapper>

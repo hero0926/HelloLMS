@@ -139,7 +139,7 @@ function chk_radio()
      <th> 아이디 </th>
      <td> 
      <input type="hidden" id="idChk" value="N" />
-     <input type = "text" name = "mxid" id="mxid" onkeyup="trimcheck(this);" onchange="trimcheck(this);" onkeydown="iskor(this);" style="ime-mode:disabled;"  >
+     <input type = "text" required="required" name = "mxid" id="mxid" onkeyup="trimcheck(this);" onchange="trimcheck(this);" onkeydown="iskor(this);" style="ime-mode:disabled;"  >
      <input type="button" value="Id체크" onclick="javascript:chkDupId();" />    
      </td>    
      
@@ -147,18 +147,18 @@ function chk_radio()
     
     <tr>
      <th> 비밀번호 </th>
-     <td> <input type = "password" name = "mxpw" onkeyup="trimcheck(this);" onchange="trimcheck(this);" ></td>
+     <td> <input type = "password" required="required" name = "mxpw" onkeyup="trimcheck(this);" onchange="trimcheck(this);" ></td>
      </tr>
      
      <tr>
      <th> 이름 </th>
-    <td> <input type = "text" name = "mxname" onkeyup="trimcheck(this);" onchange="trimcheck(this);" ></td>
+    <td> <input type = "text" required="required" name = "mxname" onkeyup="trimcheck(this);" onchange="trimcheck(this);" ></td>
      </tr>
      
  	<tr>
      <th> 이메일 </th>
      <td>     
- <input name="email1" type="text" class="box" id="email1"  onkeyup='call()' onkeydown ="insertChk();"> @
+ <input name="email1" type="text" class="box" id="email1" required="required"  onkeyup='call()' onkeydown ="insertChk();"> @
  <input name="email2" type="text" class="box" id="email2" value="" onkeyup='call()' >
  	<select name="email_select" class="box" id="email_select" onclick='call()' onChange="checkemailaddy();">
     <option value="" selected>선택</option>

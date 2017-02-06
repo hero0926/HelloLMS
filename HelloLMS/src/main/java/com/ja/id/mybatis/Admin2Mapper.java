@@ -25,4 +25,8 @@ public interface Admin2Mapper {
 
 	public int statusUpdate(Map map);
 
+	public List<HashMap> getHistory(Map map);
+
+	public int allApplyStatus(Map map);
+
 }

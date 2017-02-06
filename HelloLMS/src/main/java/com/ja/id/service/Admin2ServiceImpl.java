@@ -82,5 +82,19 @@ public class Admin2ServiceImpl implements Admin2Service{
 		return adminDAO.statusUpdate(map);
 	}
 
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
+	public List<HashMap> getHistory(Map map) throws Exception {
+		// TODO Auto-generated method stub
+		return adminDAO.getHistory(map);
+	}
+
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
+	public int allApplyStatus(Map map) throws Exception {
+		// TODO Auto-generated method stub
+		return adminDAO.allApplyStatus(map);
+	}
+
 
 }

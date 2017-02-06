@@ -35,6 +35,7 @@
 			  				<th>수강 신청일</th>
 			  				<th>승인여부</th>
 			  				<th>수강 취소</th>
+			  				<th>평가 결과</th>
 			  			</tr>
 	  				</div>
   				
@@ -66,10 +67,12 @@
 										<c:when test="${applycourse.axstatus=='R'}">
 											<button type="button" onClick="Delete('${mxseq}', '${applycourse.coxseq}');">수강취소</button>
 										</c:when>
-										<c:otherwise>
-											
-										</c:otherwise>
 									</c:choose></td>
+								<td><c:choose>
+										<c:when test="${applycourse.axresult=='D'}">
+											미
+										</c:when>
+									</c:choose>이수</td>
 							</tr>
 						</c:forEach>
 					</c:if>

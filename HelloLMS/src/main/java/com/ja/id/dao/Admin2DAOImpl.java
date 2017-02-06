@@ -79,4 +79,18 @@ public class Admin2DAOImpl implements Admin2DAO{
 		return mapper.statusUpdate(map);
 	}
 
+	@Override
+	public List<HashMap> getHistory(Map map) {
+		// TODO Auto-generated method stub
+		Admin2Mapper mapper = sqlSession.getMapper(Admin2Mapper.class);
+		return mapper.getHistory(map);
+	}
+
+	@Override
+	public int allApplyStatus(Map map) {
+		// TODO Auto-generated method stub
+		Admin2Mapper mapper = sqlSession.getMapper(Admin2Mapper.class);
+		return mapper.allApplyStatus(map);
+	}
+
 }

@@ -2,67 +2,52 @@
 <%@ include file="../include/header.jsp" %>
 <%@ include file="../include/ad_menu.jsp" %>
 	<script>
-		$(document).ready(function (e){
-			$('#goSelect').click(function(){
-				$('#form1').attr('action','/admin/courseList');
-				$('#form1').submit();
-			});
-			$('#goInsert').click(function(){
-				$('#form1').attr('action','/admin/courseWriteForm');
-				$('#form1').submit();
-			})
-		});
-		
-		function goDelete(n) {
-			if(confirm("과정을 삭제하시겠습니까? 과정에 관한 모든 정보가 함께 삭제 됩니다.")){
-				$('#coxseq').val(n);
-				$('#coxoffice2').val($('#coxoffice1').val());
-				$('#frm2').attr('action','/admin/courseDelete');
-				$('#frm2').submit();
+		function allApplyStatus(status) {
+			$('#status').val(status);
+			$('#frm2').attr('action','/admin/course/allApplyStatus');
+			$('#frm2').submit();
+		}
+		function goStatus(axseq, status) {
+			$('#axseq').val(axseq);
+			$('#status').val(status);
+			$('#frm2').attr('action','/admin/course/applyStatusMod');
+			$('#frm2').submit();
+		}
+		function historyPopup(coxseq, mxseq){
+			var popUrl = "historyPopup?coxseq="+coxseq+"&mxseq="+mxseq;
+			var popOption = "width=1080, height=720, resizable=no, scrollbars=no, status=no;";    //팝업창 옵션(optoin)
+				window.open(popUrl, "history", popOption);
 			}
-		}
-		function goWrite(n) {
-			$('#coxseq').val(n);
-			$('#coxoffice2').val($('#coxoffice1').val());
-			$('#frm2').attr('action','/admin/courseWriteForm');
-			$('#frm2').submit();
-		}
-		function goLecture(coxseq) {
-			$('#coxseq').val(coxseq);
-			$('#frm2').attr('action','/admin/lecture/lectureList');
-			$('#frm2').submit();
-		}
-		function goApply(coxseq) {
-			$('#coxseq').val(coxseq);
-			//$('#coxoffice2').val($('#coxoffice1').val());
-			$('#frm2').attr('action','/admin/course/applyList');
-			$('#frm2').submit();
-		}
-
 	</script>
 	
 	<div class="container">
 	
 		<!-- Main hero unit for a primary marketing message or call to action -->
 		<div class="page-header">
-			<h1>수강생 리스트 <small>...과정 신청 수강생 리스트 입니다.</small></h1>
+			<h1>수강생 리스트<small>...과정 신청 수강생 리스트 입니다.</small></h1>
 		</div>
 		
 		<form id="frm2" method="post">
-			<input type="hidden" name="coxseq" id="coxseq" />
-			<input type="hidden" name="coxoffice" id="coxoffice2" />
+			<input type="hidden" name="axseq" id="axseq" />
+			<input type="hidden" name="status" id="status" />
+			<input type="hidden" name="coxseq" id="coxseq" value="${coxseq}" />
 		</form>
 		
 		<!-- Example row of columns -->
 		<div class="row">
 			<div class="span12">
-				<h3>  </h3>
-				
+
 				<div class="alert alert-info">
-					과정명: ${coxname}
+					<h3>과정명: ${coxname}</h3>
 				</div>
 				
-				<c:if test="${ !empty list }">
+				<div style="float: right;" >	
+					<button class="btn btn-small" type="button" onClick="allApplyStatus('A');">전체 수강 승인</button>&nbsp;&nbsp;
+					<button class="btn btn-small" type="button" onClick="allApplyStatus('C');">전체 수강 취소</button>
+				</div>
+				<br><hr>
+				
+				<c:if test="${!empty list}">
 					<table class="table table-bordered">
 						<tr>
 							<th>번호</th>
@@ -76,48 +61,57 @@
 						
 						<c:forEach var="apply" items="${list}" varStatus="status">
 							<tr>
-								<td></td>
-								<td><a href="javascript:goWrite('${course.coxseq }');"><c:out value="${course.coxname }"/></a></td>
+								<td>${status.count}</td>
+								<td><c:out value="${apply.mxid}"/></td>
+								<td><c:out value="${apply.mxname}"/></td>
 								<td>
-									<fmt:parseDate value="${course.coxreqstart}" var="dateFmt1" pattern="yyyyMMdd"/>
-									<fmt:formatDate value="${dateFmt1}" pattern="yyyy-MM-dd"/>~
-									<fmt:parseDate value="${course.coxreqend}" var="dateFmt2" pattern="yyyyMMdd"/>
-									<fmt:formatDate value="${dateFmt2}" pattern="yyyy-MM-dd"/>
+									<fmt:parseDate value="${apply.regdate}" var="dateFmt3" pattern="yyyyMMdd"/>
+									<fmt:formatDate value="${dateFmt3}" pattern="yyyy-MM-dd"/>
 								</td>
 								<td>
-									<fmt:parseDate value="${course.coxstart}" var="dateFmt3" pattern="yyyyMMdd"/>
-									<fmt:formatDate value="${dateFmt3}" pattern="yyyy-MM-dd"/>~
-									<fmt:parseDate value="${course.coxend}" var="dateFmt4" pattern="yyyyMMdd"/>
-									<fmt:formatDate value="${dateFmt4}" pattern="yyyy-MM-dd"/>
+									<c:if test="${apply.axstatus=='R'}">
+										신청
+									</c:if>
+									<c:if test="${apply.axstatus=='A'}">
+										승인
+									</c:if>
+									<c:if test="${apply.axstatus=='C'}">
+										수강 불가
+									</c:if>
 								</td>
 								<td>
-									<button class="btn btn-small" type="button" onClick="goLecture('${course.coxseq }');">강의</button>
+									<c:if test="${apply.axstatus=='R'}">
+										<button class="btn btn-small" type="button" onClick="goStatus('${apply.axseq}', '${apply.axstatus}');">승인</button>
+									</c:if>
+									<c:if test="${apply.axstatus=='A'}">
+										<button class="btn btn-small" type="button" onClick="goStatus('${apply.axseq}', '${apply.axstatus}');">수강 불가</button>
+									</c:if>
+									<c:if test="${apply.axstatus=='C'}">
+										<button class="btn btn-small" type="button" onClick="goStatus('${apply.axseq}', '${apply.axstatus}');">승인</button>
+									</c:if>
 								</td>
 								<td>
-									<button class="btn btn-small" type="button" onClick="goApply('${course.coxseq }');">수강생</button>
-								</td>
-								<td>
-									<button class="btn btn-small" type="button" onClick="goWrite('${course.coxseq }');">수정</button>
-									<button class="btn btn-small" type="button" onClick="goDelete('${course.coxseq }');">삭제</button>
+									<button class="btn btn-small" type="button" onClick="historyPopup('${coxseq}', '${apply.mxseq}');">수강 이력</button>
 								</td>
 							</tr>
 						</c:forEach>
-        		  </table>
+					</table>
+					<br>
         		  
-        		  <div class="pagination" style="text-align: center">
-					  <ul>
-					    <li><a href="#">Prev</a></li>
-					    <li><a href="#">1</a></li>
-					    <li><a href="#">2</a></li>
-					    <li><a href="#">3</a></li>
-					    <li><a href="#">4</a></li>
-					    <li><a href="#">5</a></li>
-					    <li><a href="#">Next</a></li>
-					  </ul>
+        			<div class="pagination" style="text-align: center">
+						<ul>
+						    <li><a href="#">Prev</a></li>
+						    <li><a href="#">1</a></li>
+						    <li><a href="#">2</a></li>
+						    <li><a href="#">3</a></li>
+						    <li><a href="#">4</a></li>
+						    <li><a href="#">5</a></li>
+						    <li><a href="#">Next</a></li>
+						</ul>
 					</div>
 				</c:if>
 		
-				<c:if test="${ empty courseList }">
+				<c:if test="${empty list}">
 					자료가 없습니다.
 				</c:if>
 				

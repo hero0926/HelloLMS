@@ -23,11 +23,6 @@
 					alert("false");
 					return false;
 				}
-				//$("input[type='number']").attr('value', '333');
-				if(!$.isNumeric($("input[type='number']").val())) {
-					return false;
-				}
-				
 				
 			}
 		}
@@ -54,12 +49,12 @@
 				회차: <c:if test="${empty lxseq}"><input type="text" name="lxnum" /></c:if>
 					<c:if test="${!empty lxseq}">${lxnum}</c:if><br>
 				강의명: <input type="text" class="span4" name="lxname" placeholder="${lxname}" required="required" /><br>
-				강의 링크 등록: <select class="span2" name="coxcate">
+				강의 링크 등록: <select class="span2" name="lxtype">
 								<c:forEach var="cate" items="${cateList}">
-									<option value='<c:out value="${cate.cxseq}"/>' <c:if test="${!empty lxlink}">selected</c:if>><c:out value="${cate.cxname }"/></option>
+									<option value='<c:out value="${cate.cxseq}"/>' <c:if test="${!empty lxtype && cate.cxseq==lxtype}">selected</c:if>><c:out value="${cate.cxname}"/></option>
 								</c:forEach>
 							</select>
-								<input type="text" name="lxlink" placeholder="URL을 입력하세요" /><br>
+								<input type="text" name="lxlink" placeholder="${lxlink}" /><br>
 				강의 자료 등록: 
 							<c:if test="${!empty lxfile}">
 									OriginalFileName is ${lxfile}.

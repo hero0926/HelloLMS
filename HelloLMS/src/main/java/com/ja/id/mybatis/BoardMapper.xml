@@ -43,6 +43,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <delete id="deleteNotice" parameterType="java.util.HashMap">
 	delete from board_notice WHERE bxnseq = #{bxnseq}
 </delete>
+<select id="searchNotice" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+	select * from board_notice
+	<if test="searchname == bxnsubject">
+	where bxnsubject like '%#{bxnsubject}%'
+	</if>
+	<if test="searchname == bxncontent">
+	where bxncontent like '%#{bxncontent}%'
+	</if>
+</select>
 
 <select id="repCheck" resultType="java.util.HashMap" parameterType="java.util.HashMap">
 	select a.bxqseq, a.bxqgrid, a.bxqsubject, a.bxqcontent, a.regdate as qnadate, b.bxqno, b.bxqrepcontent, b.regdate as repdate
@@ -51,7 +60,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	on a.bxqseq = b.bxqno
 	where a.bxqgrid = #{bxqgrid}
 	order by a.bxqseq asc
-
 </select>
 
 <insert id="writeQna" parameterType="java.util.HashMap">
@@ -82,8 +90,43 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</if>
 </select>
 
+<select id="tutor" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+	select a.mxseq, a.tuxpicture, a.tuxhistory, a.cnt, b.mxname 
+	from tutor a
+	left outer join member b
+	on a.mxseq = b.mxseq
+	where a.mxseq=#{mxseq}
+</select>
+<insert id="writeComment" parameterType="java.util.HashMap">
+		INSERT INTO tutor_comment (
+		mxseq
+		,tucxcomment
+		,regdate
+		) VALUES (
+		#{mxseq}
+		,#{tucxcomment}
+		,DATE_FORMAT(NOW(), '%Y%m%d')
+		)
+	</insert>
+	<select id="readComment" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		SELECT b.mxseq, b.tucxcomment, b.regdate 
+		FROM tutor as a, tutor_comment as b 
+		WHERE a.mxseq=b.mxseq
+		AND a.mxseq=#{mxseq} order by b.tucxseq desc
+	</select>
 <insert id="writeQnarep" parameterType="java.util.HashMap">
 	insert into board_qnarep (bxqno, bxqrepcontent, regdate) 
 	values (#{bxqno}, #{bxqrepcontent}, DATE_FORMAT(NOW(), '%Y%m%d'))
 </insert>
+
+<update id="updateJoayo" parameterType="java.util.HashMap">
+		UPDATE tutor 
+		SET	cnt = cnt + 1
+		WHERE mxseq=#{mxseq}
+	</update>
+	<select id="selectJoayo" resultType="int" parameterType="java.util.HashMap">
+		SELECT cnt
+		FROM tutor 
+		WHERE mxseq=#{mxseq}
+	</select>	
 </mapper>

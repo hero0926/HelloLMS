@@ -32,4 +32,6 @@ public interface MyLectureMapper {
 
 	public int applyCourseDelete(Map map);
 
+	public List<HashMap> getHistory(Map map);
+
 }

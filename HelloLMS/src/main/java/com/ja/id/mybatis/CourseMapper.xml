@@ -8,24 +8,92 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getAllCourse" resultType="java.util.HashMap"
 		parameterType="java.util.HashMap">
 
-		select coxseq, coxcate, coxname, coxstart,
-		coxend,
-		coxreqstart,
-		coxreqend, tuxseq, coxintro, regdate
-		from course 
+		select a.coxseq, a.coxcate, a.coxname, a.coxstart,
+			a.coxend, a.coxreqstart, a.coxprog, a.coxscore,
+			a.coxreqend, tuxseq, a.coxintro, a.regdate,
+			b.axseq
+		from course a 
+		  left outer join apply b
+		  on a.coxseq = b.coxseq
+		  and b.mxseq = #{USEQ}
+		where DATE_FORMAT(NOW(), '%Y%m%d') between a.coxreqstart and a.coxreqend
+		order by a.coxreqstart desc, a.coxreqend desc
+
+	</select>
+
+	<insert id="selectapply" parameterType="java.util.HashMap">
+
+		INSERT INTO apply
+		(coxseq, mxseq, coxprog, coxscore ,regdate
+		)
+		SELECT
+		coxseq, mxseq,
+		coxprog, coxscore, regdate
+		FROM course
+		where coxseq=#{coxseq}
+		
+		
 		
 
+	</insert>
+	<!-- <insert id="insertapply" parameterType="java.util.HashMap"> INSERT 
+		INTO apply (coxseq, mxseq, coxprog, coxscore ,regdate) SELECT coxseq, mxseq, 
+		coxprog, coxscore ,regdate FROM course </insert> -->
 
 
-	</select>
-	<select id="getAllapply" resultType="java.util.HashMap"
+	<select id="applycourse" resultType="java.util.HashMap"
 		parameterType="java.util.HashMap">
 
-		select axseq , coxseq , mxseq,
-		axresult
-		from apply
+		SELECT b.axseq, b.coxseq, a.coxname, a.coxstart,
+		a.coxend, b.regdate,
+		b.axstatus
+		FROM course a, apply b
+		WHERE b.coxseq =
+		a.coxseq
+		and b.mxseq = #{USEQ}
+		and DATE_FORMAT(NOW(), '%Y%m%d') between a.coxreqstart and a.coxreqend
+		ORDER BY a.coxreqend asc
 
 	</select>
+	
+	<select id="applycheck" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		
+		SELECT mxseq , coxseq 
+		from apply
+		where mxseq=#{mxseq}
+		
+		</select>
 
+	<insert id="insertApply" parameterType="java.util.HashMap">
+
+		INSERT INTO apply
+		(coxseq, mxseq, axstatus, regdate)
+		values (
+		#{coxseq}, #{USEQ}, 'R', date_format(now(), '%Y%m%d')		
+		)
+
+	</insert>
+
+	<delete id="deleteApply" parameterType="java.util.HashMap">
+		delete from apply
+		where axseq = #{axseq}
+	</delete>
+	
+	<select id="openCourseList" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		SELECT a.coxname, a.coxstart, a.coxend, a.coxseq, b.*, c.mxname
+		FROM course a, tutor b, member c
+		WHERE a.coxopen='Y'
+			AND a.tuxseq=b.tuxseq
+			AND b.mxseq = c.mxseq
+			AND DATE_FORMAT(NOW(), '%Y%m%d') between a.coxstart and a.coxend
+	</select>
+	
+	<select id="openLectureList" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		SELECT a.*, b.coxname
+		FROM lecture a, course b
+		WHERE a.coxseq=#{coxseq}
+			AND b.coxseq=#{coxseq}
+	</select>
 
 </mapper>

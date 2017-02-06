@@ -19,6 +19,8 @@ public interface BoardService {
 	int editNotice(Map map) throws Exception;
 	
 	public int deleteNotice(Map map);
+	
+	public List<HashMap> searchNotice(Map map);
 
 	public int writeQna(Map map) throws Exception;
 
@@ -29,6 +31,18 @@ public interface BoardService {
 	public Map readQna(Map map);
 	
 	public int writeQnarep(Map map) throws Exception;
+	
+	public Map tutor(Map map);
+	
+	public int writeComment(Map map);
+	
+	public List<HashMap> readComment(Map map);
+
+	public int updateJoayo(Map map) throws Exception;
+	
+	public int selectJoayo(Map map);
+
+	
 	
 	
 }

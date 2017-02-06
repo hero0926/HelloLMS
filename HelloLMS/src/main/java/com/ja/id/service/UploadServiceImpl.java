@@ -28,8 +28,13 @@ public class UploadServiceImpl implements UploadService {
 	@Override
 	public List<HashMap> selectad(Map map) {
 		// TODO Auto-generated method stub
-		System.out.println("어디까지된겨?? - 서비스단");
 		return dao.selectad(map);
+	}
+
+	@Override
+	public List<HashMap> selectcourse(Map map) {
+		// TODO Auto-generated method stub
+		return dao.selectcourse(map);
 	}
 
 }

@@ -41,9 +41,9 @@ public interface AdminService {
 
 	public List<HashMap> selectTestpaper(Map map);
 
-	public int updateTestpaper(Map map);
+	public int updateTestpaper(Map map) throws Exception;
 
-	public int insertTestpaper(Map map);
+	public int insertTestpaper(Map map) throws Exception;
 
 	public int deleteTestpaper(Map map);
 

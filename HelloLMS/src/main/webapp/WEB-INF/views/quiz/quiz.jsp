@@ -28,8 +28,10 @@
 
 function popupOpen(){
 	var popUrl = "quizQuestion?lxseq=${lxseq}"; //팝업창에 출력될 페이지 URL
-	var popOption = "resizable=no, scrollbars=no, status=no, width=500, height=500, top=200, left=500"; //팝업창 옵션
-		window.open(popUrl,"",popOption);
+	document.location.href=popUrl;
+	//var popOption = "resizable=no, scrollbars=no, status=no, width=500, height=500, top=200, left=500"; //팝업창 옵션
+		//window.open(popUrl,"",popOption);
+		//self.close();
 }
 
 

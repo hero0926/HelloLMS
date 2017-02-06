@@ -65,6 +65,12 @@ public class BoardServiceImpl implements BoardService {
 	public int deleteNotice(Map map) {
 		return boardDAO.deleteNotice(map);
 	}
+	
+	@Override
+	public List<HashMap> searchNotice(Map map) {
+		//map.put("bxngrid", map.get("bxngrid"));
+		return boardDAO.searchNotice(map);
+	}
 
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public int writeQna(Map map) throws Exception {
@@ -107,6 +113,55 @@ public class BoardServiceImpl implements BoardService {
 		}
 		map.put("bxqseq", map.get("bxqseq"));
 		return result;
+	}
+	
+	@Override
+	public Map tutor(Map map) {
+		return boardDAO.tutor(map);
+	}
+	
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public int updateJoayo(Map map) throws Exception  {
+		result = boardDAO.updateJoayo(map);
+		if (result == 1) {
+			result = boardDAO.selectJoayo(map);
+		}else {
+			throw new Exception();
+		}
+		return result;
+	}
+
+	@Override
+	public int selectJoayo(Map map) {
+		map.put("mxseq", map.get("mxseq"));
+		return boardDAO.selectJoayo(map);
+	}
+
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public int writeComment(Map map) {
+		result = boardDAO.writeComment(map);
+		map.put("r_seq", map.get("seq"));
+		if (1 == result) {
+			
+			// success!
+		} else {
+			try {
+				throw new Exception();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
+
+	@Override
+	public List<HashMap> readComment(Map map) {
+		//map.put("bxngrid", map.get("bxngrid"));
+		return boardDAO.readComment(map);
 	}
 
 }

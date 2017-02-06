@@ -27,5 +27,7 @@ public interface MyLectureDAO {
 	public List<HashMap> getCnt(Map map);
 
 	public int applyCourseDelete(Map map);
+
+	public List<HashMap> getHistory(Map map);
 	
 }

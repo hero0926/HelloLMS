@@ -237,6 +237,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			#{tpx1score}, #{tpx2score}, #{tpx3score},
 			date_format(now(), '%Y%m%d'), #{mxseq}
 		)
+		<selectKey keyProperty="tpxseq" resultType="java.lang.Integer" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
 
 	</insert>
 	
@@ -245,9 +248,58 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where tpxseq = #{tpxseq}
 	</delete>
 
-
-
-
+	<insert id="insertTestanswer" parameterType="java.util.HashMap">
 	
+		insert into testanswer (
+		tpxseq, mxseq, txseq, txcorrect,
+		txscore, taxorder, regdate)
+		select #{tpxseq}, b.mxseq, tx1.txseq, tx1.txcorrect,
+		tx1.score, @ROWNUM := @ROWNUM + 1 AS ROWNUM,
+		date_format(now(), '%Y%m%d')
+		from (
+		select txseq, #{tpx1score} score, txcorrect, coxseq from (
+		select txseq, txcorrect, coxseq
+		from testpool
+		where coxseq = #{coxseq}
+		and txtype = 1
+		order by rand()
+		limit #{tpx1cnt}
+		) as s1
+		union all
+		select txseq, #{tpx2score} score, txcorrect, coxseq from (
+		select txseq, txcorrect, coxseq
+		from testpool
+		where coxseq = #{coxseq}
+		and txtype = 2
+		order by rand()
+		limit #{tpx2cnt}
+		) as s2
+		union all
+		select txseq, #{tpx3score} score, txcorrect, coxseq from (
+		select txseq, txcorrect, coxseq
+		from testpool
+		where coxseq = #{coxseq}
+		and txtype = 3
+		order by rand()
+		limit #{tpx3cnt}
+		) as s2
+		order by rand()
+		
+		) tx1, apply b,
+		(SELECT @ROWNUM := 0) R
+		where tx1.coxseq = b.coxseq
+		and b.coxseq = #{coxseq}
+	</insert>
+
+	<delete id="deleteAllTestanswer" parameterType="java.util.HashMap">
+		delete from testanswer
+		where tpxseq = #{tpxseq} 
+	</delete>
+
+	<select id="selectCntTestresult" resultType="int" parameterType="java.util.HashMap">
+		select count(*) cnt
+		from testresult
+		where tpxseq = #{tpxseq} 
+	</select>
 	
 </mapper>

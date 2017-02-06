@@ -8,13 +8,13 @@
 			function testpopupOpen(){
 				var popUrl = "testpopup";
 				var popOption = "width=1080, height=720, resizable=no, scrollbars=no, status=no;";    //팝업창 옵션(optoin)
-					window.open(popUrl, "", popOption);
+					window.open(popUrl, "test", popOption);
 				}
 			
-			function historypopupOpen(){
-				var popUrl = "historypopup";
+			function historypopupOpen(coxseq){
+				var popUrl = "historypopup?coxseq="+coxseq;
 				var popOption = "width=1080, height=720, resizable=no, scrollbars=no, status=no;";    //팝업창 옵션(optoin)
-					window.open(popUrl, "", popOption);
+					window.open(popUrl, "history", popOption);
  			}
 		</script>
 	
@@ -49,7 +49,7 @@
 								<td><c:out value="${course.mxname}"/></td>
 								<td><c:out value="${course.coxprog}"/></td>
 								<td><a href="javascript:testpopupOpen();">평가</a></td>
-								<td><a href="javascript:historypopupOpen();"><button type="submit" class="btn">수강이력</button></a></td>
+								<td><a href="javascript:historypopupOpen('${course.coxseq}');"><button type="submit" class="btn">수강이력</button></a></td>
 							</tr>
 						</c:forEach>
 					</c:if>

@@ -18,7 +18,7 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">평가관리 <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                   <li><a href="/admin/testpoolList">평가문제관리</a></li>
-                  <li><a href="#">평가지관리</a></li>
+                  <li><a href="/course/openCourset">평가지관리</a></li>
                   <li><a href="#">평가현황</a></li>
                 </ul>
               </li>

@@ -77,6 +77,7 @@
 					<td><c:out value="${m.mxdiv }"/></td>
 					<td><button class="btn btn-danger btn-small" type="button" onclick="deleteMember('${m.mxid }')">강퇴</button>
 					<button class="btn btn-success btn-small" type="button" onclick="updateMemberT('${m.mxid }')">강사 만들기</button></td>
+
 				</tr>
 			</c:forEach>
 			
