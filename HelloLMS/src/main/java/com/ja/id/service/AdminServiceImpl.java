@@ -21,7 +21,6 @@ public class AdminServiceImpl implements AdminService{
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
 	public int insertCode(Map map) throws Exception {
 		// TODO Auto-generated method stub
-		System.out.println("service");
 		return adminDAO.insertCode(map);
 	}
 
@@ -146,7 +145,8 @@ public class AdminServiceImpl implements AdminService{
 	public int updateTestpaper(Map map) throws Exception {
 		// TODO Auto-generated method stub
 		int result = adminDAO.selectCntTestresult(map);
-		
+		System.out.println("========================================");
+		System.out.println(result);
 		if (result<1) {
 			result = adminDAO.updateTestpaper(map);
 			result = adminDAO.deleteAllTestanswer(map);
@@ -177,9 +177,20 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
-	public int deleteTestpaper(Map map) {
+	public int deleteTestpaper(Map map) throws Exception {
 		// TODO Auto-generated method stub
-		return adminDAO.deleteTestpaper(map);
+		
+		int result = adminDAO.selectCntTestresult(map);
+		System.out.println("========================================");
+		System.out.println(result);
+		if (result<1) {
+			result = adminDAO.deleteTestpaper(map);
+			result = adminDAO.deleteAllTestanswer(map);
+		} else {
+			throw new Exception();
+		}
+		
+		return result;
 	}
 
 }

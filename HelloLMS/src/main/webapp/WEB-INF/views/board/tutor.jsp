@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="utf-8"%>
 <%@ include file="../include/header.jsp"%>
-<%@ include file="../include/ad_menu.jsp"%>
+<%@ include file="../include/menu.jsp"%>
 <script>
 	function joayo() {
 		$.ajax({

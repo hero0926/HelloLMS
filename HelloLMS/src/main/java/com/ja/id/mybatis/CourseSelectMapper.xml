@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ja.id.mybatis.CourseSelectMapper">
+
+<!-- 검색합시다~ -->
+<select id="SelectSearchCourse" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select a.coxseq, a.coxcate, a.coxname, a.coxstart,
+    		a.coxend, a.coxreqstart, a.coxreqend, a.tuxseq,
+			a.coxintro, a.coxopen, a.coxprog, a.coxscore,
+			a.coxoffice, a.regdate, b.mxseq
+		from course a, tutor b
+		where a.tuxseq = b.tuxseq		
+	    <if test="null != coxname and '' !=coxname">
+	    	and a.coxname like CONCAT('%', #{coxname}, '%')
+	    </if>	    
+		 order by a.coxstart desc, a.coxseq desc
+	</select>
+
+
+</mapper>

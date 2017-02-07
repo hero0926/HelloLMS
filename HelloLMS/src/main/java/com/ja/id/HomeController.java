@@ -42,20 +42,28 @@ public class HomeController {
 	
 	@Autowired
 	private AdminService adminService;
+	
+	@Autowired
 	private UploadService us;
+	
+	
 
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 * @throws UnknownHostException 
 	 * 
-	 *//*
+	 */
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 		public String home(Locale locale, HttpSession session, HttpServletRequest request, Model model, @RequestParam Map map) throws UnknownHostException {
 			
-			System.out.println("------------map------------"+map);
+			//배너 불러오기
 			List<HashMap> b = us.selectad(map);
-			model.addAttribute("b", b);				
+			model.addAttribute("b", b);
+			
+			//최신강의 불러오기
+			List<HashMap> c = us.selectcourse(map);
+			model.addAttribute("c", c);	
 			
 			logger.info("Welcome home! The client locale is {}.", locale);
 			session.setAttribute("Menu", "1");
@@ -79,7 +87,7 @@ public class HomeController {
 			
 			return "home";
 		}	
-		*/
+		
 
 		
 

@@ -135,23 +135,6 @@ public class UploadController {
 		return "adupload";
 	}
 	
-
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, HttpSession session, HttpServletRequest request, Model model, @RequestParam Map map) throws UnknownHostException {
-		
-		//배너 불러오기
-		List<HashMap> b = us.selectad(map);
-		model.addAttribute("b", b);
-		
-		//최신강의 불러오기
-		List<HashMap> c = us.selectcourse(map);
-		model.addAttribute("c", c);
-		
-		return "home";
-	}	
-	
-
-	
 	//사진을 보여주는 메서드
 	
 	@ResponseBody

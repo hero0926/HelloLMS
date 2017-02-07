@@ -8,6 +8,7 @@
 			공지사항 목록 <small>...공지사항 목록을 보여줍니다.</small>
 		</h1>
 	</div>
+	<input type="hidden" name="bxngrid" value="${bxngrid}">
 	<form action="/board/notice/searchNotice" method="get">
 		<div class="alert alert-info"></div>
 	

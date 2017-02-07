@@ -324,15 +324,13 @@ public class AdminController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			model.addAttribute("success_flag", "N");
-			model.addAttribute("forward_url", "/admin/testpoolWriteForm?txseq="+txseq+"&coxseq="+coxseq);
 		}
 		if (0 < count) {
 			model.addAttribute("success_flag", "Y");
-			model.addAttribute("forward_url", "/admin/testpoolList?coxseq="+coxseq);
 		} else {
 			model.addAttribute("success_flag", "N");
-			model.addAttribute("forward_url", "/admin/testpoolWriteForm?txseq="+txseq+"&coxseq="+coxseq);
 		}
+		model.addAttribute("forward_url", "/admin/testpoolList?coxseq="+coxseq);
 		
 		return "common/common_alert";
 	}
@@ -444,7 +442,9 @@ public class AdminController {
 			map.put("mxseq", session.getAttribute("USEQ"));
 			map.put("tpxfrom", ((String)map.get("tpxfrom")).replace("-", "").replace(":", "").replace("T", ""));
 			map.put("tpxto", ((String)map.get("tpxto")).replace("-", "").replace(":", "").replace("T", ""));
-
+			map.put("tpx1cnt", Integer.parseInt((String)map.get("tpx1cnt")));
+			map.put("tpx2cnt", Integer.parseInt((String)map.get("tpx2cnt")));
+			map.put("tpx3cnt", Integer.parseInt((String)map.get("tpx3cnt")));
 			if (tpxseq.length()>0){
 				count = adminService.updateTestpaper(map);
 			} else {
@@ -484,15 +484,13 @@ public class AdminController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			model.addAttribute("success_flag", "N");
-			model.addAttribute("forward_url", "/admin/testpaperWriteForm?tpxseq="+tpxseq);
 		}
 		if (0 < count) {
 			model.addAttribute("success_flag", "Y");
-			model.addAttribute("forward_url", "/admin/testpaperList");
 		} else {
 			model.addAttribute("success_flag", "N");
-			model.addAttribute("forward_url", "/admin/testpaperWriteForm?tpxseq="+tpxseq);
 		}
+		model.addAttribute("forward_url", "/admin/testpaperList");
 		
 		return "common/common_alert";
 	}	

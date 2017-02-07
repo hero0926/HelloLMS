@@ -16,7 +16,7 @@
 			$('#form1').submit();
 		}
 		function goDelete(n) {
-			if(confirm("문제를 삭제 하시겠습니까?")){
+			if(confirm("문제를 삭제 하시겠습니까? 삭제할 경우 사용자 답안도 삭제 됩니다.")){
 				$('#tpxseq').val(n);
 				$('#frm2').attr('action','/admin/testpaperDelete');
 				$('#frm2').submit();

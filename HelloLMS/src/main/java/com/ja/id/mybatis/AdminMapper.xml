@@ -302,4 +302,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where tpxseq = #{tpxseq} 
 	</select>
 	
+	<select id="selectTestMonitor" resultType="int" parameterType="java.util.HashMap">
+	
+		select aa.tpxseq, aa.tpxtitle, aa.tpxfrom, aa.tpxto,
+			aa.tpxduring, aa.tpx1cnt, aa.tpx2cnt, aa.tpx3cnt,
+			aa.tpx1score, aa.tpx2score, aa.tpx3score, aa.coxname,
+			count(aa.mxseq) applycnt, count(d.trxseq) resultcnt
+		from (
+			select a.tpxseq, a.tpxtitle, a.tpxfrom, a.tpxto, a.tpxduring, a.tpx1cnt, a.tpx2cnt, a.tpx3cnt, a.tpx1score, a.tpx2score, a.tpx3score,
+			b.coxname, c.mxseq
+			from testpaper a, course b, apply c
+			where a.coxseq = #{coxseq}
+			and a.coxseq = b.coxseq
+			and b.coxseq = c.coxseq
+		) aa
+		left outer join testresult d
+			on aa.tpxseq = d.tpxseq
+			and aa.mxseq = d.mxseq
+		group by aa.tpxseq, aa.tpxtitle, aa.tpxfrom, aa.tpxto,
+			aa.tpxduring, aa.tpx1cnt, aa.tpx2cnt, aa.tpx3cnt,
+			aa.tpx1score, aa.tpx2score, aa.tpx3score, aa.coxname
+		order by aa.tpxto desc
+	</select>
 </mapper>

@@ -45,6 +45,6 @@ public interface AdminService {
 
 	public int insertTestpaper(Map map) throws Exception;
 
-	public int deleteTestpaper(Map map);
+	public int deleteTestpaper(Map map) throws Exception;
 
 }

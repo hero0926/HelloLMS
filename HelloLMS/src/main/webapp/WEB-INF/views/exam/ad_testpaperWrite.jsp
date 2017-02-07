@@ -19,7 +19,7 @@
 
 		
 		function checkVal() {
-			if(confirm("자료를 등록 하시겠습니까?")){
+			if(confirm("자료를 등록 하시겠습니까?<c:if test='${ !empty testpaper }'> 수정하실 경우 이전에 생성된 답안 자료는 모두 삭제 됩니다.</c:if>")){
 				var ok=true;
 				$("input[required='required']").each(function(index){
 					if($(this).val()==''){

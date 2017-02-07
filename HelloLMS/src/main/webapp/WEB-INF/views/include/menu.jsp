@@ -2,7 +2,15 @@
     pageEncoding="UTF-8"%>
     
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<style>
 
+#searchType{
+
+	width : 85px;
+
+}
+
+</style>
 
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
@@ -19,9 +27,9 @@
           <div class="nav-collapse collapse">
             <ul class="nav">
               <li class="dropdown <c:if test="${ '1'==Menu }">active</c:if>" >
-              	<a href="" class="dropdown-toggle" data-toggle="dropdown">마이페이지 <b class="caret"></b></a>
+              	<a href="#" class="dropdown-toggle" data-toggle="dropdown">마이페이지 <b class="caret"></b></a>
 				<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-				  <li><a href="member/update">개인정보수정</a></li>
+				  <li><a href="/member/update">개인정보수정</a></li>
 				  <li class="dropdown-submenu">
 				    <a tabindex="-1" href="#">내강의</a>
 				    <ul class="dropdown-menu">
@@ -47,15 +55,21 @@
                   <li><a href="/board/qna?bxqgrid=1">Q&A</a></li>
                 </ul>
               </li>
-            </ul>
-            <form class="navbar-search pull-left">
-			  <input type="text" class="search-query" placeholder="Search : 과정명">
+            </ul>         
+            
+            <form class="navbar-form pull-left"" action="/scourse/list">            	         
+            	<input type="text" placeholder="Search : 과정명" name="coxname">
+      			<button class="btn btn-default" type="submit">
+        		<i class="icon-search icon-black"></i>
+     			</button>
 			</form>
+			
             <form class="navbar-form pull-right" action="/member/logout" >
 	          <font style="color: white; font-style: inherit;">${UNAME }님 반갑습니다.</font>
               <button type="submit" class="btn">Sign off</button>
             </form>
           </div><!--/.nav-collapse -->
+          
 </c:if>
 <c:if test="${empty USEQ }">
 
@@ -91,9 +105,14 @@
                 </ul>
               </li>
             </ul>
-            <form class="navbar-search pull-left">
-			  <input type="text" class="search-query" placeholder="Search : 과정명">
+           
+			<form class="navbar-form pull-left"" action="/scourse/list">            	         
+            	<input type="text" placeholder="Search : 과정명" name="coxname">
+      			<button class="btn btn-default" type="submit">
+        		<i class="icon-search icon-black"></i>
+     			</button>
 			</form>
+
             <form class="navbar-form pull-right" action="/member/loginPost" method="post">
               <input class="span2" type="text" name="mxid" placeholder="ID">
               <input class="span2" type="password" name ="mxpw" placeholder="Password">
