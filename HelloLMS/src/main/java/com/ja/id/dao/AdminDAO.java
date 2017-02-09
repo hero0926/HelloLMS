@@ -52,4 +52,31 @@ public interface AdminDAO {
 
 	public int deleteAllTestanswer(Map map);
 
+	public List<HashMap> selectTestMonitor(Map map);
+
+	public List<HashMap> selectTestApply(Map map);
+
+	public List<HashMap> selectTestresult(Map map);
+
+	public List<HashMap> popup(Map map);
+	
+	public int updateScore1(Map map);
+
+	public int updateScore2(Map map);
+
+	public List<HashMap> selectResult(Map map);
+
+	public List<HashMap> selectAnswer(Map map);
+
+	public int addScore1(Map map);
+
+	public int selectSumScore(Map map);
+
+	public int addScore2(Map map);
+
+	public int updateScore3(Map map);
+
+	public int updateScore4(Map map);
+	
+
 }

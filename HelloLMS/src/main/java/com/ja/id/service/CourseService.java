@@ -20,6 +20,8 @@ public interface CourseService {
 
 	public List<HashMap> openLectureList(Map map) throws Exception;
 
+	public List<HashMap> getLecture(Map map) throws Exception;
+
 	//public int applyDelte(Map map);
 
 }

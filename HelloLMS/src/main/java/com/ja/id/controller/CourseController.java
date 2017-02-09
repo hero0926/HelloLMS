@@ -152,23 +152,44 @@ public class CourseController {
 		List<HashMap> openCourseList;
 		openCourseList = courseservice.openCourseList(map);
 		model.addAttribute("list", openCourseList);
+		model.addAttribute("size", openCourseList.size());
+		System.out.println("openCourse-------------"+model);
 		
 		return "course/openCourse";
-
+		
 	}
 	
 	@RequestMapping(value = "/course/openLecture", method = { RequestMethod.POST, RequestMethod.GET })
 	public String openLecture(Model model, Locale locale, @RequestParam Map map) throws Exception {
-		System.out.println("openLecture-------------------"+map);
 		
 		List<HashMap> openLectureList;
 		openLectureList = courseservice.openLectureList(map);
 		model.addAttribute("list", openLectureList);
-		
-		model.addAttribute("coxname", openLectureList.get(0).get("coxname"));
+		if(openLectureList.size()!=0){
+			model.addAttribute("coxname", openLectureList.get(0).get("coxname"));
+		}
 		
 		return "lecture/openLecture";
 
+	}
+	
+	@RequestMapping(value = "/course/lecture", method = {RequestMethod.POST, RequestMethod.GET})
+	public String lecture(Locale locale, Model model, HttpSession session, @RequestParam Map map) throws Exception {
+		
+		/*String lxlink = (String)map.get("lxlink");
+		model.addAttribute("lxlink", lxlink);
+		
+		List<HashMap> lecturelist;
+		lecturelist = courseservice.getLecture(map);
+		model.addAttribute("list", lecturelist);*/
+		
+		map.put("USEQ", session.getAttribute("USEQ"));
+		List<HashMap> lecturelist;
+		lecturelist = courseservice.getLecture(map);
+		model.addAttribute("list", lecturelist);
+		model.addAttribute("lecture", map);
+		
+		return "mylecture/lecture";
 	}
 
 }

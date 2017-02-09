@@ -50,6 +50,7 @@ public class AdminController2 {
 		session.setAttribute("UNAME", "강사");
 		session.setAttribute("UDIV", "T");*/
 		
+		if(null!=session.getAttribute("UID")){
 		session.setAttribute("Menu", "1");
 		
 		map.put("USEQ", session.getAttribute("USEQ"));
@@ -60,10 +61,14 @@ public class AdminController2 {
 		model.addAttribute("coxseq", map.get("coxseq"));
 		
 		return "lecture/ad_lectureList";
+		} else {
+			return "member/ad_login";
+		}
 	}
 	
 	@RequestMapping(value = "/fileUpload", method = {RequestMethod.POST, RequestMethod.GET})
 	public String fileUpload(Locale locale, Model model, HttpSession session, @RequestParam Map map, @RequestParam(value = "lxfile") List<MultipartFile> files, String uploadpath) throws Exception {
+		if(null!=session.getAttribute("UID")){
 		String fileName = "";
 		for (int i = 0; i < files.size(); i++) {
 			MultipartFile file = (MultipartFile) files.get(i);
@@ -86,10 +91,14 @@ public class AdminController2 {
 		model.addAttribute("coxseq", map.get("coxseq"));
 		
 		return "lecture/ad_lectureList";
+		} else {
+			return "member/ad_login";
+		}
 	}
 	
 	@RequestMapping(value = "/lectureDel", method = {RequestMethod.POST, RequestMethod.GET})
 	public String lectureDel(Locale locale, Model model, HttpSession session, @RequestParam Map map) throws Exception {
+		if(null!=session.getAttribute("UID")){
 		adminService.lectureDel(map);
 		
 		map.put("USEQ", session.getAttribute("USEQ"));
@@ -100,11 +109,14 @@ public class AdminController2 {
 		model.addAttribute("coxseq", map.get("coxseq"));
 		
 		return "lecture/ad_lectureList";
+		} else {
+			return "member/ad_login";
+		}
 	}
 	
 	@RequestMapping(value = "/lectureInsertPage", method = {RequestMethod.POST, RequestMethod.GET})
 	public String lectureInsertPage(Locale locale, Model model, HttpSession session, @RequestParam Map map) throws Exception {
-		
+		if(null!=session.getAttribute("UID")){
 		model.addAttribute("coxseq", map.get("coxseq"));
 		map.put("USEQ", session.getAttribute("USEQ"));
 		
@@ -117,11 +129,14 @@ public class AdminController2 {
 		model.addAttribute("cateList", cateList);
 		
 		return "lecture/ad_lectureInsert";
+		} else {
+			return "member/ad_login";
+		}
 	}
 	
 	@RequestMapping(value = "/lectureInsert", method = {RequestMethod.POST, RequestMethod.GET})
 	public String lectureInsert(Locale locale, Model model, HttpSession session, @RequestParam Map map, @RequestParam(value = "lxfile") List<MultipartFile> files, String uploadpath) throws Exception {
-		System.out.println("lectureInsert-----------------------------"+map);
+		if(null!=session.getAttribute("UID")){
 		map.put("lxtype", map.get("lxtype"));
 		model.addAttribute("coxseq", map.get("coxseq"));
 		String fileName = "";
@@ -146,10 +161,14 @@ public class AdminController2 {
 		model.addAttribute("list", lectureList);
 		
 		return "lecture/ad_lectureList";
+		} else {
+			return "member/ad_login";
+		}
 	}
 	
 	@RequestMapping(value = "/lectureModPage", method = {RequestMethod.POST, RequestMethod.GET})
 	public String lectureModPage(Locale locale, Model model, HttpSession session, @RequestParam Map map) throws Exception {
+		if(null!=session.getAttribute("UID")){
 		model.addAttribute("coxseq", map.get("coxseq"));
 		model.addAttribute("lxseq", map.get("lxseq"));
 		map.put("USEQ", session.getAttribute("USEQ"));
@@ -167,19 +186,22 @@ public class AdminController2 {
 		List<HashMap> cateList = adminService.selectCode(map);
 		model.addAttribute("cateList", cateList);
 		
+		System.out.println("lectureModPage-------------------"+model);
+		
 		return "lecture/ad_lectureInsert";
+		} else {
+			return "member/ad_login";
+		}
 	}
 	
 	@RequestMapping(value = "/lectureMod", method = {RequestMethod.POST, RequestMethod.GET})
 	public String lectureMod(Locale locale, Model model, HttpSession session, @RequestParam Map map, @RequestParam(value = "lxfile") List<MultipartFile> files, String uploadpath) throws Exception {
-		System.out.println("lectureMod-----------------------------"+map);
-		//map.put("lxtype", Integer.parseInt(map.get("selCate").toString()));
+		if(null!=session.getAttribute("UID")){
 		map.put("lxtype", map.get("lxtype"));
 		model.addAttribute("coxseq", map.get("coxseq"));
 		String fileName = "";
 		for (int i = 0; i < files.size(); i++) {
 			MultipartFile file = (MultipartFile) files.get(i);
-			//System.out.println(file.isEmpty() + "==============="+i);
 			if (!file.isEmpty()){
 				File newFile = new File(fileUploadPath/* + sub*/ + file.getOriginalFilename());
 				file.transferTo(newFile);
@@ -191,7 +213,6 @@ public class AdminController2 {
 			
 			
 			if(!map.get("lxname").equals(null)||!map.get("lxlink").equals(null)||!map.get("lxfile").equals(null)){
-				System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa---"+map);
 				adminService.lectureMod(map);
 			}
 			
@@ -203,16 +224,23 @@ public class AdminController2 {
 		model.addAttribute("list", lectureList);
 		
 		return "lecture/ad_lectureList";
+		} else {
+			return "member/ad_login";
+		}
 	}
 	
 	@RequestMapping(value = "/QuizUpdate", method = {RequestMethod.POST, RequestMethod.GET})
 	public String QuizUpdate(Locale locale, Model model, HttpSession session, @RequestParam Map map) throws Exception {
-		
-		return "lecture/ad_lectureQuizUpdate";
+		if(null!=session.getAttribute("UID")){
+			return "lecture/ad_lectureQuizUpdate";
+		} else {
+			return "member/ad_login";
+		}
 	}
 	
 	@RequestMapping(value = "/applyList", method = {RequestMethod.POST, RequestMethod.GET})
 	public String applyList(Locale locale, Model model, HttpSession session, @RequestParam Map map) throws Exception {
+		if(null!=session.getAttribute("UID")){
 		List<HashMap> applyList;
 		applyList = adminService.getApplyList(map);
 		
@@ -222,10 +250,14 @@ public class AdminController2 {
 		model.addAttribute("mxseq", map.get("mxseq"));
 		
 		return "course/ad_courseApplyMemberList";
+		} else {
+			return "member/ad_login";
+		}
 	}
 	
 	@RequestMapping(value = "/applyStatusMod", method = {RequestMethod.POST, RequestMethod.GET})
 	public String applyStatusMod(Locale locale, Model model, HttpSession session, @RequestParam Map map) throws Exception {
+		if(null!=session.getAttribute("UID")){
 		adminService.statusUpdate(map);
 		
 		List<HashMap> applyList;
@@ -236,22 +268,28 @@ public class AdminController2 {
 		model.addAttribute("coxseq", map.get("coxseq"));
 		
 		return "course/ad_courseApplyMemberList";
+		} else {
+			return "member/ad_login";
+		}
 	}
 	
 	@RequestMapping(value = "/historyPopup", method = {RequestMethod.POST, RequestMethod.GET})
 	public String historyPopup(Locale locale, Model model, HttpSession session, @RequestParam Map map) throws Exception {
-		
+		if(null!=session.getAttribute("UID")){
 		List<HashMap> historyList;
 		historyList = adminService.getHistory(map);
 		
 		model.addAttribute("historyList", historyList);
 		
 		return "lecture/ad_historyPopup";
+		} else {
+			return "member/ad_login";
+		}
 	}
 	
 	@RequestMapping(value = "/allApplyStatus", method = {RequestMethod.POST, RequestMethod.GET})
 	public String allApplyStatus(Locale locale, Model model, HttpSession session, @RequestParam Map map) throws Exception {
-		
+		if(null!=session.getAttribute("UID")){
 		adminService.allApplyStatus(map);
 		
 		List<HashMap> applyList;
@@ -262,6 +300,9 @@ public class AdminController2 {
 		model.addAttribute("coxseq", map.get("coxseq"));
 		
 		return "course/ad_courseApplyMemberList";
+		} else {
+			return "member/ad_login";
+		}
 	}
 	
 }

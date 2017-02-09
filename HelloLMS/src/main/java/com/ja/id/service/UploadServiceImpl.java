@@ -37,4 +37,10 @@ public class UploadServiceImpl implements UploadService {
 		return dao.selectcourse(map);
 	}
 
+	@Override
+	public void updatepopup(Map map) throws Exception {
+		// TODO Auto-generated method stub
+		dao.updatepopup(map);
+	}
+
 }

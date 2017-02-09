@@ -44,4 +44,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="pwupdate" parameterType="String">
 	update member set mxpw=#{pw} where mxid=#{mxid}
 	</update>
+	
+	<!-- 메인페이지용 불러들이기 -->
+	<select id="selectMain" resultType="java.util.HashMap">
+	select(
+	select
+  		count(*) from member where mxdiv='S') as s_count,
+	(select
+  		count(*) from member where mxdiv='T') as t_count,
+	(select
+  		count(*) from course) as c_count
+	</select>
 </mapper>

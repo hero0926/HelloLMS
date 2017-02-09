@@ -4,9 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 public interface BoardService {
 	
-	public int writeNotice(Map map) throws Exception;
+	public int writeNotice(Map map, HttpServletRequest req) throws Exception;
 
 	public Map readNotice(Map map);
 

@@ -19,11 +19,13 @@
 			
 			if(confirm("회원을 강사로 만들까요?")){
 				
-				$('#mxid').val(n);
-				$('#frm2').attr('action','/admin/updateMemberT');				
-				$('#frm2').submit();
+	            $('#mxid').val(n);
+	            $('#frm2').attr('action','/admin/updateMemberT');            
+	            $('#frm2').submit();
+
 			}
 			
+		
 		}
 
 	</script>
@@ -76,8 +78,8 @@
 					<td><c:out value="${m.mxoffice }"/></td>
 					<td><c:out value="${m.mxdiv }"/></td>
 					<td><button class="btn btn-danger btn-small" type="button" onclick="deleteMember('${m.mxid }')">강퇴</button>
-					<button class="btn btn-success btn-small" type="button" onclick="updateMemberT('${m.mxid }')">강사 만들기</button></td>
-
+					<button class="btn btn-success btn-small" type="button" onclick="updateMemberT('${m.mxid }')">강사등록</button>
+					
 				</tr>
 			</c:forEach>
 			

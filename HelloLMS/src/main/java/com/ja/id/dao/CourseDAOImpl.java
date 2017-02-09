@@ -26,32 +26,25 @@ public class CourseDAOImpl implements CourseDAO {
 	}
 
 	@Override
-	public int selectapply(Map map) {
+	public int insertApply(Map map) {
+		// TODO Auto-generated method stub
 		CourseMapper mapper = sqlSession.getMapper(CourseMapper.class);
 
-		return mapper.selectapply(map);
+		return mapper.insertApply(map);
+	}
+
+	@Override
+	public int applyDelte(Map map) {
+
+		CourseMapper mapper = sqlSession.getMapper(CourseMapper.class);
+		return mapper.applyDelte(map);
 	}
 
 	@Override
 	public List<HashMap> applycourse(Map map) {
+
 		CourseMapper mapper = sqlSession.getMapper(CourseMapper.class);
 		return mapper.applycourse(map);
-
-	}
-
-	@Override
-	public List<HashMap> applycheck(Map map) {
-		CourseMapper mapper = sqlSession.getMapper(CourseMapper.class);
-		
-		return mapper.applycheck(map);
-	}
-
-	@Override
-	public int insertApply(Map map) {
-		// TODO Auto-generated method stub
-		CourseMapper mapper = sqlSession.getMapper(CourseMapper.class);
-		
-		return mapper.insertApply(map);
 	}
 
 	@Override
@@ -66,6 +59,22 @@ public class CourseDAOImpl implements CourseDAO {
 		// TODO Auto-generated method stub
 		CourseMapper mapper = sqlSession.getMapper(CourseMapper.class);
 		return mapper.openLectureList(map);
+	}
+
+	@Override
+	public List<HashMap> getLecture(Map map) {
+		// TODO Auto-generated method stub
+		CourseMapper mapper = sqlSession.getMapper(CourseMapper.class);
+		return mapper.getLecture(map);
+	}
+
+	@Override
+	public List<HashMap> lectureList(Map map) {
+		// TODO Auto-generated method stub
+
+		CourseMapper mapper = sqlSession.getMapper(CourseMapper.class);
+
+		return mapper.lectureList(map);
 	}
 
 }

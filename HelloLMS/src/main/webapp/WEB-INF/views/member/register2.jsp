@@ -1,18 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>    
+    pageEncoding="UTF-8"%>  
+<%@ include file="../include/header.jsp" %>
 <%@ include file="../include/menu.jsp" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>회원 가입 폼</title>
-
- <link href="/resources/bootstrap/css/bootstrap.css" rel="stylesheet">
-   <link href="/resources/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
-   <script src="/resources/js/jquery-2.1.1.min.js"></script>
-   <script src="/resources/bootstrap/js/bootstrap.min.js"></script>
-   <script src="/resources/js/angular.1.4.8.min.js"></script>
-  <script src="http://code.jquery.com/jquery-latest.min.js"></script>
   
   <style type="text/css">
     
@@ -131,8 +120,11 @@ function chk_radio()
 </head>
 <body>
 
-
-<div class="row span 5" align="center">
+<div class="container">
+<div class="page-header">
+        <h1>회원가입</h1>
+</div>
+<!-- <div class="row span 5" align="center"> -->
  <form name = "frm" action="/member/register2" method="post" >
  <table class="table table-hover" align="center">
      <tr>
@@ -202,7 +194,7 @@ function chk_radio()
     </table>
   </form>
 
-</div>  
+<!-- </div> -->  
+ </div> <!-- /container -->
 
-</body>
-</html>
+<%@ include file="../include/footer.jsp"%>

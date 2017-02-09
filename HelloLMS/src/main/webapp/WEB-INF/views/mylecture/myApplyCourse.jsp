@@ -69,10 +69,16 @@
 										</c:when>
 									</c:choose></td>
 								<td><c:choose>
-										<c:when test="${applycourse.axresult=='D'}">
-											미
-										</c:when>
-									</c:choose>이수</td>
+									<c:when test="${applycourse.axresult=='G'}">
+										이수
+									</c:when>
+									<c:when test="${applycourse.axresult=='D'}">
+										미이수
+									</c:when>
+									<c:otherwise></c:otherwise>
+									</c:choose>
+									<c:if test="${!empty applycourse.axscore}">(${applycourse.axscore})</c:if>
+									</td>
 							</tr>
 						</c:forEach>
 					</c:if>

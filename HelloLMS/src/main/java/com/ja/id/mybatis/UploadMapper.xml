@@ -16,5 +16,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectcourse" resultType="java.util.HashMap" parameterType="java.util.HashMap">
 		select * from course limit 6;
 	</select>
+	
+	<insert id="updatepopup" parameterType="java.util.HashMap">
+		insert into popup (pxname, pxfrom, pxto, pxday, pxurl, pxfile)
+		values (#{pxname}, #{pxfrom}, #{pxto}, #{pxday}, #{pxurl}, #{pxfile})
+	</insert>
+	
 
 </mapper>

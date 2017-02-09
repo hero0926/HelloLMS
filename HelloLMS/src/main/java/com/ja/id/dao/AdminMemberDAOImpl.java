@@ -39,4 +39,13 @@ public class AdminMemberDAOImpl implements AdminMemberDAO {
 		return mapper.updateMemberT(map);		
 	}
 
+	@Override
+	public List<HashMap> updateM(Map map) {
+		// TODO Auto-generated method stub
+		AdminMemberMapper mapper = ss.getMapper(AdminMemberMapper.class);
+		return mapper.updateM(map);
+	}
+
+	
+
 }

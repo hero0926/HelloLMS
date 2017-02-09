@@ -42,7 +42,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select a.coxseq, a.coxcate, a.coxname, a.coxstart,
     		a.coxend, a.coxreqstart, a.coxreqend, a.tuxseq,
 			a.coxintro, a.coxopen, a.coxprog, a.coxscore,
-			a.coxoffice, a.regdate, b.cxname
+			a.coxoffice, a.regdate, b.cxname, a.coximgname
 		from course a, code b
 		where a.coxcate = b.cxseq
 		<if test="null != coxoffice and '' !=coxoffice">
@@ -77,11 +77,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			coxcate, coxname, coxstart, coxend,
 			coxreqstart, coxreqend, tuxseq, coxintro,
 			coxopen, coxprog, coxscore, coxoffice,
-			regdate, mxseq )
+			regdate, mxseq, coximgname )
 		values (#{coxcate}, #{coxname}, #{coxstart}, #{coxend},
 			#{coxreqstart}, #{coxreqend}, #{tuxseq}, #{coxintro},
 			#{coxopen}, CAST(#{coxprog} AS UNSIGNED), CAST(#{coxscore} AS UNSIGNED), #{coxoffice},
-			date_format(now(), '%Y%m%d'), #{mxseq})
+			date_format(now(), '%Y%m%d'), #{mxseq}, #{coximgname})
 	</insert>
 	
 	<update id="updateCourse" parameterType="java.util.HashMap">
@@ -96,7 +96,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			coxintro = #{coxintro},
 			coxopen = #{coxopen},
 			coxprog = #{coxprog},
-			coxscore = #{coxscore}
+			coxscore = #{coxscore},
+			coximgname=#{coximgname}
 		where coxseq = #{coxseq}
 	</update>
 	
@@ -208,7 +209,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    </if>
 		order by a.tpxto desc, a.tpxfrom desc
 	</select>
-
+	
 	<update id="updateTestpaper" parameterType="java.util.HashMap">
 		update testpaper set
 			tpxtitle = #{tpxtitle},
@@ -302,26 +303,134 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where tpxseq = #{tpxseq} 
 	</select>
 	
-	<select id="selectTestMonitor" resultType="int" parameterType="java.util.HashMap">
+	<select id="selectTestMonitor" resultType="java.util.HashMap" parameterType="java.util.HashMap">
 	
 		select aa.tpxseq, aa.tpxtitle, aa.tpxfrom, aa.tpxto,
 			aa.tpxduring, aa.tpx1cnt, aa.tpx2cnt, aa.tpx3cnt,
-			aa.tpx1score, aa.tpx2score, aa.tpx3score, aa.coxname,
+			aa.tpx1score, aa.tpx2score, aa.tpx3score, aa.coxname, aa.coxseq,
 			count(aa.mxseq) applycnt, count(d.trxseq) resultcnt
 		from (
-			select a.tpxseq, a.tpxtitle, a.tpxfrom, a.tpxto, a.tpxduring, a.tpx1cnt, a.tpx2cnt, a.tpx3cnt, a.tpx1score, a.tpx2score, a.tpx3score,
-			b.coxname, c.mxseq
+			select a.tpxseq, a.tpxtitle, a.tpxfrom, a.tpxto,
+				a.tpxduring, a.tpx1cnt, a.tpx2cnt, a.tpx3cnt,
+				a.tpx1score, a.tpx2score, a.tpx3score, b.coxname,
+				a.coxseq, c.mxseq
 			from testpaper a, course b, apply c
-			where a.coxseq = #{coxseq}
-			and a.coxseq = b.coxseq
+			where a.coxseq = b.coxseq
 			and b.coxseq = c.coxseq
+			and c.axstatus = 'A'
 		) aa
 		left outer join testresult d
 			on aa.tpxseq = d.tpxseq
 			and aa.mxseq = d.mxseq
 		group by aa.tpxseq, aa.tpxtitle, aa.tpxfrom, aa.tpxto,
 			aa.tpxduring, aa.tpx1cnt, aa.tpx2cnt, aa.tpx3cnt,
-			aa.tpx1score, aa.tpx2score, aa.tpx3score, aa.coxname
+			aa.tpx1score, aa.tpx2score, aa.tpx3score, aa.coxname, aa.coxseq
 		order by aa.tpxto desc
 	</select>
+	
+	<select id="selectTestApply" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select a.mxseq, b.mxname, b.mxid
+		from apply a, member b
+		where a.coxseq = #{coxseq}
+		and a.axstatus = 'A'
+		and a.mxseq = b.mxseq
+		order by 2
+	
+	</select>
+	
+	<select id="selectTestresult" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select a.trxseq, a.mxseq, a.trxstart, a.trxend,
+			a.trxrest, a.trxscore, a.tpxseq, b.mxname,
+			b.mxid
+		from testresult a, member b
+		where a.tpxseq = #{tpxseq}
+		and a.mxseq = b.mxseq
+		order by b.mxname
+	
+	</select>
+	
+	<update id="updateScore1" parameterType="java.util.HashMap">
+		update testanswer set
+		taxcorrect = if(txcorrect=taxanswer, 'Y', 'N'),
+		taxscore = if(txcorrect=taxanswer, txscore, 0)
+		where tpxseq = #{tpxseq}
+	</update>
+	<update id="updateScore2" parameterType="java.util.HashMap">
+		update testresult a set
+		a.trxscore = (
+			select sum(b.taxscore)
+			from testanswer b
+			where b.tpxseq = #{tpxseq}
+			and a.mxseq = b.mxseq )
+		where a.tpxseq = #{tpxseq}
+	</update>
+	<update id="updateScore3" parameterType="java.util.HashMap">
+		update apply a set
+		a.axscore = (
+		select round(avg(b.trxscore), 2)
+		from testresult b, testpaper c
+		where b.tpxseq = c.tpxseq
+		and c.coxseq = #{coxseq}
+		and b.mxseq = a.mxseq)
+		where a.coxseq = #{coxseq}
+
+	</update>
+
+	<update id="updateScore4" parameterType="java.util.HashMap">
+		update apply a set
+		a.axresult =(  if((select b.coxscore from course b where b.coxseq = 5)<![CDATA[<=]]>a.axscore, 'G', 'D' ))
+		where a.coxseq = #{coxseq}
+	</update>	
+	
+	<select id="popup" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select * from popup where pxto >= date_format(now(), '%Y%m%d')
+	</select>
+
+	<select id="selectResult" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select a.mxseq, c.mxid, c.mxname, b.trxstart,
+			b.trxend, b.trxrest, b.trxscore, b.trxseq
+		from apply a
+		left join testresult b
+		on a.mxseq = b.mxseq
+		and b.tpxseq = #{tpxseq}
+		, member c
+		where a.coxseq = #{coxseq}
+		and a.mxseq = c.mxseq
+		order by 3	
+	</select>
+	
+	<select id="selectAnswer" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select a.taxseq, a.taxorder, a.txcorrect, a.txscore,
+			a.taxanswer, a.taxcorrect, a.taxscore, b.trxstart,
+			b.trxend, b.trxrest, b.trxscore, c.mxid,
+			c.mxname, d.txtype, b.trxseq
+		from testanswer a, testresult b, member c, testpool d
+		where b.trxseq = #{trxseq}
+		and a.mxseq = b.mxseq
+		and a.tpxseq = b.tpxseq
+		and b.mxseq = c.mxseq
+		and a.txseq = d.txseq
+		order by a.taxorder
+	</select>	
+	
+	<update id="addScore1" parameterType="java.util.HashMap">
+		update testanswer set
+			taxscore = #{taxscore}
+		where taxseq = #{taxseq}
+	</update>
+	
+	<update id="addScore2" parameterType="java.util.HashMap">
+		update testresult set
+		trxscore=#{trxscore} 
+		where trxseq = #{trxseq}
+	</update>
+	
+	<select id="selectSumScore" resultType="int" parameterType="java.util.HashMap">
+		select sum(b.taxscore) sumscore
+		from testresult a, testanswer b
+		where a.trxseq = #{trxseq}
+		and a.tpxseq = b.tpxseq
+		and a.mxseq = b.mxseq
+	</select>
+
 </mapper>

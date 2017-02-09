@@ -19,7 +19,7 @@
                 <ul class="dropdown-menu">
                   <li><a href="/admin/testpoolList">평가문제관리</a></li>
                   <li><a href="/admin/testpaperList">평가지관리</a></li>
-                  <li><a href="#">평가현황</a></li>
+                  <li><a href="/admin/testMonitor">평가현황</a></li>
                 </ul>
               </li>
               <li class="dropdown <c:if test="${ '5'==adMenu }">active</c:if>">
@@ -30,7 +30,14 @@
                   <li><a href="#">Q&A</a></li>
                 </ul>
               </li>
-              <li <c:if test="${ '6'==adMenu }">class="active"</c:if>><a href="/admin/aduploadForm">팝업관리</a></li>
+              <li class="dropdown <c:if test="${ '6'==adMenu }">active</c:if>">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">광고관리 <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="/admin/aduploadForm">슬라이드배너</a></li>
+                  <li><a href="/admin/popuploadForm">팝업광고</a></li>
+                </ul>
+              </li>
+              
             </ul>
             
           </div><!--/.nav-collapse -->

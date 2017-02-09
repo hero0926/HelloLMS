@@ -36,4 +36,11 @@ public class AdminMemberServiceImpl implements AdminMemberService {
 		return dao.updateMemberT(map);
 	}
 
+	@Override
+	public List<HashMap> updateM(Map map) {
+		// TODO Auto-generated method stub
+		return dao.updateM(map);
+	}
+
+
 }

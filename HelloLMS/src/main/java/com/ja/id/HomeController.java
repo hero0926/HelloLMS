@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ja.id.service.AdminService;
+import com.ja.id.service.MemberService;
 import com.ja.id.service.UploadService;
 
 
@@ -46,7 +47,8 @@ public class HomeController {
 	@Autowired
 	private UploadService us;
 	
-	
+	@Autowired
+	private MemberService ms;
 
 	/**
 	 * Simply selects the home view to render by returning its name.
@@ -63,12 +65,25 @@ public class HomeController {
 			
 			//최신강의 불러오기
 			List<HashMap> c = us.selectcourse(map);
-			model.addAttribute("c", c);	
+			model.addAttribute("c", c);			
 			
-			logger.info("Welcome home! The client locale is {}.", locale);
+			//유저 수 불러오기
+			List<HashMap> m = ms.selectMain();
+			model.addAttribute("m", m);
+			
+			//메뉴 설정
 			session.setAttribute("Menu", "1");
-			
+				
+			//도메인 읽기
 			String uri = request.getServerName();
+			
+			//팝업 불러오기
+			List<HashMap> p = adminService.popup(map);
+			
+			//기간 내에 / 팝업 활성화되게 코딩...
+			if(p!=null){
+				model.addAttribute("Is_p", "Is_p");
+			}			
 			
 			if(uri.equals("localhost")){
 				session.setAttribute("UOFFICE", 8);			
@@ -88,7 +103,14 @@ public class HomeController {
 			return "home";
 		}	
 		
-
+	@RequestMapping(value="/FrmPopup", method = RequestMethod.GET)
+	public String Frmpopup(Locale locale, HttpSession session, HttpServletRequest request, Model model, @RequestParam Map map){
+		//팝업 불러오기
+		List<HashMap> p = adminService.popup(map);
+		model.addAttribute("p", p);
+		
+		return "FrmPopup";
+	}
 		
 
 	

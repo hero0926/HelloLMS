@@ -11,5 +11,8 @@ public interface AdminMemberService {
 	public int deleteMember(Map map);
 
 	public int updateMemberT(Map map);
+	
+	public List<HashMap> updateM(Map map);
+	
 
 }

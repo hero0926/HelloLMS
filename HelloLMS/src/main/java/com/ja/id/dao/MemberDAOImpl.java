@@ -1,4 +1,6 @@
 package com.ja.id.dao;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -93,6 +95,13 @@ public class MemberDAOImpl implements MemberDAO{
 		MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
 		mapper.pwupdate(pw, mxid);
 		
+	}
+
+	@Override
+	public List<HashMap> selectMain() {
+		// TODO Auto-generated method stub
+		MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
+		return mapper.selectMain();
 	}
 
 

@@ -11,18 +11,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT LAST_INSERT_ID()
 	</selectKey>
 </insert>
-<select id="memberoffice" resultType="java.util.HashMap" parameterType="java.util.HashMap">
-	select mxoffice from member where mxseq=#{mxseq}
-</select>
 <select id="getAllNotice" resultType="java.util.HashMap" parameterType="java.util.HashMap">
-	select b.bxnseq, b.bxngrid, b.bxnsubject, b.bxncontent, b.regdate, b.bxncnt, c.cxname from board_notice as b, code as c, member as m
+	select bxnseq, bxngrid, bxnsubject, bxncontent, regdate, bxncnt
+	from board_notice
+	where bxngrid=#{bxngrid}
+	<!-- select b.bxnseq, b.bxngrid, b.bxnsubject, b.bxncontent, b.regdate, b.bxncnt, c.cxgubun, c.cxcode, c.cxname
+	from board_notice b, code c
 	<if test="bxngrid != null">
-	where b.bxngrid=#{bxngrid}
-	AND b.bxngrid=c.cxcode order by bxnseq
+	where c.cxgubun = 2
+	and b.bxngrid=#{bxngrid}
+	and b.bxngrid=c.cxcode
+	</if> -->
+	<if test="bxnseq != null">
+	where b.bxnseq=#{bxnseq}
 	</if>
-	where c.cxgubun=2
-	AND b.bxngrid=c.cxcode order by bxnseq
-	<!-- AND b.bxngrid=#{bxngrid} -->
 </select>
 <select id="readNotice" resultType="java.util.HashMap" parameterType="java.util.HashMap">
 	select * from board_notice where bxnseq=#{bxnseq}
@@ -42,14 +44,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </update>
 <delete id="deleteNotice" parameterType="java.util.HashMap">
 	delete from board_notice WHERE bxnseq = #{bxnseq}
+	<if test="bxngrid != null">
+	and bxngrid = #{bxngrid}
+	</if>
 </delete>
 <select id="searchNotice" resultType="java.util.HashMap" parameterType="java.util.HashMap">
-	select * from board_notice
-	<if test="searchname == bxnsubject">
-	where bxnsubject like '%#{bxnsubject}%'
-	</if>
-	<if test="searchname == bxncontent">
-	where bxncontent like '%#{bxncontent}%'
+	select bxnseq, bxngrid, bxnsubject, bxncontent, bxncnt, regdate from board_notice
+	<if test="searchName != null">
+	WHERE (bxnsubject LIKE '%#{bxnsubject}%' 
+	OR bxncontent LIKE '%#{bxncontent}%')
 	</if>
 </select>
 

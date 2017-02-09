@@ -99,5 +99,26 @@ public class MyLectureServiceImpl implements MyLectureService{
 		// TODO Auto-generated method stub
 		return mylectureDAO.getHistory(map);
 	}
+
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
+	public List<HashMap> selectTestpaper(Map map) throws Exception {
+		// TODO Auto-generated method stub
+		return mylectureDAO.selectTestpaper(map);
+	}
+
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
+	public List<HashMap> selectTestpool(Map map) throws Exception {
+		// TODO Auto-generated method stub
+		return mylectureDAO.selectTestpool(map);
+	}
+
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
+	public List<HashMap> testpoolList(Map map) throws Exception {
+		// TODO Auto-generated method stub
+		return mylectureDAO.testpoolList(map);
+	}
 	
 }

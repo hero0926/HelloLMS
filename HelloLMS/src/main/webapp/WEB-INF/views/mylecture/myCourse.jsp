@@ -5,8 +5,8 @@
 	<div class="container">
 	
 		<script type="text/javascript">
-			function testpopupOpen(){
-				var popUrl = "testpopup";
+			function testpopupOpen(coxseq){
+				var popUrl = "testpopup?coxseq="+coxseq;
 				var popOption = "width=1080, height=720, resizable=no, scrollbars=no, status=no;";    //팝업창 옵션(optoin)
 					window.open(popUrl, "test", popOption);
 				}
@@ -48,7 +48,7 @@
 									<fmt:formatDate value="${dateFmt2}" pattern="yyyy-MM-dd"/></td>
 								<td><c:out value="${course.mxname}"/></td>
 								<td><c:out value="${course.coxprog}"/></td>
-								<td><a href="javascript:testpopupOpen();">평가</a></td>
+								<td><a href="javascript:testpopupOpen('${course.coxseq}');">평가</a></td>
 								<td><a href="javascript:historypopupOpen('${course.coxseq}');"><button type="submit" class="btn">수강이력</button></a></td>
 							</tr>
 						</c:forEach>

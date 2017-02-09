@@ -7,29 +7,21 @@
 	<script type="text/javascript">
 			function lecturepopup(lxtype, lxlink, lxseq, coxseq){
 				var popUrl;
-				alert(lxtype);
 				if(lxtype=="12"){
-					popUrl = "lecture?lxlink="+lxlink+"&coxseq="+coxseq;
-					alert(popUrl);
+					popUrl = "lecture?lxlink="+lxlink+"&lxtype="+lxtype+"&coxseq="+coxseq;
 				} else if(lxtype=="11"){
 					popUrl = "/download?path=/resources/lecture&fileName="+lxlink;
 				} else if(lxtype=="13"){
-					popUrl = lxlink;
+					/* popUrl = lxlink; */
+					popUrl = "lecture?lxlink="+lxlink+"&lxtype="+lxtype+"&coxseq="+coxseq;
 				}
 				winopen(popUrl, "lecture");
-				doStudy(lxseq);
 			}
 			function quizpopupOpen(lxseq){
 				
 				var popOption = "resizable=no, scrollbars=no, status=no, width=500, height=500, top=200, left=500"; //팝업창 옵션
 				window.open("/quiz?lxseq="+lxseq,"quiz",popOption);
-				//winopen("/quiz?lxseq="+lxseq, "quiz");
-				
-				
-/* 				var popUrl = "quizpopup";
-				var popOption = "width=370, height=360, resizable=no, scrollbars=no, status=no;";    //팝업창 옵션(optoin)
-					window.open(popUrl, "", popOption);
- */			}
+			}
 			
 			function winopen(url, title){
 				var popUrl = url;
@@ -38,15 +30,15 @@
 			}
 	</script>
 	
-		<div class="page-header">
-        	<h1><small>강의실  > 공개 강좌</small></h1>
-        </div>
+		<!-- <div class="page-header">
+        	<h1><small>공개강좌  >  내 강의  >  수강 중인 과정</small></h1>
+        </div> -->
         
         <div class="row">
         	<div class="span12">
-        		<h3>강의 목록<small>...수강중인 과정의 강의 목록입니다.</small></h3>
+        		<h3>공개강좌<small>...자유롭게 강의를 수강할 수 있습니다.</small></h3>
         		<div class="alert alert-info">
-        			<h3><c:out value="${coxname}"/></h3>
+        			<h3><c:forEach var="test" items="list" end="2" varStatus="status"><c:out value="${list[status.index].coxname}"/></c:forEach></h3>
   				</div>
         		<table class="table table-bordered">
 	  				<tr>

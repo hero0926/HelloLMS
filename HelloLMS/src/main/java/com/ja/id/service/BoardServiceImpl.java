@@ -1,13 +1,19 @@
 package com.ja.id.service;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.ja.id.dao.BoardDAO;
 
@@ -18,12 +24,29 @@ public class BoardServiceImpl implements BoardService {
 	@Autowired
 	private BoardDAO boardDAO;
 	int result = 0;
+	
+	Logger log = Logger.getLogger(this.getClass());
+	
 
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public int writeNotice(Map map) throws Exception {
+	public int writeNotice(Map map, HttpServletRequest req) throws Exception {
 		//map.put("mxoffice", map.get("mxoffice"));
 		result = boardDAO.writeNotice(map);
-
+		
+		MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest)req;
+	    Iterator<String> iterator = multipartHttpServletRequest.getFileNames();
+	    MultipartFile multipartFile = null;
+	    while(iterator.hasNext()){
+	        multipartFile = multipartHttpServletRequest.getFile(iterator.next());
+	        if(multipartFile.isEmpty() == false){
+	            log.debug("------------- file start -------------");
+	            log.debug("name : "+multipartFile.getName());
+	            log.debug("filename : "+multipartFile.getOriginalFilename());
+	            log.debug("size : "+multipartFile.getSize());
+	            log.debug("-------------- file end --------------\n");
+	        }
+	    }
+	
 		if (result == 1) {
 
 		} else {
@@ -31,6 +54,7 @@ public class BoardServiceImpl implements BoardService {
 		}
 		map.put("bxnseq", map.get("bxnseq"));
 		return result;
+		
 	}
 
 	@Override

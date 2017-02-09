@@ -70,7 +70,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		INSERT INTO apply
 		(coxseq, mxseq, axstatus, regdate)
 		values (
-		#{coxseq}, #{USEQ}, 'R', date_format(now(), '%Y%m%d')		
+		#{coxseq}, #{USEQ}, 'R', date_format(now(), '%Y%m%d')
 		)
 
 	</insert>
@@ -81,19 +81,40 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</delete>
 	
 	<select id="openCourseList" resultType="java.util.HashMap" parameterType="java.util.HashMap">
-		SELECT a.coxname, a.coxstart, a.coxend, a.coxseq, b.*, c.mxname
+		SELECT a.coxname, a.coxstart, a.coxend, a.coxseq, a.coxintro, a.coximgname, b.*, c.mxname
 		FROM course a, tutor b, member c
 		WHERE a.coxopen='Y'
 			AND a.tuxseq=b.tuxseq
 			AND b.mxseq = c.mxseq
-			AND DATE_FORMAT(NOW(), '%Y%m%d') between a.coxstart and a.coxend
 	</select>
 	
 	<select id="openLectureList" resultType="java.util.HashMap" parameterType="java.util.HashMap">
-		SELECT a.*, b.coxname
+		SELECT c.coxname, c.coxseq, a.lxseq, a.lxnum,
+			a.lxname, a.lxlink, a.lxfile, a.lxtype,
+			b.regdate, count(d.qxseq) qxcnt, count(e.qaxseq) qaxcnt
+		FROM lecture a
+		LEFT OUTER JOIN lexstudy b
+			ON a.lxseq = b.lxseq
+		LEFT OUTER JOIN quiz d
+			on a.lxseq = d.lxseq
+		LEFT OUTER JOIN qxanswer e
+			ON d.qxseq = e.qxseq
+			AND e.mxseq = a.mxseq
+		, course c
+		WHERE a.coxseq = #{coxseq}
+			AND c.coxseq = a.coxseq
+		GROUP BY c.coxname, c.coxseq, a.lxseq, a.lxnum,
+			a.lxname, a.lxlink, a.lxfile, a.lxtype,
+			b.regdate
+		ORDER BY a.lxnum
+	</select>
+	
+	<select id="getLecture" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		SELECT b.coxname, b.coxseq, a.lxseq, a.lxnum, a.lxname, a.lxlink, a.lxfile, a.lxtype
 		FROM lecture a, course b
 		WHERE a.coxseq=#{coxseq}
 			AND b.coxseq=#{coxseq}
+		ORDER BY a.lxnum
 	</select>
 
 </mapper>

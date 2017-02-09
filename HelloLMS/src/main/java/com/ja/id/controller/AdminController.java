@@ -1,5 +1,6 @@
 package com.ja.id.controller;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -10,11 +11,14 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ja.id.service.AdminService;
 
@@ -26,6 +30,9 @@ import com.ja.id.service.AdminService;
 public class AdminController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
+	
+	@Value("${file.upload.course}")
+	private String fileUploadPath;
 	
 	@Autowired
 	private AdminService adminService;
@@ -172,7 +179,7 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value = "/courseWrite", method = RequestMethod.POST)
-	public String courseWrite(Locale locale, Model model, @RequestParam Map map, HttpSession session) {
+	public String courseWrite(Locale locale, Model model, @RequestParam Map map, HttpSession session, @RequestParam(value = "coximgname") List<MultipartFile> files, String uploadpath) {
 		logger.info("controller start courseWrite.", locale);
 		
 		int count = 0;
@@ -186,10 +193,23 @@ public class AdminController {
 			map.put("coxend", ((String)map.get("coxend")).replace("-", ""));
 			map.put("coxreqstart", ((String)map.get("coxreqstart")).replace("-", ""));
 			map.put("coxreqend", ((String)map.get("coxreqend")).replace("-", ""));
-			if (coxseq.length()>0){
-				count = adminService.updateCourse(map);
-			} else {
-				count = adminService.insertCourse(map);
+			
+			String fileName = "";
+			for (int i = 0; i < files.size(); i++) {
+				MultipartFile file = (MultipartFile) files.get(i);
+				if (!file.isEmpty()){
+					File newFile = new File(fileUploadPath/* + sub*/ + file.getOriginalFilename());
+					file.transferTo(newFile);
+					fileName += file.getOriginalFilename() + "|";
+					model.addAttribute("originalFileName", fileName);
+				}
+				map.put("coximgname", file.getOriginalFilename());
+				
+				if (coxseq.length()>0){
+					count = adminService.updateCourse(map);
+				} else {
+					count = adminService.insertCourse(map);
+				}
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -494,6 +514,125 @@ public class AdminController {
 		
 		return "common/common_alert";
 	}	
+
+	@RequestMapping(value = "/testMonitor", method = {RequestMethod.POST, RequestMethod.GET})
+	public String testMonitor(Locale locale, Model model, HttpSession session, @RequestParam Map map) {
+		logger.info("controller testMonitor.", locale);
+		
+		List<HashMap> testMonitorList = adminService.selectTestMonitor(map);
+		model.addAttribute("testMonitorList", testMonitorList);
+		
+		session.setAttribute("adMenu", "4");
+		return "exam/ad_testMonitor";
+	}
 	
+
+	@RequestMapping(value = "/selectTestApply", method = {RequestMethod.POST, RequestMethod.GET})
+	public String selectTestApply(Locale locale, Model model, HttpSession session, @RequestParam Map map) {
+		logger.info("controller selectTestApply.", locale);
+		
+		List<HashMap> selectTestApply = adminService.selectTestApply(map);
+		model.addAttribute("applyList", selectTestApply);
+		
+		session.setAttribute("adMenu", "4");
+		return "exam/ad_testApply";
+	}
+
+	@RequestMapping(value = "/selectTestresult", method = {RequestMethod.POST, RequestMethod.GET})
+	public String selectTestresult(Locale locale, Model model, HttpSession session, @RequestParam Map map) {
+		logger.info("controller selectTestresult.", locale);
+		
+		List<HashMap> selectTestresult = adminService.selectTestresult(map);
+		model.addAttribute("resultList", selectTestresult);
+		
+		session.setAttribute("adMenu", "4");
+		return "exam/ad_testResult";
+	}
+	
+	@RequestMapping(value = "/updateScore", method = {RequestMethod.POST})
+	@ResponseBody
+	public String updateScore(Locale locale, Model model, @RequestParam Map map) {
+		logger.info("controller start updateScore.", locale);
+		
+		int count = 0;
+		String msg = "";
+		try {
+			count = adminService.updateScore(map);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			msg="error!!!";
+		}
+		msg="success!!!";
+		
+		return msg;
+	}
+	
+	@RequestMapping(value = "/selectResult", method = {RequestMethod.POST, RequestMethod.GET})
+	public String selectResult(Locale locale, Model model, HttpSession session, @RequestParam Map map) {
+		logger.info("controller selectResult.", locale);
+		
+		List<HashMap> resultList = adminService.selectResult(map);
+		model.addAttribute("resultList", resultList);
+		
+		return "exam/ad_testresultList";
+	}
+
+	@RequestMapping(value = "/selectAnswer", method = {RequestMethod.POST, RequestMethod.GET})
+	public String selectAnswer(Locale locale, Model model, HttpSession session, @RequestParam Map map) {
+		logger.info("controller selectAnswer.", locale);
+		
+		List<HashMap> answerList = adminService.selectAnswer(map);
+		model.addAttribute("answerList", answerList);
+		if(answerList!=null){
+			model.addAttribute("answerOne", answerList.get(0));
+		}
+
+		return "exam/ad_testAnswer";
+	}
+
+	@RequestMapping(value = "/addScore", method = {RequestMethod.POST, RequestMethod.GET})
+	public String addScore(Locale locale, Model model, @RequestParam Map map) {
+		logger.info("controller start addScore.", locale);
+		
+		int count = 0;
+		String trxseq = (String)map.get("trxseq");
+
+		try {
+			count = adminService.addScore(map);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			model.addAttribute("success_flag", "N");
+		}
+		if (0 < count) {
+			model.addAttribute("success_flag", "Y");
+		} else {
+			model.addAttribute("success_flag", "N");
+		}
+		model.addAttribute("forward_url", "/admin/selectAnswer?trxseq="+trxseq);
+		
+		return "common/common_alert";
+	}
+	
+	@RequestMapping(value = "/updateScore3", method = {RequestMethod.POST})
+	@ResponseBody
+	public String updateScore3(Locale locale, Model model, @RequestParam Map map) {
+		logger.info("controller start updateScore3.", locale);
+		
+		int count = 0;
+		String msg = "";
+		try {
+			count = adminService.updateScore3(map);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			msg="error!!!";
+		}
+		msg="success!!!";
+		
+		return msg;
+	}
+
 	
 }

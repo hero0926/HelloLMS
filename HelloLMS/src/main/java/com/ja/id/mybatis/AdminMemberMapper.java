@@ -12,5 +12,6 @@ public interface AdminMemberMapper {
 
 	public int updateMemberT(Map map);
 
+	public List<HashMap> updateM(Map map);	
 
 }

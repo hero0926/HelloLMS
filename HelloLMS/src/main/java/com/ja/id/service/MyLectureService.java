@@ -29,5 +29,11 @@ public interface MyLectureService {
 	public int applyCourseDelete(Map map) throws Exception;
 
 	public List<HashMap> getHistory(Map map) throws Exception;
+
+	public List<HashMap> selectTestpool(Map map) throws Exception;
+
+	public List<HashMap> selectTestpaper(Map map) throws Exception;
+
+	public List<HashMap> testpoolList(Map map) throws Exception;
 	
 }

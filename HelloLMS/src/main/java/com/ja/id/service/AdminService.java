@@ -47,4 +47,23 @@ public interface AdminService {
 
 	public int deleteTestpaper(Map map) throws Exception;
 
+	public List<HashMap> selectTestMonitor(Map map);
+
+	public List<HashMap> selectTestApply(Map map);
+
+	public List<HashMap> selectTestresult(Map map);
+	
+	public List<HashMap> popup(Map map);
+
+
+	public int updateScore(Map map) throws Exception;
+
+	public List<HashMap> selectResult(Map map);
+
+	public List<HashMap> selectAnswer(Map map);
+
+	public int addScore(Map map) throws Exception;
+
+	public int updateScore3(Map map) throws Exception;
+
 }

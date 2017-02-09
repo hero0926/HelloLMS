@@ -4,19 +4,23 @@
 <%@ include file="include/header.jsp" %>
 <%@ include file="include/menu.jsp" %>
 
- <link href="/resources/bootstrap/css/bootstrap.css" rel="stylesheet">
-   <link href="/resources/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
-   <script src="/resources/js/jquery-2.1.1.min.js"></script>
-   <script src="/resources/bootstrap/js/bootstrap.min.js"></script>
-   <script src="/resources/js/angular.1.4.8.min.js"></script>
 
 <script>
 $('.carousel').carousel({
 	  interval: 2000
 	})
+	
+function Popup() {
+    window.open("/FrmPopup",
+    "popup",
+	"width = 700, height = 400, left = 300, top = 300, toolbar = no, location = no, directories = no, status = no, resizable = no"	);
+	
+}
 </script>
 
+
 <style>
+
 
 body{
 	justify-content: center;
@@ -78,7 +82,7 @@ img.no-resize {
  	letter-spacing: 0.02em;
  	text-transform: uppercase;
  	text-align: center; 	
-    background:hsla(11, 94%, 50%, .65);    
+    background:hsla(1, 1%, 1%, .1);    
  	float:center;
  	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);  
         
@@ -95,7 +99,7 @@ img.no-resize {
 
 @-webkit-keyframes Floatingx{
     from {-webkit-transform:translate(0, 0px)}
-    65% {-webkit-transform:translate(0, 55px)}
+    65% {-webkit-transform:translate(0, -55px)}
     to {-webkit-transform: translate(0, -0px)}
 }
     
@@ -104,24 +108,7 @@ img.no-resize {
     65% {-moz-transform:translate(0, 15px);}
     to {-moz-transform: translate(0, -0px);}    
 }
-   
-   div.span3:nth-child(2) {
-          background:hsla(44, 94%, 50%, .65);
-        }
-        
-    div.span3:nth-child(3) {
-          background:hsla(114, 94%, 50%, .65);  
-        }
-        div.span3:nth-child(4) {
-          background:hsla(144, 94%, 50%, .35);  
-        }
-        div.span3:nth-child(5) {
-          background:hsla(224, 94%, 50%, .65);  
-        }            
-          div.span3:nth-child(6) {
-          background:hsla(634, 94%, 50%, .65);  
-        }   
-   
+
    div.row-fluid{   	    
         text-align : center;
    }
@@ -141,8 +128,18 @@ img.no-resize {
     font-size:30px;
     font-weight:600;
 }
-      
+
+div.span3:hover {
+    opacity: 0.8;
+    filter: alpha(opacity=80); /* For IE8 and earlier */
+}
+
 </style>
+
+
+<c:if test="${!empty Is_p }">
+<body onLoad="Popup()">
+</c:if>
 
    <div class="container">
 <!-- 
@@ -152,6 +149,9 @@ img.no-resize {
         <p>This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
         <p><a href="#" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
       </div> -->
+      
+      <!-- 팝업 -->
+       
       
       <!-- 슬라이드쇼  -->
       
@@ -165,17 +165,17 @@ img.no-resize {
    <div class="carousel-inner">
    
    <c:forEach var="b" items="${b}" varStatus="status">
-    <div class="active item" align="center">
+    <div class="active item" align="center"> 
     <a href="${b.adxurl1 }">
-     <img class="no-resize" src="http://localhost/displayFile?fileName=${b.adxname1}" alt="">   </a> 
+     <img class="no-resize" src="/displayFile?fileName=${b.adxname1}" alt="">   </a> 
     </div>
     <div class="item" align="center">
     <a href="${b.adxurl2 }">
-     <img class="no-resize"  src="http://localhost/displayFile?fileName=${b.adxname2}" alt=""> </a>
+     <img class="no-resize"  src="/displayFile?fileName=${b.adxname2}" alt=""> </a>
     </div>    
   <div class="item" align="center">    
   <a href="${b.adxurl3 }">
-     <img class="no-resize"  src="http://localhost/displayFile?fileName=${b.adxname3}" alt=""> </a>
+     <img class="no-resize"  src="/displayFile?fileName=${b.adxname3}" alt=""> </a>
   </div>
     </c:forEach>
   </div>
@@ -194,49 +194,62 @@ img.no-resize {
 					<h1 class="heading">자유롭게 배움의 기회를 누리세요!</h1>
 					<hr>
 					<p>최신 인기 강의를 찾아보세요.</p>
+					<br>
+			        <form action="/scourse/list">
+			        <div class="col-xs-5">         	         
+			         	<input type="text" class="form-control col-xs-5" placeholder="Search : 과정명" name="coxname">
+			   		
+			   			<button class="btn btn-default" type="submit">
+			     		<i class="icon-search icon-black"></i>
+			  			</button>			  		
+					</form>
+					</div>			
 				</div>
 			</div>			
 			
-      <!-- 최신 강의 출력하기 -->      
- <div class ="row-fluid" >
+      <!-- 최신 강의 출력하기   --> 
+ <div class ="row-fluid span12" >
 <c:forEach var="c" items="${c}" varStatus="status">      
         <div class="span3">
           <h2>${c.coxname }</h2>
           <p>${c.coxintro }</p>
           <p><a class="btn" href="#">수강하기 &raquo;</a></p>
         </div>     
+        
  </c:forEach>
+ 
 </div>
  
  <hr>
  
  <!-- 유저수 -->
- 
+ <c:forEach var="m" items="${m}" varStatus="status"> 
  <div> 
     <section class="lms">
         <div class="container-fluid">
             <div class="row-fluid">
                 <div class="span4">
                     <div class="stats-div">
-                        <h3>5000+ </h3>
+                        <h3>${m.s_count } </h3>
                         <h4>Users</h4>
                     </div>
                 </div>
                 <div class="span4">
                     <div class="stats-div">
-                        <h3>205+ </h3>
+                        <h3>${m.t_count } </h3>
                         <h4>Teachers</h4>
                     </div>
                 </div>
                 <div class="span4">
                     <div class="stats-div">
-                        <h3>1300+ </h3>
+                        <h3>${m.c_count } </h3>
                         <h4>Courses</h4>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+</c:forEach>
  
  </div>
  
@@ -248,10 +261,10 @@ img.no-resize {
 			
 			<div class="col-md-offset-2 col-md-8 col-sm-offset-2 col-sm-8">
 				<div class="section-title">
-					<h5 class="wow bounceIn">새 직업을 찾아보세요</h5>
+					<h5 class="wow bounceIn">새 강좌를 개설해 보세요.</h5>
 					<h1 class="heading">CONTACT US</h1>
 					<hr>
-					<a href="#email" data-toggle="modal"><p>제휴 문의를 하시려면 연락주세요.</p></a>
+					<a href="#email" data-toggle="modal"><p>새로운 과정을 오픈 하시려면 연락주세요.</p></a>
 				</div>
 			</div>
 			
@@ -261,7 +274,7 @@ img.no-resize {
 <div id="email" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">제휴를 문의하고 싶으신가요?</h3>
+    <h3 id="myModalLabel">과정 오픈 요청을 하고 싶으신가요?</h3>
   </div>
   <div class="modal-body">
   <form action="/member/contact" method="post" >
@@ -270,18 +283,16 @@ img.no-resize {
     <p>내용 <textarea class="form-control" placeholder="Message" rows="7" name="message"></textarea>
   </div>
   <div class="modal-footer">
-    <button class="btn btn-primary" type="submit" >보내!</button>
+    <button class="btn btn-primary" type="submit" >네!</button>
     </form>
   </div> 
 </div>
 
-</div>			
-				
-			
-		</div>
-	</div>
+</div>		
+</div>
+</div>
 </section>
- 
- 
+</div> 
+ </body>
       
 <%@ include file="include/footer.jsp"%>

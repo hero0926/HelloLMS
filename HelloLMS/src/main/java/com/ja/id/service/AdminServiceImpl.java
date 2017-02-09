@@ -193,4 +193,85 @@ public class AdminServiceImpl implements AdminService{
 		return result;
 	}
 
+	@Override
+	public List<HashMap> selectTestMonitor(Map map) {
+		// TODO Auto-generated method stub
+		return adminDAO.selectTestMonitor(map);
+	}
+
+	@Override
+	public List<HashMap> selectTestApply(Map map) {
+		// TODO Auto-generated method stub
+		return adminDAO.selectTestApply(map);
+	}
+
+	@Override
+	public List<HashMap> selectTestresult(Map map) {
+		// TODO Auto-generated method stub
+		return adminDAO.selectTestresult(map);
+	}
+
+	@Override
+	public List<HashMap> popup(Map map) {
+		// TODO Auto-generated method stub
+		return adminDAO.popup(map);
+	}
+	
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
+	public int updateScore(Map map) throws Exception {
+		// TODO Auto-generated method stub
+		int result = adminDAO.updateScore1(map);
+
+		if (result>0) {
+			result = adminDAO.updateScore2(map);
+		} else {
+			throw new Exception();
+		}
+		
+		return result;
+	}
+
+	@Override
+	public List<HashMap> selectResult(Map map) {
+		// TODO Auto-generated method stub
+		return adminDAO.selectResult(map);
+	}
+
+	@Override
+	public List<HashMap> selectAnswer(Map map) {
+		// TODO Auto-generated method stub
+		return adminDAO.selectAnswer(map);
+	}
+
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
+	public int addScore(Map map) throws Exception {
+		// TODO Auto-generated method stub
+		int result = adminDAO.addScore1(map);
+		int trxscore = adminDAO.selectSumScore(map);
+		map.put("trxscore", trxscore);
+		if (result>0) {
+			result = adminDAO.addScore2(map);
+		} else {
+			throw new Exception();
+		}
+		
+		return result;
+
+	}
+
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
+	public int updateScore3(Map map) throws Exception {
+		// TODO Auto-generated method stub
+		int result = adminDAO.updateScore3(map);
+
+		if (result>0) {
+			result = adminDAO.updateScore4(map);
+		} else {
+			throw new Exception();
+		}
+		
+		return result;
+	}
+
+
 }

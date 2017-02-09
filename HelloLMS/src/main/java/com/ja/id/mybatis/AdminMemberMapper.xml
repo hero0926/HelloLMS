@@ -18,5 +18,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		update member set mxdiv="T" where mxid=#{mxid}	
 	</update>
 	
+	<select id="updateM" parameterType="java.util.HashMap" resultType="java.util.HashMap"> 
+		select mxid, mxname from member
+		where mxid = #{mxid}
+
+	</select>
+	
+	
+	
 
 	</mapper>

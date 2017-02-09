@@ -93,5 +93,11 @@ public class MemberServiceImpl implements MemberService{
 		
 	}
 
+	@Override
+	public List<HashMap> selectMain() {
+		// TODO Auto-generated method stub
+		return MemberDAO.selectMain();
+	}
+
 
 }

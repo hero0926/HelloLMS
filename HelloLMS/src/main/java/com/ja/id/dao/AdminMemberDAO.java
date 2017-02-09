@@ -12,5 +12,7 @@ public interface AdminMemberDAO {
 
 	public int updateMemberT(Map map);
 
+	public List<HashMap> updateM(Map map);
+
 
 }

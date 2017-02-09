@@ -5,12 +5,11 @@
 <style>
 
 #searchType{
-
 	width : 85px;
-
 }
 
 </style>
+
 
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
@@ -49,21 +48,32 @@
               </li>
               <li class="dropdown <c:if test="${ '3'==Menu }">active</c:if>">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">고객센터 <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                  <li><a href="/board/notice/">공지사항</a></li>
-                  <li><a href="#">FAQ</a></li>
-                  <li><a href="/board/qna?bxqgrid=1">Q&A</a></li>
+                <ul class="dropdown-menu"><c:choose>
+                		<c:when test="${pageContext.request.serverName == 'oracle.ja.com'}">
+                			<li><a href="/board/notice?bxngrid=1">공지사항</a></li>
+                			<li><a href="#">FAQ</a></li>
+     			            <li><a href="/board/qna?bxqgrid=1">Q&A</a></li>
+                		</c:when>
+                		<c:when test="${pageContext.request.serverName == 'hanwha.ja.com'}">
+                			<li><a href="/board/notice?bxngrid=2">공지사항</a></li>
+                			<li><a href="#">FAQ</a></li>
+     			            <li><a href="/board/qna?bxqgrid=2">Q&A</a></li>
+                		</c:when>
+                		<c:when test="${pageContext.request.serverName == 'lg.ja.com'}">
+                			<li><a href="/board/notice?bxngrid=3">공지사항</a></li>
+                			<li><a href="#">FAQ</a></li>
+     			            <li><a href="/board/qna?bxqgrid=3">Q&A</a></li>
+                		</c:when>
+                		<c:otherwise>
+                			<li><a href="/board/notice?bxngrid=1">공지사항</a></li>
+                			<li><a href="#">FAQ</a></li>
+     			            <li><a href="/board/qna?bxqgrid=1">Q&A</a></li>
+                		</c:otherwise>
+                	</c:choose>
                 </ul>
               </li>
             </ul>         
             
-            <form class="navbar-form pull-left"" action="/scourse/list">            	         
-            	<input type="text" placeholder="Search : 과정명" name="coxname">
-      			<button class="btn btn-default" type="submit">
-        		<i class="icon-search icon-black"></i>
-     			</button>
-			</form>
-			
             <form class="navbar-form pull-right" action="/member/logout" >
 	          <font style="color: white; font-style: inherit;">${UNAME }님 반갑습니다.</font>
               <button type="submit" class="btn">Sign off</button>
@@ -93,25 +103,37 @@
                 <ul class="dropdown-menu">
                   <li><a href="#" onClick="alert('로그인 하세요.');">수강신청가능한 강좌</a></li>
                   <li><a href="#" onClick="alert('로그인 하세요.');">진행중인 강좌</a></li>
-                  <li><a href="#">공개 강좌</a></li>
+                  <li><a href="/course/openCourse">공개 강좌</a></li>
                 </ul>
               </li>
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">고객센터 <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                  <li><a href="/board/notice/">공지사항</a></li>
-                  <li><a href="#">FAQ</a></li>
-                  <li><a href="#" onClick="alert('로그인 하세요.');">Q&A</a></li>
+                	<c:choose>
+                		<c:when test="${pageContext.request.serverName == 'oracle.ja.com'}">
+                			<li><a href="/board/notice?bxngrid=1">공지사항</a></li>
+                			<li><a href="#">FAQ</a></li>
+     			            <li><a href="#" onClick="alert('로그인 하세요.');">Q&A</a></li>
+                		</c:when>
+                		<c:when test="${pageContext.request.serverName == 'hanwha.ja.com'}">
+                			<li><a href="/board/notice?bxngrid=2">공지사항</a></li>
+                			<li><a href="#">FAQ</a></li>
+     			            <li><a href="#" onClick="alert('로그인 하세요.');">Q&A</a></li>
+                		</c:when>
+                		<c:when test="${pageContext.request.serverName == 'lg.ja.com'}">
+                			<li><a href="/board/notice?bxngrid=3">공지사항</a></li>
+                			<li><a href="#">FAQ</a></li>
+     			            <li><a href="#" onClick="alert('로그인 하세요.');">Q&A</a></li>
+                		</c:when>
+                		<c:otherwise>
+                			<li><a href="/board/notice?bxngrid=1">공지사항</a></li>
+                			<li><a href="#">FAQ</a></li>
+     			            <li><a href="#" onClick="alert('로그인 하세요.');">Q&A</a></li>
+                		</c:otherwise>
+                	</c:choose>
                 </ul>
               </li>
             </ul>
-           
-			<form class="navbar-form pull-left"" action="/scourse/list">            	         
-            	<input type="text" placeholder="Search : 과정명" name="coxname">
-      			<button class="btn btn-default" type="submit">
-        		<i class="icon-search icon-black"></i>
-     			</button>
-			</form>
 
             <form class="navbar-form pull-right" action="/member/loginPost" method="post">
               <input class="span2" type="text" name="mxid" placeholder="ID">

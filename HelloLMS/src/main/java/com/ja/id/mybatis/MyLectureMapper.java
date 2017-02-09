@@ -34,4 +34,10 @@ public interface MyLectureMapper {
 
 	public List<HashMap> getHistory(Map map);
 
+	public List<HashMap> selectTestpool(Map map);
+
+	public List<HashMap> selectTestpaper(Map map);
+
+	public List<HashMap> testpoolList(Map map);
+
 }

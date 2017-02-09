@@ -7,14 +7,13 @@
 	<script type="text/javascript">
 			function lecturepopup(lxtype, lxlink, lxseq, coxseq){
 				var popUrl;
-				alert(lxtype);
 				if(lxtype=="12"){
-					popUrl = "lecture?lxlink="+lxlink+"&coxseq="+coxseq;
-					alert(popUrl);
+					popUrl = "lecture?lxlink="+lxlink+"&lxtype="+lxtype+"&coxseq="+coxseq;
 				} else if(lxtype=="11"){
 					popUrl = "/download?path=/resources/lecture&fileName="+lxlink;
 				} else if(lxtype=="13"){
-					popUrl = lxlink;
+					/* popUrl = lxlink; */
+					popUrl = "lecture?lxlink="+lxlink+"&lxtype="+lxtype+"&coxseq="+coxseq;
 				}
 				winopen(popUrl, "lecture");
 				doStudy(lxseq);
@@ -22,7 +21,7 @@
 			function quizpopupOpen(lxseq){
 				
 				var popOption = "resizable=no, scrollbars=no, status=no, width=500, height=500, top=200, left=500"; //팝업창 옵션
-				window.open("/quiz?lxseq="+lxseq,"quiz",popOption);
+				window.open("/quiz?lxseq="+lxseq,"quiz", popOption);
 				//winopen("/quiz?lxseq="+lxseq, "quiz");
 				
 				
@@ -37,6 +36,7 @@
 					window.open(popUrl, title, popOption);
 			}
 			function doStudy(lxseq) {
+				alert('doStudy');
 				$.ajax({
 					type : "POST",
 					url : "/mypage/mylecture/lexstudy",
@@ -83,7 +83,6 @@
 								<td><c:out value="${lecture.lxnum}"/></td>
 								<td><c:out value="${lecture.lxname}"/></td>
 								<td><c:if test="${empty lecture.regdate}">미</c:if>수강</td>
-								<%-- <td><c:if test="${!empty lecture.lxlink}"><a href="javascript:lecturepopup('${lecture.lxtype}', '${lecture.lxlink}', '${lexture.lxseq}', '${lexture.coxseq}');"><button type="submit" class="btn">강의보기</button></a></c:if></td> --%>
 								<td><c:if test="${!empty lecture.lxlink}"><a href="javascript:lecturepopup('${lecture.lxtype}', '${lecture.lxlink}', '${lecture.lxseq}', '${lecture.coxseq}');"><button type="submit" class="btn">강의보기&nbsp;<i class="icon-facetime-video"></i></button></a></c:if></td>
 								<td><c:if test="${!empty lecture.lxfile}"><a href="/download?path=/resources/lecture/&fileName=${lecture.lxfile}" ><c:out value="${lecture.lxfile}"/> <i class="icon-download-alt"></i></a></c:if></td>
 								<td><c:if test="${lecture.qxcnt>0}"><a href="javascript:quizpopupOpen('<c:out value="${lecture.lxseq}"/>');"><button type="submit" class="btn<c:if test="${lecture.qaxcnt>0}"> btn-link</c:if>">Quiz</button></a></c:if>

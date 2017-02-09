@@ -12,4 +12,6 @@ public interface UploadDAO {
 
 	public List<HashMap> selectcourse(Map map);
 
+	public void updatepopup(Map map);
+
 }

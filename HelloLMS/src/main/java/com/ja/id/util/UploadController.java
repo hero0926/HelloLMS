@@ -5,7 +5,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.UnknownHostException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -30,6 +36,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.ja.id.service.AdminService;
 import com.ja.id.service.UploadService;
@@ -82,18 +89,11 @@ public class UploadController {
 	
 	//김설화
 	
+	//슬라이드배너 업로드하는 메서드
 	@RequestMapping(value = "/admin/adupload", method = RequestMethod.POST)
-	public String adupload(Locale locale, Model model,  @RequestParam Map map, @RequestParam(value = "file") List<MultipartFile> files, String uploadpath, HttpServletRequest req)
+	public String adupload(Locale locale, Model model,  @RequestParam Map map, @RequestParam(value = "file") List<MultipartFile> files, HttpServletRequest req)
 			throws Exception {	
-
-		String sub = uploadpath; //sub에 etc,board,main 등을 넣어서 업로드 폴더를 구분한다.
-		if (sub=="main") {
-			sub = "";
-		} else {
-			sub += "\\";
-		}
-		//String uploadPath ="C:\\workspace_spring\\TeamLMS\\src\\main\\webapp\\resources\\upload\\";
-				
+		
 		String modelfile = "";
 		
 		for (int i = 0; i < files.size(); i++) {
@@ -143,7 +143,7 @@ public class UploadController {
 		
 		InputStream in = null;
 		ResponseEntity<byte[]> entity = null;
-		
+		String file;
 		
 		try {
 			
@@ -152,10 +152,9 @@ public class UploadController {
 			
 			HttpHeaders headers = new HttpHeaders();
 			
-			String file = fileUploadPath+fileName;
+			file = fileUploadPath+fileName;
 			
 			in = new FileInputStream(file);
-			
 			
 			if(mType!=null){
 				
@@ -176,6 +175,62 @@ public class UploadController {
 		
 		return entity;		
 		
+	}
+	
+	//팝업 업로드용 메서드
+	
+	@RequestMapping(value="/admin/popuploadForm", method = RequestMethod.GET)
+	public String popuploadForm(Locale locale, @RequestParam Map map) {		
+		return "popupload";
+	}
+	
+	@RequestMapping(value="/admin/popupload", method = RequestMethod.POST)
+	public String popupload(Locale locale, @RequestParam Map map, HttpServletRequest request) throws Exception {	
+		//날짜 계산 후 차이 구하기
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");	
+		
+		Date d1 = df.parse((String) map.get("pxfrom"));
+		Date d2 = df.parse((String) map.get("pxto"));	
+		
+		long diff = d2.getTime() - d1.getTime();
+		long diffDays = diff / (24 * 60 * 60 * 1000);		
+		
+		map.put("pxday", diffDays);
+		
+		//날짜 변환하기
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");		
+		Date d3 = df.parse((String) map.get("pxfrom"));
+		Date d4 = df.parse((String) map.get("pxto"));
+		
+		String pxfrom = sdf.format(d3);
+		String pxto = sdf.format(d4);
+		
+		map.put("pxfrom", pxfrom);
+		map.put("pxto", pxto);
+		
+		//파일 올리기		
+		
+		String modelfile = "";
+		
+		MultipartHttpServletRequest m = (MultipartHttpServletRequest) request;
+		Iterator<String> iterator = m.getFileNames();
+		MultipartFile mf = null;
+		
+		while(iterator.hasNext()){
+			
+			mf = m.getFile(iterator.next());
+			if(mf.isEmpty()==false){
+				modelfile = mf.getOriginalFilename();
+				File newFile = new File(fileUploadPath+modelfile);
+				mf.transferTo(newFile);	
+			}				
+		}				
+		
+		map.put("pxfile", modelfile);		
+		
+		us.updatepopup(map);
+
+		return "popupload";
 	}
 	
 	

@@ -1,5 +1,7 @@
 package com.ja.id.dao;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.ja.id.domain.MemberVO;
@@ -21,5 +23,7 @@ public interface MemberDAO {
 	
 	public int pw(String mxid, String mxname, String mxmail);
 	public void pwupdate(String pw, String mxid);
+	
+	public List<HashMap> selectMain();
 
 }

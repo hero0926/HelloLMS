@@ -20,4 +20,6 @@ public interface CourseDAO {
 
 	public List<HashMap> openLectureList(Map map);
 
+	public List<HashMap> getLecture(Map map);
+
 }

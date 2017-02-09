@@ -103,11 +103,11 @@
 	<form id="frm1" action="/admin/adupload" method="post" enctype="multipart/form-data"  onSubmit="return check(this)">
 
 		<input type="hidden" name="uploadpath" value="main">
-		<h4>첫번째 광고 <input type="file" name="file" id="f1"/> url <input type="text" id="adxurl1" name="adxurl1"/>
+		<h4>첫번째 광고 <input type="file" name="file" id="f1"/> url <input type="url" id="adxurl1" name="adxurl1"/>
 		<br>
-		두번째 광고 <input type="file" name="file" id="f2"/> url <input type="text" id="adxurl2" name="adxurl2"/>
+		두번째 광고 <input type="file" name="file" id="f2"/> url <input type="url" id="adxurl2" name="adxurl2"/>
 		<br>
-		세번째 광고 <input type="file" name="file" id="f3"/> url <input type="text" id="adxurl3" name="adxurl3"/>
+		세번째 광고 <input type="file" name="file" id="f3"/> url <input type="url" id="adxurl3" name="adxurl3"/>
 		<br>
 		<button class="btn btn-inverse" onclick="check()">업로드</button>
 		</h4>

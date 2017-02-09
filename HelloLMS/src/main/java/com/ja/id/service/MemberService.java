@@ -1,5 +1,7 @@
 package com.ja.id.service;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.ja.id.domain.MemberVO;
@@ -22,5 +24,7 @@ public interface MemberService {
 	public int pw(String mxid, String mxname, String mxmail);
 
 	public void pwupdate(String mailtext, String mxid);
+
+	public List<HashMap> selectMain();
 
 }

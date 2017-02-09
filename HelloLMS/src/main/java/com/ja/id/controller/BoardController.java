@@ -42,10 +42,11 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="/notice/writeNotice", method = {RequestMethod.GET, RequestMethod.POST})
-	public String writeNotice(Locale locale, HttpSession session, Model model, @RequestParam Map map) {
+	public String writeNotice(Locale locale, HttpServletRequest req, HttpSession session, Model model, @RequestParam Map map) {
 		try {
-			int result = boardService.writeNotice(map);
+			int result = boardService.writeNotice(map, req);
 			model.addAttribute("notice", boardService.readNotice(map));
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -84,17 +85,27 @@ public class BoardController {
 		return "/board/read";
 	}
 	
-	@RequestMapping(value="/notice/deleteNotice", method = RequestMethod.GET)
+	@RequestMapping(value="/notice/deleteNotice", method = { RequestMethod.GET, RequestMethod.POST})
 	public String delete(Locale locale, Model model, @RequestParam Map map) {
+		int result = 0;
+
 		try {
-			int result = boardService.deleteNotice(map);
-			
+			result = boardService.deleteNotice(map);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			model.addAttribute("success_flag", "N");
 		}
-		model.addAttribute("notice", boardService.getAllNotice(map));
-		return "/board/notice";
+		if (0 < result) {
+			model.addAttribute("success_flag", "Y");
+		} else {
+			model.addAttribute("success_flag", "N");
+		}
+		model.addAttribute("notice", boardService.readNotice(map));
+		model.addAttribute("forward_url", "/board/notice?bxngrid="+map.get("bxngrid"));	
+		
+		return "common/common_alert";
+
 	}
 	
 	

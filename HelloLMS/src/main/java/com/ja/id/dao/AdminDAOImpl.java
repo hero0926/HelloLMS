@@ -175,4 +175,97 @@ public class AdminDAOImpl implements AdminDAO{
 		return mapper.deleteAllTestanswer(map);
 	}
 
+	@Override
+	public List<HashMap> selectTestMonitor(Map map) {
+		// TODO Auto-generated method stub
+		AdminMapper mapper = sqlSession.getMapper(AdminMapper.class);
+		return mapper.selectTestMonitor(map);
+	}
+
+	@Override
+	public List<HashMap> selectTestApply(Map map) {
+		// TODO Auto-generated method stub
+		AdminMapper mapper = sqlSession.getMapper(AdminMapper.class);
+		return mapper.selectTestApply(map);
+	}
+
+	@Override
+	public List<HashMap> selectTestresult(Map map) {
+		// TODO Auto-generated method stub
+		AdminMapper mapper = sqlSession.getMapper(AdminMapper.class);
+		return mapper.selectTestresult(map);
+	}
+
+	@Override
+	public List<HashMap> popup(Map map) {
+		// TODO Auto-generated method stub
+		AdminMapper mapper = sqlSession.getMapper(AdminMapper.class);
+		return mapper.popup(map);
+	}
+	
+
+	@Override
+	public int updateScore1(Map map) {
+		// TODO Auto-generated method stub
+		AdminMapper mapper = sqlSession.getMapper(AdminMapper.class);
+		return mapper.updateScore1(map);
+	}
+
+	@Override
+	public int updateScore2(Map map) {
+		// TODO Auto-generated method stub
+		AdminMapper mapper = sqlSession.getMapper(AdminMapper.class);
+		return mapper.updateScore2(map);
+	}
+
+	@Override
+	public List<HashMap> selectResult(Map map) {
+		// TODO Auto-generated method stub
+		AdminMapper mapper = sqlSession.getMapper(AdminMapper.class);
+		return mapper.selectResult(map);
+	}
+
+	@Override
+	public List<HashMap> selectAnswer(Map map) {
+		// TODO Auto-generated method stub
+		AdminMapper mapper = sqlSession.getMapper(AdminMapper.class);
+		return mapper.selectAnswer(map);
+	}
+
+	@Override
+	public int addScore1(Map map) {
+		// TODO Auto-generated method stub
+		AdminMapper mapper = sqlSession.getMapper(AdminMapper.class);
+		return mapper.addScore1(map);
+	}
+
+	@Override
+	public int selectSumScore(Map map) {
+		// TODO Auto-generated method stub
+		AdminMapper mapper = sqlSession.getMapper(AdminMapper.class);
+		return mapper.selectSumScore(map);
+	}
+
+	@Override
+	public int addScore2(Map map) {
+		// TODO Auto-generated method stub
+		AdminMapper mapper = sqlSession.getMapper(AdminMapper.class);
+		return mapper.addScore2(map);
+	}
+
+	@Override
+	public int updateScore3(Map map) {
+		// TODO Auto-generated method stub
+		AdminMapper mapper = sqlSession.getMapper(AdminMapper.class);
+		return mapper.updateScore3(map);
+	}
+
+	@Override
+	public int updateScore4(Map map) {
+		// TODO Auto-generated method stub
+		AdminMapper mapper = sqlSession.getMapper(AdminMapper.class);
+		return mapper.updateScore4(map);
+	}
+
+
 }

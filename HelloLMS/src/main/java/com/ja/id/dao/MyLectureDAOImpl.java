@@ -100,4 +100,25 @@ public class MyLectureDAOImpl implements MyLectureDAO{
 		return mapper.getHistory(map);
 	}
 
+	@Override
+	public List<HashMap> selectTestpool(Map map) {
+		// TODO Auto-generated method stub
+		MyLectureMapper mapper = sqlSession.getMapper(MyLectureMapper.class);
+		return mapper.selectTestpool(map);
+	}
+
+	@Override
+	public List<HashMap> selectTestpaper(Map map) {
+		// TODO Auto-generated method stub
+		MyLectureMapper mapper = sqlSession.getMapper(MyLectureMapper.class);
+		return mapper.selectTestpaper(map);
+	}
+
+	@Override
+	public List<HashMap> testpoolList(Map map) {
+		// TODO Auto-generated method stub
+		MyLectureMapper mapper = sqlSession.getMapper(MyLectureMapper.class);
+		return mapper.testpoolList(map);
+	}
+
 }

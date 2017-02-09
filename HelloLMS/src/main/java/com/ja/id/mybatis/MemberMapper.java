@@ -1,5 +1,7 @@
 package com.ja.id.mybatis;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
@@ -24,4 +26,6 @@ public interface MemberMapper {
 	public int pw(@Param("mxid")String mxid, @Param("mxname")String mxname, @Param("mxmail")String mxmail );
 
 	public void pwupdate(@Param("pw")String pw, @Param("mxid")String mxid);
+
+	public List<HashMap> selectMain();
 }

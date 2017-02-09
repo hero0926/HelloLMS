@@ -44,12 +44,7 @@ public class MyLectureController {
 	 */
 	@RequestMapping(value = "/myApplyCourse", method = {RequestMethod.POST, RequestMethod.GET})
 	public String myApplyCourse(Locale locale, Model model, HttpSession session, @RequestParam Map map) throws Exception {
-		
-		/*session.setAttribute("USEQ", "1"); //로그인 부분 완성 하면 이 부분 뺄것
-		session.setAttribute("UID", "test");
-		session.setAttribute("UNAME", "홍길동");
-		session.setAttribute("UDIV", "S");*/
-		
+		if(null!=session.getAttribute("UID")){
 		session.setAttribute("Menu", "1");
 		
 		map.put("USEQ", session.getAttribute("USEQ"));
@@ -60,11 +55,14 @@ public class MyLectureController {
 		model.addAttribute("mxseq", session.getAttribute("USEQ"));
 		
 		return "mylecture/myApplyCourse";
+		} else {
+			return "member/loginPost";
+		}
 	}
 	
 	@RequestMapping(value = "/myApplyCourseDelete", method = {RequestMethod.POST, RequestMethod.GET})
 	public String myApplyCourseDelete(Locale locale, Model model, HttpSession session, @RequestParam Map map) throws Exception {
-		
+		if(null!=session.getAttribute("UID")){
 /*		mylectureService.applyCourseDelete(map);
 		
 		map.put("USEQ", session.getAttribute("USEQ"));
@@ -93,12 +91,14 @@ public class MyLectureController {
 		model.addAttribute("forward_url", "/mypage/mylecture/myApplyCourse");
 		
 		return "common/common_alert";
-		
+		} else {
+			return "member/loginPost";
+		}
 	}
 	
 	@RequestMapping(value = "/myCourse", method = {RequestMethod.POST, RequestMethod.GET})
 	public String myCourse(Locale locale, Model model, HttpSession session, @RequestParam Map map) throws Exception {
-		
+		if(null!=session.getAttribute("UID")){
 		map.put("USEQ", session.getAttribute("USEQ"));
 		
 		List<HashMap> courselist;
@@ -106,30 +106,50 @@ public class MyLectureController {
 		model.addAttribute("list", courselist);
 		session.setAttribute("Menu", "1");
 		
-		/*map.put("coxseq", courselist.get(0).get("coxseq"));
-
-		/*List<HashMap> lecturelist2 = mylectureService.getAllCnt(map);
-		int allCnt = Integer.parseInt(lecturelist2.get(0).get("cnt").toString());
-		List<HashMap> lecturelist3 = mylectureService.getCnt(map);
-		int cnt = Integer.parseInt(lecturelist3.get(0).get("cnt").toString());
-		
-		double prog = ((double)cnt/allCnt)*100;
-		model.addAttribute("prog", prog);*/
-		
 		return "mylecture/myCourse";
+		} else {
+			return "member/loginPost";
+		}
 	}
 	
 	@RequestMapping(value = "/testpopup", method = {RequestMethod.POST, RequestMethod.GET})
 	public String testpopup(Locale locale, Model model, HttpSession session, @RequestParam Map map) throws Exception {
+		if(null!=session.getAttribute("UID")){
+			map.put("USEQ", session.getAttribute("USEQ"));
+			
+			List<HashMap> testpaperList = mylectureService.selectTestpaper(map);
+			model.addAttribute("testpaperList", testpaperList);
+			model.addAttribute("coxname", testpaperList.get(0).get("coxname"));
+			
+			return "mylecture/testpopup";
+		} else {
+			return "member/loginPost";
+		}
+	}
+	
+	@RequestMapping(value = "/testpool", method = {RequestMethod.POST, RequestMethod.GET})
+	public String testpool(Locale locale, Model model, HttpSession session, @RequestParam Map map) throws Exception {
 		
 		map.put("USEQ", session.getAttribute("USEQ"));
 		
-		return "mylecture/testpopup";
+		List<HashMap> testpoolList;
+		testpoolList = mylectureService.testpoolList(map);
+		model.addAttribute("testpoolList", testpoolList);
+		System.out.println("testpool--------------"+model);
+		
+		return "mylecture/testpopup2";
+	}
+	
+	@RequestMapping(value = "/ajaxTest", method = {RequestMethod.POST, RequestMethod.GET})
+	public String ajaxTest(Locale locale, Model model, HttpSession session, @RequestParam Map map) throws Exception {
+		System.out.println("ajaxTest-------------------"+map);
+		
+		return "mylecture/testpopup2";
 	}
 	
 	@RequestMapping(value = "/historypopup", method = {RequestMethod.POST, RequestMethod.GET})
 	public String historypopup(Locale locale, Model model, HttpSession session, @RequestParam Map map) throws Exception {
-		
+		if(null!=session.getAttribute("UID")){
 		map.put("USEQ", session.getAttribute("USEQ"));
 		
 		List<HashMap> historyList;
@@ -138,52 +158,58 @@ public class MyLectureController {
 		model.addAttribute("historyList", historyList);
 		
 		return "mylecture/historypopup";
+		} else {
+			return "member/loginPost";
+		}
 	}
 	
 	@RequestMapping(value = "/quizpopup", method = {RequestMethod.POST, RequestMethod.GET})
 	public String quizpopup(Locale locale, Model model, HttpSession session, @RequestParam Map map) throws Exception {
-		
-		map.put("USEQ", session.getAttribute("USEQ"));
-		
-		return "mylecture/quizpopup";
+		if(null!=session.getAttribute("UID")){
+			map.put("USEQ", session.getAttribute("USEQ"));
+			
+			return "mylecture/quizpopup";
+		} else {
+			return "member/loginPost";
+		}
 	}
 	
 	@RequestMapping(value = "/myLecture", method = {RequestMethod.POST, RequestMethod.GET})
 	public String myLecture(Locale locale, Model model, HttpSession session, @RequestParam Map map) throws Exception {
-		
+		if(null!=session.getAttribute("UID")){
 		map.put("USEQ", session.getAttribute("USEQ"));
 		
 		List<HashMap> lecturelist;
 		lecturelist = mylectureService.getLecture(map);
 		model.addAttribute("list", lecturelist);
-		System.out.println("myLecture-----------------------------"+lecturelist);
 		
 		return "mylecture/myLecture";
-		
+		} else {
+			return "member/loginPost";
+		}
 	}
 	
 	@RequestMapping(value = "/lecture", method = {RequestMethod.POST, RequestMethod.GET})
 	public String lecture(Locale locale, Model model, HttpSession session, @RequestParam Map map) throws Exception {
-		
-		
-		String lxlink = (String)map.get("lxlink");
-		model.addAttribute("lxlink", lxlink);
-		
+		if(null!=session.getAttribute("UID")){
 		map.put("USEQ", session.getAttribute("USEQ"));
-		
 		List<HashMap> lecturelist;
 		lecturelist = mylectureService.getLecture(map);
 		model.addAttribute("list", lecturelist);
+		//model.addAttribute("lxtype", map.get("lxtype"));
+		model.addAttribute("lecture", map);
 		
 		return "mylecture/lecture";
+		} else {
+			return "member/loginPost";
+		}
 	}
 	
 	@RequestMapping(value = "/lexstudy", method = {RequestMethod.POST, RequestMethod.GET}, produces = "text/plain;charset=UTF-8")
 	@ResponseBody
 	public String lexstudy(Locale locale, Model model, HttpSession session, @RequestParam Map map, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
+		if(null!=session.getAttribute("UID")){
 		map.put("USEQ", session.getAttribute("USEQ"));
-		
 		List<HashMap> lecturelist;
 		lecturelist = mylectureService.islexstudy(map);
 		if(lecturelist.size()==0){
@@ -192,8 +218,10 @@ public class MyLectureController {
 			mylectureService.lexstudyupdate(map);
 		}
 		mylectureService.lexstudyloginsert(map);
-		System.out.println("===================================sssssss");
 		return "";
+		} else {
+			return "member/loginPost";
+		}
 	}
 	
 }

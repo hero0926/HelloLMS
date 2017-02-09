@@ -42,4 +42,12 @@ public class UploadDAOImpl implements UploadDAO {
 		return mapper.selectcourse(map);
 	}
 
+
+	@Override
+	public void updatepopup(Map map) {
+		// TODO Auto-generated method stub
+		UploadMapper mapper = sqlSession.getMapper(UploadMapper.class);
+		mapper.updatepopup(map);
+	}
+
 }
