@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="utf-8"%>
 <%@ include file="../include/header.jsp"%>
-<%@ include file="../include/menu.jsp"%>
 <script>
 	function joayo() {
 		$.ajax({
@@ -12,22 +11,51 @@
 			}
 		}).done(function(msg) {
 			var obj = JSON.parse(msg);
-			$('h2').text(obj.cnt + '명째 좋아요!');
+			$('#like').text(obj.cnt);
 
 		});
 	}	
 </script>
 <script>
-	function deletePerson() {
+/* $('#commt').click(function(){
+var delCmt = [];
+$('input:checkbox[name=checkDel]').each(function(){
+	if($(this).is(':checked')) {
+		delCmt.push($(this).val());
+	}
+	$('#delCmt').val(delCmt.toString());
+	$('#commt').submit();
+});
+console.log(delCmt);
+}); */
+	/* $(document).ready(function(){
+		$("input[type=checkbox][name=checkDel]").bind('checked',function(){
+			
+		});
+	}); */
+	var chks = [];
+	function deletecomment() {
 		var del = confirm("삭제합니다.");
 		if (del) {
-			location.href = ""
-			alert("삭제하였습니다.")
+			$('input:checkbox[name=checkDel]').each(function(){
+				if($(this).is(':checked')) {
+					chks.push($(this).val());
+				}
+			});
+			$('#chks').val(chks.toString());
+			
+			console.log(chks);
+			$('#frm1').attr("action", "/board/deleteComment");
+			$('#frm1').submit();
 		} else {
 			alert("취소하였습니다.")
 			return;
 		}
 	}
+		
+	
+	/* var delCmt = $("input[type=radio][name=checkDel]:checked").val() */
+	
 </script>
 <script>
 	function commnt() {
@@ -49,20 +77,20 @@
 <div class="container">
 	<div class="page-header">
 		<h1>
-			강사 정보 <small>...강사 정보를 열람합니다..</small>
+			${tutor.mxname}
 		</h1>
 	</div>
 	<div class="alert alert-info"></div>
+<form action="/board/writeComment" method="post" id="frmCommnt">
+	
+	
 	<table class="table table-bordered">
 		<tr>
-
+			<td><img src="/resources/tutor/${tutor.tuxpicture}"><br>
+			${tutor.tuxhistory}
+			</td>
 		</tr>
 		<tr>
-			<td><div class="span3">이름 : ${tutor.mxname}</div></td>
-			<td>사진입니다요.<img src="/resources/tutor/${tutor.tuxpicture}"></td>
-		</tr>
-		<tr>
-			<td><div class="span3">연혁</div></td>
 			<td>
 				<script>
 					var tHistory = '${tutor.tuxhistory}';
@@ -74,39 +102,36 @@
 			</td>
 		</tr>
 		<tr>
-		</tr>
-		<tr>
 			<td>
-				<h2>${tutor.cnt}명이 ${tutor.mxname}님을 좋아합니다.</h2>
+				<small><b id="like">${tutor.cnt}</b>명 <a href="javascript:joayo();"><i class="icon-heart"></i></a></small>
 			</td>
 		</tr>
-		<tr>
-			<td>COMMENT<br> <br></td>
-		</tr>
 		<c:forEach items="${comment}" var="comment">
-		<tr>
 		<fmt:parseDate value="${comment.regdate}" var="dateFmt" pattern="yyyyMMdd"/>
-		</tr>
 			<tr>
-				<td width="100" align="left">${comment.tucxcomment}</td>
-				<td width="20" align="left"><fmt:formatDate value="${dateFmt}" pattern="yyyy. MM. dd" /></td>
+				<%-- <td width="100" align="left"><c:if test="${sessionScope.UDIV eq 'A'.charAt(0)}"><input type="checkbox" id="checkDel" name="checkDel" value="${comment.tucxseq}"></c:if>${comment.tucxseq}${comment.tucxcomment}</td> --%>
+				<td width="100" align="left">
+					<c:if test="${sessionScope.UDIV eq 'A'.charAt(0)}">	<input type="checkbox" name="checkDel" value="${comment.tucxseq}"></c:if>
+					${comment.tucxcomment}..........
+					<fmt:formatDate value="${dateFmt}" pattern="yyyy. MM. dd" />
+				</td>
 				
 			</tr>
 		</c:forEach>
 		</table>
-		<form action="/board/writeComment" method="post" id="frmCommnt">
 		<input type="hidden" name="mxseq" value="${tutor.mxseq}">
 		<table class="table table-bordered">
 		<tr>
-		
 			<td><textarea id="cmt" name="tucxcomment" rows="1"></textarea></td>
-			<td><button id="commt" type="button" class="btn btn-default btn-sm" onclick="commnt();">코멘트 입력</button>
-			<td><button type="button" class="btn btn-default btn-sm" onclick="joayo();">
-          <span class="glyphicon glyphicon-thumbs-up"></span> 좋아요!
-        </button></td>
+			<td><button id="commt" type="button" class="btn btn-default btn-small" onclick="commnt();">입력</button>
 		</tr>
 	</table>
 	</form>
-	<button type="button" class="btn btn-default btn-sm" onclick="">돌아가기</button>
+	<form method="post" id="frm1">
+		<input type="hidden" id="chks" name="chks">
+		<input type="hidden" name="mxseq" value="${tutor.mxseq}">
+		<c:if test="${sessionScope.UDIV eq 'A'.charAt(0)}"><button id="comm" type="button" class="btn btn-default btn-small" onclick="deletecomment();">삭제</button></c:if>
+	</form>
+	<button type="button" class="btn btn-default btn-sm" onclick="self.close();">닫기</button>
 </div>
 <%@ include file="../include/footer.jsp"%>

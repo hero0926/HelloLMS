@@ -151,6 +151,10 @@ public class AdminServiceImpl implements AdminService{
 			result = adminDAO.updateTestpaper(map);
 			result = adminDAO.deleteAllTestanswer(map);
 			result = adminDAO.insertTestanswer(map);
+			int qcnt = (Integer)map.get("tpx1cnt")+(Integer)map.get("tpx2cnt")+(Integer)map.get("tpx3cnt");
+			map.put("qcnt", qcnt);
+			result = adminDAO.updateOrder(map);
+
 		} else {
 			throw new Exception();
 		}
@@ -168,6 +172,9 @@ public class AdminServiceImpl implements AdminService{
 		if (1 == result) {
 
 			result = adminDAO.insertTestanswer(map);
+			int qcnt = (Integer)map.get("tpx1cnt")+(Integer)map.get("tpx2cnt")+(Integer)map.get("tpx3cnt");
+			map.put("qcnt", qcnt);
+			result = adminDAO.updateOrder(map);
 
 		} else {
 			throw new Exception();
@@ -271,6 +278,36 @@ public class AdminServiceImpl implements AdminService{
 		}
 		
 		return result;
+	}
+
+	@Override
+	public List<HashMap> selectGraph(Map map) {
+		// TODO Auto-generated method stub
+		return adminDAO.selectGraph(map);
+	}
+
+	@Override
+	public List<HashMap> selectGrade(Map map) {
+		// TODO Auto-generated method stub
+		return adminDAO.selectGrade(map);
+	}
+
+	@Override
+	public List<HashMap> selectProgress(Map map) {
+		// TODO Auto-generated method stub
+		return adminDAO.selectProgress(map);
+	}
+
+	@Override
+	public List<HashMap> selectBoardFaq(Map map) {
+		// TODO Auto-generated method stub
+		return adminDAO.selectBoardFaq(map);
+	}
+
+	@Override
+	public int getTotalFaq(Map map) {
+		// TODO Auto-generated method stub
+		return adminDAO.getTotalFaq(map);
 	}
 
 

@@ -35,5 +35,15 @@ public interface MyLectureService {
 	public List<HashMap> selectTestpaper(Map map) throws Exception;
 
 	public List<HashMap> testpoolList(Map map) throws Exception;
+
+	public int updateAnswer(Map map) throws Exception;
+
+	public int submitTest(Map map) throws Exception;
+
+	public List<HashMap> selectTestresult(Map map) throws Exception;
+
+	public int insertTestresult(Map map) throws Exception;
+
+	public int updateRest(Map map) throws Exception;
 	
 }

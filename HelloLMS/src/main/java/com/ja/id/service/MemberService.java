@@ -27,4 +27,6 @@ public interface MemberService {
 
 	public List<HashMap> selectMain();
 
+	public int loginHis(Map map) throws Exception;
+
 }

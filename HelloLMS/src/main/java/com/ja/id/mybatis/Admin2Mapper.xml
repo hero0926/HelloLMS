@@ -128,5 +128,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</choose>
 		WHERE axseq = #{axseq}
 	</update>
+	
+	<select id="loginStatistics" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		SELECT
+			date_format(regdate, '%Y%m%d') divdate,
+			date_format(regdate, '%Y') ystr,
+			date_format(regdate, '%m') mstr,
+			date_format(regdate, '%d') dstr,
+			date_format(regdate, '%H') hstr,
+			date_format((NOW() - INTERVAL 30 DAY), '%Y-%m-%d') fromstr, date_format(NOW(), '%Y-%m-%d') tostr,
+			sum(if(lxdev='nomal', 1, 0)) nomalsum,
+			sum(if(lxdev='mobile', 1, 0)) mobilesum,
+			sum(if(lxdev='tablet', 1, 0)) tabletsum
+		FROM loginhis
+		GROUP BY divdate
+	</select>
 
 </mapper>

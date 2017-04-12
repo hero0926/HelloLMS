@@ -50,4 +50,12 @@ public class UploadDAOImpl implements UploadDAO {
 		mapper.updatepopup(map);
 	}
 
+
+	@Override
+	public List<HashMap> selectTutor(Map map) {
+		// TODO Auto-generated method stub
+		UploadMapper mapper = sqlSession.getMapper(UploadMapper.class);
+		return mapper.selectTutor(map);
+	}
+
 }

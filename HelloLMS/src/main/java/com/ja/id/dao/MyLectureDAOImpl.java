@@ -121,4 +121,39 @@ public class MyLectureDAOImpl implements MyLectureDAO{
 		return mapper.testpoolList(map);
 	}
 
+	@Override
+	public int updateAnswer(Map map) {
+		// TODO Auto-generated method stub
+		MyLectureMapper mapper = sqlSession.getMapper(MyLectureMapper.class);
+		return mapper.updateAnswer(map);
+	}
+
+	@Override
+	public int submitTest(Map map) {
+		// TODO Auto-generated method stub
+		MyLectureMapper mapper = sqlSession.getMapper(MyLectureMapper.class);
+		return mapper.submitTest(map);
+	}
+
+	@Override
+	public List<HashMap> selectTestresult(Map map) {
+		// TODO Auto-generated method stub
+		MyLectureMapper mapper = sqlSession.getMapper(MyLectureMapper.class);
+		return mapper.selectTestresult(map);
+	}
+
+	@Override
+	public int insertTestresult(Map map) {
+		// TODO Auto-generated method stub
+		MyLectureMapper mapper = sqlSession.getMapper(MyLectureMapper.class);
+		return mapper.insertTestresult(map);
+	}
+
+	@Override
+	public int updateRest(Map map) {
+		// TODO Auto-generated method stub
+		MyLectureMapper mapper = sqlSession.getMapper(MyLectureMapper.class);
+		return mapper.updateRest(map);
+	}
+
 }

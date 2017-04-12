@@ -14,4 +14,6 @@ public interface UploadMapper {
 
 	public void updatepopup(Map map);
 
+	public List<HashMap> selectTutor(Map map);
+
 }

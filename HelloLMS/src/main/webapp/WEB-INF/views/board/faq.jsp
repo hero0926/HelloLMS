@@ -16,95 +16,110 @@
         <h3>  </h3>
                      
 		<div class="alert alert-info">
-	        <form id="form1" action="/admin/courseList" method="post">
-	         <div class="row">
-        		<div class="span12">
-				  <div class="span8">
-					<select class="span2" placeholder="질문 유형을 선택하세요." id="coxoffice1">
-							<option value='A유형'>A유형</option>
-							<option value='B유형'>B유형</option>
-							<option value='C유형'>C유형</option>
-							<option value='D유형'>D유형</option>
-							<option value='E유형'>E유형</option>
-					</select>
-					&nbsp;
-					<input type="text" class="span2" id="coxname" name="coxname" maxlength="20" placeholder="키워드를 입력하세요.">
-					&nbsp;
-					<button class="btn" id="goSelect">검색</button>
-				  </div>
-				  <div class="span2" align="right">
-					<button class="btn" id="goInsert">등록</button>
-				  </div>
-			    </div>
-			  </div>
-			</form>
-			<form id="frm2" method="post">
-				<input type="hidden" name="coxseq" id="coxseq" />
-				<input type="hidden" name="coxoffice" id="coxoffice2" />
-			</form>
-		</div>
-		<c:if test="${ !empty courseList }">
-          <table class="table table-bordered">
-  			<tr>
-  				<th>분류</th>
-  				<th>과정명</th>
-  				<th>수강신청기간</th>
-  				<th>수강기간</th>
-  				<th>강의관리</th>
-  				<th>수강생관리</th>
-  				<th>수정/삭제</th>
-  			</tr>
-			<c:forEach var="course" items="${courseList}" varStatus="status">
-				<tr>
-					<td><c:out value="${course.cxname }"/></td>
-					<td><a href="javascript:goWrite('${course.coxseq }');"><c:out value="${course.coxname }"/></a></td>
-					<td>
-						<fmt:parseDate value="${course.coxreqstart}" var="dateFmt1" pattern="yyyyMMdd"/>
-						<fmt:formatDate value="${dateFmt1}" pattern="yyyy-MM-dd"/>~
-						<fmt:parseDate value="${course.coxreqend}" var="dateFmt2" pattern="yyyyMMdd"/>
-						<fmt:formatDate value="${dateFmt2}" pattern="yyyy-MM-dd"/>
-					</td>
-					<td>
-						<fmt:parseDate value="${course.coxstart}" var="dateFmt3" pattern="yyyyMMdd"/>
-						<fmt:formatDate value="${dateFmt3}" pattern="yyyy-MM-dd"/>~
-						<fmt:parseDate value="${course.coxend}" var="dateFmt4" pattern="yyyyMMdd"/>
-						<fmt:formatDate value="${dateFmt4}" pattern="yyyy-MM-dd"/>
-					</td>
-					<td>
-						<button class="btn btn-small" type="button" onClick="goLecture('${course.coxseq }');">강의</button>
-					</td>
-					<td>
-						<button class="btn btn-small" type="button" onClick="goApply('${course.coxseq }');">수강생</button>
-					</td>
-					<td>
-						<button class="btn btn-small" type="button" onClick="goWrite('${course.coxseq }');">수정</button>
-						<button class="btn btn-small" type="button" onClick="goDelete('${course.coxseq }');">삭제</button>
-					</td>
-				</tr>
-			</c:forEach>
-          </table>
-     
-			<div class="pagination" style="text-align: center">
-			  <ul>
-			    <li><a href="#">Prev</a></li>
-			    <li><a href="#">1</a></li>
-			    <li><a href="#">2</a></li>
-			    <li><a href="#">3</a></li>
-			    <li><a href="#">4</a></li>
-			    <li><a href="#">5</a></li>
-			    <li><a href="#">Next</a></li>
-			  </ul>
+	        <div id="search_faq"  class="print_display_none">
+				<ul class="crr_detail_search">
+					<li>
+						<label for="search_input">질문유형</label>
+						<select name="검색" id="search_input"  >
+						  <option value="All">전체</option>
+						  <option value="category_key_1">강좌관련</option>
+						  <option value="category_key_2">계정관련</option>
+						</select>
+					</li>
+					<li>
+						<label for="search_field">검색</label>
+						<input name="search_field" type="text" class="input_left" id="search_field"  style="width:233px;"  />
+						<button id="ui_search_btn" >검색 </button>
+					</li>
+				</ul>
 			</div>
-		</c:if>
-		<c:if test="${ empty courseList }">
-			자료가 없습니다.
-		</c:if>
 
-        </div>
-      </div>
+			 <ul class="crr_faq" id="acc">
+				<li class="on">		
+					<p class="question">
+					
+						<span class="blind">질문</span>
+						<a href="#"><span>응시자격 / 지원방법</span><class="dropdown-toggle" data-toggle="dropdown"><em>3급 신입사원의 응시자격은?</em><b class="caret"></b></a>
+						<ul class="dropdown-menu">
+					<div class="answer">
+						<div class="inner">
+							<span class="blind">답변</span>
+							 사별특성에 따라 자격 및 대상이 달라질 수 있습니다. 경력 채용 안내는 경력채용 게시판을 참고해 주시고 기타 자세한 문의는 해당회사로 문의해 주시기 바랍니다. 
+							 <br />
+							 사별특성에 따라 자격 및 대상이 달라질 수 있습니다. 경력 채용 안내는 경력채용 게시판을 참고해 주시고 기타 자세한 문의는 해당회사로 문의해 주시기 바랍니다. 
+							 <br />
+							 사별특성에 따라 자격 및 대상이 달라질 수 있습니다. 경력 채용 안내는 경력채용 게시판을 참고해 주시고 기타 자세한 문의는 해당회사로 문의해 주시기 바랍니다. 
+						</div>
+						</ul>
+						
+					</div>
+				</li>
+				<li>
+				<div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="dropdown">
+              	<a href="#" class="dropdown-toggle" data-toggle="dropdown">마이페이지 <b class="caret"></b></a>
+				<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+				  <li><a href="#about"  onClick="alert('로그인 하세요.');">개인정보수정</a></li>
+				  <li class="dropdown-submenu">
+				    <a tabindex="-1" href="#">내강의</a>
+				    <ul class="dropdown-menu">
+				      <li><a href="#about" onClick="alert('로그인 하세요.');">수강신청한 과정</a></li>
+				      <li><a href="#about" onClick="alert('로그인 하세요.');">수강중인 과정</a></li>
+				    </ul>
+				  </li>
+				</ul>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">강의실 <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#" onClick="alert('로그인 하세요.');">수강신청가능한 강좌</a></li>
+                  <li><a href="#" onClick="alert('로그인 하세요.');">진행중인 강좌</a></li>
+                  <li><a href="/course/openCourse">공개 강좌</a></li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">고객센터 <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                	<li><a href="/board/notice">공지사항</a></li>
+                	<li><a href="#">FAQ</a></li>
+     			    <li><a href="#" onclick="alert('로그인 하세요.');">Q&A</a></li>
+                </ul>
+              </li>
+            </ul>
 
-      <hr>
+            <form class="navbar-form pull-right" action="/member/loginPost" method="post">
+              <input class="span2" type="text" name="mxid" placeholder="ID">
+              <input class="span2" type="password" name ="mxpw" placeholder="Password">
+              <button type="submit" class="btn">Sign in</button>&nbsp;
+              <button type="button" class="btn" onClick="javascript:document.location.href='/member/register1';">Join us</button>
+            </form>
+          </div>				
+					<p class="question">
+						<span class="blind">질문</span>
+						<a href="#"><span>지원서 작성 / 수정</span><em>인문학 전공 중에서도 특히 삼성에서 선호하는 분야가 있나요?</em></a>
+					</p>
+					<div class="answer">
+						<div class="inner">
+							<span class="blind">답변</span>
+							 답변
+						</div>
+					</div>
+				</li>
+				<li>				
+					<p class="question">
+						<span class="blind">질문</span>
+						<a href="#"><span>지원회사 변경</span><em>교육 과정 중 급여는 지급하나요?</em></a>
+					</p>
+					<div class="answer">
+						<div class="inner">
+							<span class="blind">답변</span>
+							 답변
+						</div>
+					</div>
+				</li>
+           </ul>
 
-    </div> <!-- /container -->
+
 
 <%@ include file="../include/footer.jsp"%>

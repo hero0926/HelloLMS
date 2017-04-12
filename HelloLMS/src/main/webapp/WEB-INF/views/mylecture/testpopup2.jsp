@@ -1,44 +1,155 @@
 <%@ page language="java"  contentType="text/html; charset=UTF-8" pageEncoding="utf-8"%>
 <%@ include file="../include/header.jsp" %>
-
+	
 		<script>
-			function doAjax(taxorder) {
-				alert(taxorder);
-				alert($('#curOrder'));
-				if(key==1){
-					arr[0]=key;
-					alert(key);
-				}else if(key==2){
-					arr[1]=key;
-					alert(key);
-				}else{
-					arr[2]=key;
-					alert(key);
-				}
-				$.ajax({
-					type : "POST",
-					url : "/mypage/mylecture/ajaxTest",
-					data : {
-						key: key
-					},
-					dataType : "text"
-				}).done(function() {
-					alert(arr);
-				});
+			var rest = ${trxrest};
+			$(document).ready(function() {
+				$('#trxrest').html(rest);
+				setInterval(function(){
+					rest--;
+					$('#trxrest').html(rest);
+					$.ajax({
+						type : "POST",
+						url : "/mypage/mylecture/updateRest",
+						data : {
+							trxrest: rest,
+							tpxseq: ${tpxseq}
+						},
+						dataType : "text"
+					}).done(function(data) {
+					});
+					if(rest<=0){
+						alert('시험 시간이 종료되었습니다.');
+						changeOrder2("submit");
+					}
+				}, 60000);
+				
+			});
+			
+			function changeOrder(taxorder){
+				$('#passorder').val(taxorder);
+				changeOrder2("pass");
 			}
+			function changeOrder2(mode){
+				$('#mode').val(mode);
+				$('#form1').attr('action','/mypage/mylecture/updateAnswer');
+				$('#form1').submit();
+			}
+			
+			
 		</script>
 		
 		<div class="container">
 			<div class="row">
+				<div class="span12">
+					<div class="alert alert-warning" role="alert">
+						<h4>시험 시간 : <strong id="tpxduring">${tpxduring}분</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;남은시간 : <strong id="trxrest">분</strong></h4>
+						<div align="right">
+							<button type="button" class="btn" id="btnSubmit" onClick="changeOrder2('submit');">제출</button>
+						</div>
+					</div>
+				</div>
+				
+				<hr>
+				
 	    		<form id="form1" method="post">
-					<%-- <input type="hidden" name="txseq" id="txseq" value="${testpool.txseq}">
-					<input type="hidden" name="coxseq"  value="${coxseq}"> --%>
-					<c:set var="curOrder" value="1" />
+					<input type="hidden" name="tpxseq"  value="${testpool.tpxseq}">
+					<input type="hidden" name="taxseq" id="taxseq" value="${testpool.taxseq}" />
+					<input type="hidden" name="passorder" id="passorder" />
+					<input type="hidden" name="mode" id="mode"/>
+					<input type="hidden" name="taxorder" id="taxorder" value="${testpool.taxorder}" />
+					
+					
+					
 					<div class="span8">
+						<div class="alert alert-info">
+							<div id="txtype">
+								<h4>${testpool.taxorder}번(문제유형: 
+									<c:choose>
+										<c:when test="${testpool.txtype==1}">
+											객관식
+										</c:when>
+										<c:when test="${testpool.txtype==3}">
+											OX
+										</c:when>
+										<c:otherwise>
+											단답식
+										</c:otherwise>
+									</c:choose>)
+								</h4>
+							</div>
+						</div>
+						<div class="well">
+							${testpool.txcont}
+						</div>
+						<c:if test="${testpool.txtype==1 || testpool.txtype==3}">
+							<div class="breadcrumb">
+								<c:if test="${testpool.taxanswer==1}">
+									<input type="radio" name="taxanswer" value="1" checked="checked">1. ${testpool.tx1}
+								</c:if>
+								<c:if test="${testpool.taxanswer!=1}">
+									<input type="radio" name="taxanswer" value="1">1. ${testpool.tx1}
+								</c:if>
+							</div>
+							<div class="breadcrumb">
+								<c:if test="${testpool.taxanswer==2}">
+									<input type="radio" name="taxanswer" value="2" checked="checked">2. ${testpool.tx2}
+								</c:if>
+								<c:if test="${testpool.taxanswer!=2}">
+									<input type="radio" name="taxanswer" value="2">2. ${testpool.tx2}
+								</c:if>
+							</div>
+						</c:if>
+						<c:if test="${testpool.txtype==1}">
+							<div class="breadcrumb">
+								<c:if test="${testpool.taxanswer==3}">
+								<i	nput type="radio" name="taxanswer" value="3" checked="checked">3. ${testpool.tx3}
+								</c:if>
+								<c:if test="${testpool.taxanswer!=3}">
+									<input type="radio" name="taxanswer" value="3">3. ${testpool.tx3}
+								</c:if>
+							</div>
+							<div class="breadcrumb">
+								<c:if test="${testpool.taxanswer==4}">
+									<input type="radio" name="taxanswer" value="4" checked="checked">4. ${testpool.tx4}
+								</c:if>
+								<c:if test="${testpool.taxanswer!=4}">
+									<input type="radio" name="taxanswer" value="4">4. ${testpool.tx4}
+								</c:if>
+							</div>
+							<div class="breadcrumb">
+								<c:if test="${testpool.taxanswer==5}">
+									<input type="radio" name="taxanswer" value="5" checked="checked">5. ${testpool.tx5}
+								</c:if>
+								<c:if test="${testpool.taxanswer!=5}">
+									<input type="radio" name="taxanswer" value="5">5. ${testpool.tx5}
+								</c:if>
+							</div>
+						</c:if>
+						<c:if test="${testpool.txtype==2}">
+							<div class="breadcrumb">
+								<input type="textarea" name="taxanswer">
+							</div>
+						</c:if>
+					</div>
+				</form>
+				
+				<div class="span4">
+					<table class="table table-bordered">
 						<c:forEach var="list" items="${testpoolList}" varStatus="status">
-							<c:if test="${list.taxorder==curOrder}">
-								<div class="alert alert-info">
-									<h4>${list.taxorder}번( 문제유형:
+				 			<tr>
+				 				<c:choose>
+				 					<c:when test="${list.taxanswer==null || list.taxanswer==''}">
+				 						<th style="background-color: #FFD9EC;">
+				 					</c:when>
+				 					<c:otherwise>
+				 						<th>
+				 					</c:otherwise>
+				 				</c:choose>
+				 				
+				  				<a href="javascript:changeOrder('${list.taxorder}');">
+				  					<h6>
+				  						${list.taxorder}번( 문제유형:
 										<c:choose>
 			  								<c:when test="${list.txtype==1}">
 			  									객관식
@@ -50,109 +161,42 @@
 										  		단답식
 										  	</c:otherwise>
 										</c:choose>)
-									</h4>
-								</div>
-								<div class="well">${list.txcont}</div>
-								
-								
-								<c:if test="${list.txtype==1 || list.txtype==3}">
-									<div class="breadcrumb">
-										<c:if test="${!empty list.tx1}">
-											<label class="radio inline">
-												1. <input type="radio" name="taxanswer" value="1">
-												 	${list.tx1}
-											</label><br>
-										</c:if>
-									</div>
-								</c:if>
-								<c:if test="${list.txtype==1 || list.txtype==3}">
-									<div class="breadcrumb">
-										<c:if test="${!empty list.tx2}">
-											<label class="radio inline">
-												2. <input type="radio" name="taxanswer" value="2">
-												 	${list.tx2}
-											</label><br>
-										</c:if>
-									</div>
-								</c:if>
-								<c:if test="${list.txtype==1}">
-									<c:if test="${!empty list.tx3}">
-										<div class="breadcrumb">
-											<label class="radio inline">
-												3. <input type="radio" name="taxanswer" value="3">
-												 	${list.tx3}
-											</label><br>
-										</div>
-									</c:if>
-									<c:if test="${!empty list.tx4}">
-										<div class="breadcrumb">
-											<label class="radio inline">
-												4. <input type="radio" name="taxanswer" value="4">
-												 	${list.tx4}
-											</label><br>
-										</div>
-									</c:if>
-									<c:if test="${!empty list.tx5}">
-										<div class="breadcrumb">
-											<label class="radio inline">
-												5. <input type="radio" name="taxanswer" value="5">
-												 	${list.tx5}
-											</label><br>
-										</div>
-									</c:if>
-								</c:if>
-							</c:if>
-						</c:forEach>
-					</div>
-					<div class="span4">
-						<table class="table table-bordered">
-							<c:forEach var="list" items="${testpoolList}" varStatus="status">
-					 			<tr>
-					  				<th>
-						  				<a href="javascript:doAjax('${list.taxorder}');">
-						  					<h6>${list.taxorder}번( 문제유형:
-												<c:choose>
-					  								<c:when test="${list.txtype==1}">
-					  									객관식
-												  	</c:when>
-												  	<c:when test="${list.txtype==3}">
-												  		OX
-												  	</c:when>
-												  	<c:otherwise>
-												  		단답식
-												  	</c:otherwise>
-												</c:choose>)</h6>
-										</a>
-									</th>
-					  			</tr>
-				  			</c:forEach>
-				  		</table>
-					</div>
-							
-		
-		<button type="button" class="btn" id="btnSubmit">
-			<c:if test="${ !empty testpool.txseq }">수정</c:if>
-		<c:if test="${ empty testpool.txseq }">등록</c:if>
-		</button>
-		
-		<button class="btn" id="btnList">취소</button>
-					
-				</form>
-		</div>
-		
-		<ul class="pager">
-  <li class="previous">
-    <a href="#">&larr; Older</a>
-  </li>
-  <li class="next">
-    <a href="#">Newer &rarr;</a>
-  </li>
-</ul>
-		
-		<hr>
-		<a href="javascript:doAjax('1');">test1</a>
-		<a href="javascript:doAjax('2');">test2</a>
-		<a href="javascript:doAjax('3');">test3</a>
+									</h6>
+								</a>
+				  			</tr>
+			  			</c:forEach>
+			  		</table>
+				</div>
+			</div>
+			
+			<hr>
+			
+			<ul class="pager">
+				<c:choose>
+					<c:when test="${testpool.taxorder!=1}">
+						<li class="previous">
+							<a href="javascript:changeOrder2('older');">&larr; Older</a>
+						</li>
+					</c:when>
+					<c:otherwise>
+						<li class="previous disabled">
+							<a href="javascript:alert('첫 번째 번호 입니다.')">&larr; Older</a>
+						</li>
+					</c:otherwise>
+				</c:choose>
+				<c:choose>
+					<c:when test="${testpool.taxorder!=taxSize}">
+						<li class="next">
+						<a href="javascript:changeOrder2('next');">Newer &rarr;</a>
+					</li>
+					</c:when>
+					<c:otherwise>
+						<li class="next disabled">
+						<a href="javascript:alert('마지막 번호 입니다.')">Newer &rarr;</a>
+					</li>
+					</c:otherwise>
+				</c:choose>
+			</ul>
 		
 		</div> <!-- /container -->
 

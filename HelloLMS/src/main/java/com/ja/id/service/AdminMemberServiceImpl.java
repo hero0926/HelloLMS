@@ -6,12 +6,13 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ja.id.dao.AdminMemberDAO;
 
 @Component
-@Transactional(readOnly = false)
+@Transactional(readOnly = true)
 public class AdminMemberServiceImpl implements AdminMemberService {
 	
 	@Autowired
@@ -23,14 +24,14 @@ public class AdminMemberServiceImpl implements AdminMemberService {
 		return dao.selectMember(map);
 	}
 
-	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
 	public int deleteMember(Map map) {
 		// TODO Auto-generated method stub
 		return dao.deleteMember(map);
 	}
 	
 	
-	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
 	public int updateMemberT(Map map) {
 		// TODO Auto-generated method stub
 		return dao.updateMemberT(map);
@@ -41,6 +42,34 @@ public class AdminMemberServiceImpl implements AdminMemberService {
 		// TODO Auto-generated method stub
 		return dao.updateM(map);
 	}
+
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
+	public int insertMemberT(Map map) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.insertMemberT(map);
+	}
+
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
+	public int deleteT(Map map) {
+		// TODO Auto-generated method stub
+		return dao.deleteT(map);
+	}
+
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
+	public int updateMemberS(Map map) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.updateMemberS(map);
+	}
+
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
+	public List<HashMap> loginHistory(Map map) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.loginHistory(map);
+	}
+
 
 
 }

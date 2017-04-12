@@ -291,6 +291,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where tx1.coxseq = b.coxseq
 		and b.coxseq = #{coxseq}
 	</insert>
+	<update id="updateOrder" parameterType="java.util.HashMap">
+		update testanswer set
+		taxorder = MOD(taxorder, #{qcnt})+1
+		where tpxseq = #{tpxseq}
+	</update>
 
 	<delete id="deleteAllTestanswer" parameterType="java.util.HashMap">
 		delete from testanswer
@@ -378,7 +383,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<update id="updateScore4" parameterType="java.util.HashMap">
 		update apply a set
-		a.axresult =(  if((select b.coxscore from course b where b.coxseq = 5)<![CDATA[<=]]>a.axscore, 'G', 'D' ))
+		a.axresult =(  if((select b.coxscore from course b where b.coxseq = #{coxseq})<![CDATA[<=]]>a.axscore, 'G', 'D' ))
 		where a.coxseq = #{coxseq}
 	</update>	
 	
@@ -433,4 +438,66 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		and a.mxseq = b.mxseq
 	</select>
 
+	<select id="selectGraph" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select aa.coxname, aa.lxnum, aa.ystr, aa.mstr, aa.dstr, aa.hstr, aa.fromstr, aa.tostr, count(*) cnt
+		from (
+			select b.coxname, c.lxnum,
+        date_format(a.lslxdate, '%Y') ystr, date_format(a.lslxdate, '%m') mstr,
+				date_format(a.lslxdate, '%d') dstr, date_format(a.lslxdate, '%H') hstr,
+				date_format((NOW() - INTERVAL 30 DAY), '%Y-%m-%d') fromstr, date_format(NOW(), '%Y-%m-%d') tostr
+			from lexstudylog a, course b, lecture c
+			where a.mxseq = #{mxseq}
+			and a.lxseq = c.lxseq
+			and b.coxseq = c.coxseq
+			and date_format(a.lslxdate, '%Y%m%d') >= date_format((NOW() - INTERVAL 30 DAY), '%Y%m%d')
+		) aa
+		group by aa.coxname, aa.lxnum, aa.ystr, aa.mstr, aa.dstr, aa.hstr, aa.fromstr, aa.tostr
+	</select>
+
+	<select id="selectGrade" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select b.coxname, a.axscore, a.axresult
+		from apply a, course b
+		where a.mxseq = #{mxseq}
+		and a.coxseq = b.coxseq
+		and a.axstatus = 'A'
+		order by b.coxend desc
+	</select>
+	
+	<select id="selectProgress" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select a.coxname, a.coxend, round((COALESCE(count(c.lsxseq), 0)/count(b.lxseq))*100) prog
+		from apply d, course a, lecture b
+		left outer join lexstudy c
+		on b.lxseq = c.lxseq
+		and c.mxseq = #{mxseq}
+		where d.mxseq = #{mxseq}
+		and d.coxseq = a.coxseq
+		and a.coxseq = b.coxseq
+		and d.axstatus = 'A'
+		and date_format(NOW(), '%Y%m%d') between a.coxstart and a.coxend
+		group by a.coxname, a.coxend
+		order by a.coxend desc	
+	</select>
+
+	<select id="selectBoardFaq" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select  bfxseq, bfxtitle, bfxquestion, bfxanswer,
+		mxseq, regdate, bfxoffice
+		from board_faq
+		<if test="null != bfxoffice and '' != bfxoffice">
+	    	where bfxoffice = #{bfxoffice}
+	    </if>		
+		order by 1 desc
+	    <if test="null != tlimi and '' != tlimi">
+	    limit #{flimit}, #{tlimi}
+	    </if>
+	</select>
+	
+	<select id="getTotalFaq" resultType="int" parameterType="java.util.HashMap">
+		select  count(*)
+		from board_faq
+		<if test="null != bfxoffice and '' != bfxoffice">
+	    	where bfxoffice = #{bfxoffice}
+	    </if>
+	</select>
+	
+	
 </mapper>

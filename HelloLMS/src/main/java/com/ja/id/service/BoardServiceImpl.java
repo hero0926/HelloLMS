@@ -30,29 +30,19 @@ public class BoardServiceImpl implements BoardService {
 
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public int writeNotice(Map map, HttpServletRequest req) throws Exception {
-		//map.put("mxoffice", map.get("mxoffice"));
 		result = boardDAO.writeNotice(map);
-		
-		MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest)req;
-	    Iterator<String> iterator = multipartHttpServletRequest.getFileNames();
-	    MultipartFile multipartFile = null;
-	    while(iterator.hasNext()){
-	        multipartFile = multipartHttpServletRequest.getFile(iterator.next());
-	        if(multipartFile.isEmpty() == false){
-	            log.debug("------------- file start -------------");
-	            log.debug("name : "+multipartFile.getName());
-	            log.debug("filename : "+multipartFile.getOriginalFilename());
-	            log.debug("size : "+multipartFile.getSize());
-	            log.debug("-------------- file end --------------\n");
-	        }
-	    }
-	
+		map.put("bxnno", map.get("bxnseq"));
 		if (result == 1) {
-
+			result = boardDAO.writeNoticeFile(map);
+			
+			if (1 == result) {
+				
+			} else {
+				throw new Exception();
+			}
 		} else {
 			throw new Exception();
 		}
-		map.put("bxnseq", map.get("bxnseq"));
 		return result;
 		
 	}
@@ -62,12 +52,23 @@ public class BoardServiceImpl implements BoardService {
 		//map.put("bxngrid", map.get("bxngrid"));
 		return boardDAO.getAllNotice(map);
 	}
+	
+	@Override
+	public int getAllNoticeCnt(Map map) {
+		return boardDAO.getAllNoticeCnt(map);
+	}
 
 	@Override
 	public Map readNotice(Map map) {
 		return boardDAO.readNotice(map);
 	}
-
+	
+	@Override
+	public List<HashMap> listinread(Map map) {
+		//map.put("bxngrid", map.get("bxngrid"));
+		return boardDAO.listinread(map);
+	}
+	
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public int updateCnt(Map map) throws Exception {
 		result = boardDAO.updateCnt(map);
@@ -78,7 +79,9 @@ public class BoardServiceImpl implements BoardService {
 	public int editNotice(Map map) throws Exception {
 		result = boardDAO.editNotice(map);
 		if (result == 1) {
-
+			if (map.get("bxnfile1") != null || map.get("bxnfile2") != null) {
+			result = boardDAO.updateNoticeFile(map);
+			}
 		} else {
 			throw new Exception();
 		}
@@ -86,8 +89,42 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public int deleteNotice(Map map) {
-		return boardDAO.deleteNotice(map);
+	public int deleteNotice(Map map) throws Exception {
+		result = boardDAO.deleteNotice(map);
+		map.put("bxnno", map.get("bxnseq"));
+		if (result == 1) {
+			result = boardDAO.deleteNoticeFile(map);
+		} else {
+			throw new Exception();
+		}
+		
+		return result;
+	}
+	
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public int delNoticeFile(Map map) throws Exception {
+		result = boardDAO.delNoticeFile(map);
+		map.put("bxnno", map.get("bxnseq"));
+		if (result == 1) {
+			
+		} else {
+			throw new Exception();
+		}
+		
+		return result;
+	}
+	
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public int updateNoticeFile(Map map) throws Exception {
+		result = boardDAO.updateNoticeFile(map);
+		map.put("bxnno", map.get("bxnseq"));
+		if (result == 1) {
+			
+		} else {
+			throw new Exception();
+		}
+		
+		return result;
 	}
 	
 	@Override
@@ -95,35 +132,82 @@ public class BoardServiceImpl implements BoardService {
 		//map.put("bxngrid", map.get("bxngrid"));
 		return boardDAO.searchNotice(map);
 	}
-
+	
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public int writeQna(Map map) throws Exception {
 		result = boardDAO.writeQna(map);
-
+		map.put("bxqno", map.get("bxqseq"));
 		if (result == 1) {
-
+			result = boardDAO.writeQnaFile(map);
+			
+			if (1 == result) {
+				
+			} else {
+				throw new Exception();
+			}
 		} else {
 			throw new Exception();
 		}
-		map.put("bxqseq", map.get("bxqseq"));
 		return result;
+		
 	}
 	
-	@Override
+	/*@Override
 	public List<HashMap> getAllQna(Map map) {
 		//map.put("bxngrid", map.get("bxngrid"));
 		return boardDAO.getAllQna(map);
-	}
+	}*/
 
 	@Override
 	public Map readQna(Map map) {
 		return boardDAO.readQna(map);
 	}
 	
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public int deleteQna(Map map) throws Exception {
+		result = boardDAO.deleteQna(map);
+		map.put("bxqno", map.get("bxqseq"));
+		if (result == 1) {
+			result = boardDAO.deleteQnaFile(map);
+		} else {
+			throw new Exception();
+		}
+		
+		return result;
+	}
+	
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public int editQna(Map map) throws Exception {
+		result = boardDAO.editQna(map);
+		if (result == 1) {
+
+		} else {
+			throw new Exception();
+		}
+		return result;
+	}
+	
 	@Override
 	public List<HashMap> repCheck(Map map) {
 		//map.put("bxqno", map.get("bxqno"));
 		return boardDAO.repCheck(map);
+	}
+	
+	@Override
+	public List<HashMap> ad_repCheck(Map map) {
+		//map.put("bxqno", map.get("bxqno"));
+		return boardDAO.ad_repCheck(map);
+	}
+	
+	@Override
+	public int repCheckCnt(Map map) {
+		return boardDAO.repCheckCnt(map);
+	}
+	
+	@Override
+	public List<HashMap> searchQna(Map map) {
+		//map.put("bxngrid", map.get("bxngrid"));
+		return boardDAO.searchQna(map);
 	}
 	
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
@@ -141,6 +225,7 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public Map tutor(Map map) {
+		map.put("tucxseq", map.get("tucxseq"));
 		return boardDAO.tutor(map);
 	}
 	
@@ -186,6 +271,19 @@ public class BoardServiceImpl implements BoardService {
 	public List<HashMap> readComment(Map map) {
 		//map.put("bxngrid", map.get("bxngrid"));
 		return boardDAO.readComment(map);
+	}
+	
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public int deleteComment(Map map) throws Exception {
+		map.put("mxseq", map.get("mxseq"));
+		result = boardDAO.deleteComment(map);
+		if (result == 1) {
+			
+		} else {
+			throw new Exception();
+		}
+		
+		return result;
 	}
 
 }

@@ -11,7 +11,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			a.coxintro, a.coxopen, a.coxprog, a.coxscore,
 			a.coxoffice, a.regdate, b.mxseq
 		from course a, tutor b
-		where a.tuxseq = b.tuxseq		
+		where a.tuxseq = b.tuxseq
+		and a.coxoffice = #{coxoffice}
 	    <if test="null != coxname and '' !=coxname">
 	    	and a.coxname like CONCAT('%', #{coxname}, '%')
 	    </if>	    

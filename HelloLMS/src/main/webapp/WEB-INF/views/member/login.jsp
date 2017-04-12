@@ -1,15 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%-- <%@ page session="false"%> --%>
+<%@ page language="java"  contentType="text/html; charset=UTF-8" pageEncoding="utf-8"%>
+<%@ include file="../include/header.jsp" %>
 <%@ include file="../include/menu.jsp" %>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
 
     <!-- Le styles -->
     <link href="/resources/bootstrap/css/bootstrap.css" rel="stylesheet">
@@ -82,10 +76,6 @@
       }
 
     </style>
-   <link href="/resources/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
-   <script src="/resources/js/jquery-2.1.1.min.js"></script>
-   <script src="/resources/bootstrap/js/bootstrap.min.js"></script>
-   <script src="/resources/js/angular.1.4.8.min.js"></script>
    
    <script> 
 
@@ -105,10 +95,6 @@
 	}
 	</script>
 
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
 
 <%-- <c:if test="${empty LOGIN }">
 	<script>
@@ -118,17 +104,15 @@
  --%>
 <div class="container">
 
-<form class="form-signin" action="/member/loginPost" method="post">
-        <h2 class="form-signin-heading">로그인하세요</h2>
-        <input type="text" class="input-block-level" name="mxid" placeholder="ID">
-        <input type="password" class="input-block-level" name="mxpw" placeholder="Password">
-        
-        <button class="btn btn-large btn-primary" type="submit">로그인</button>
-            
-</form>
-</div>
+	<form class="form-signin" action="/member/loginPost" method="post">
+		<h2 class="form-signin-heading">로그인하세요</h2>
+		<input type="text" class="input-block-level" name="mxid" placeholder="ID">
+		<input type="password" class="input-block-level" name="mxpw" placeholder="Password">
+		<button class="btn btn-large btn-primary" type="submit">로그인</button>
+           
+	</form>
 
-<hr>
+	<hr>
 
 <div class="div-ohter" align="center">
 <h2 class="form-signin-heading">처음이신가요?</h2>
@@ -208,19 +192,22 @@ alert("아이디와 비밀번호를 정확히 입력하세요");
 </div>
 
 <c:if test="${not empty msg}">
-<script>
-$(".alert").alert();
-</script>
+	<script>
+	$(".alert").alert();
+	</script>
 
    <div class="alert alert-block alert-error fade in">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             ${msg }
-          </div>
+	</div>
 
 </c:if>
 
 
 </div>
 
-</body>
-</html>
+</div>
+
+<!-- /container -->
+
+<%@ include file="../include/footer.jsp"%>

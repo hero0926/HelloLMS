@@ -40,4 +40,14 @@ public interface MyLectureMapper {
 
 	public List<HashMap> testpoolList(Map map);
 
+	public int updateAnswer(Map map);
+
+	public int submitTest(Map map);
+
+	public List<HashMap> selectTestresult(Map map);
+
+	public int insertTestresult(Map map);
+
+	public int updateRest(Map map);
+
 }

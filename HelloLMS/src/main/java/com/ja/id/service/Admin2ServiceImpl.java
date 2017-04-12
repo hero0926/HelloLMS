@@ -96,5 +96,12 @@ public class Admin2ServiceImpl implements Admin2Service{
 		return adminDAO.allApplyStatus(map);
 	}
 
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
+	public List<HashMap> loginStatistics(Map map) throws Exception {
+		// TODO Auto-generated method stub
+		return adminDAO.loginStatistics(map);
+	}
+
 
 }

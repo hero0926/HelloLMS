@@ -120,5 +120,40 @@ public class MyLectureServiceImpl implements MyLectureService{
 		// TODO Auto-generated method stub
 		return mylectureDAO.testpoolList(map);
 	}
+
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
+	public int updateAnswer(Map map) throws Exception {
+		// TODO Auto-generated method stub
+		return mylectureDAO.updateAnswer(map);
+	}
+
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
+	public int submitTest(Map map) throws Exception {
+		// TODO Auto-generated method stub
+		return mylectureDAO.submitTest(map);
+	}
+
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
+	public List<HashMap> selectTestresult(Map map) throws Exception {
+		// TODO Auto-generated method stub
+		return mylectureDAO.selectTestresult(map);
+	}
+
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
+	public int insertTestresult(Map map) throws Exception {
+		// TODO Auto-generated method stub
+		return mylectureDAO.insertTestresult(map);
+	}
+
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
+	public int updateRest(Map map) throws Exception {
+		// TODO Auto-generated method stub
+		return mylectureDAO.updateRest(map);
+	}
 	
 }

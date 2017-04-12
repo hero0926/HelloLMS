@@ -8,13 +8,11 @@ public interface CourseService {
 
 	public List<HashMap> getAllcourse(Map map);
 
-	public int selectapply(Map map) throws Exception;
-
 	public List<HashMap> applycourse(Map map);
 
-	public List<HashMap> applycheck(Map map);
-
 	public int insertApply(Map map);
+
+	public int applyDelte(Map map);
 
 	public List<HashMap> openCourseList(Map map) throws Exception;
 
@@ -22,6 +20,6 @@ public interface CourseService {
 
 	public List<HashMap> getLecture(Map map) throws Exception;
 
-	//public int applyDelte(Map map);
+	public List<HashMap> lectureList(Map map);
 
 }

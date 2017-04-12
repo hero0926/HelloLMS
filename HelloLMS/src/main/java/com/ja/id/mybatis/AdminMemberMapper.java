@@ -12,6 +12,14 @@ public interface AdminMemberMapper {
 
 	public int updateMemberT(Map map);
 
-	public List<HashMap> updateM(Map map);	
+	public List<HashMap> updateM(Map map);
 
+	public int insertMemberT(Map map);	
+
+
+	public int deleteT(Map map);
+
+	public int updateMemberS(Map map);
+
+	public List<HashMap> loginHistory(Map map);	
 }

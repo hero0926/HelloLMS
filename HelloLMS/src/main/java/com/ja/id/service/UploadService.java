@@ -14,4 +14,6 @@ public interface UploadService {
 	
 	public void updatepopup(Map map) throws Exception;
 
+	public List<HashMap> selectTutor(Map map) throws Exception;
+
 }

@@ -14,13 +14,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="selectcourse" resultType="java.util.HashMap" parameterType="java.util.HashMap">
-		select * from course limit 6;
+		select * from course where coxopen='Y' limit 3;
 	</select>
 	
 	<insert id="updatepopup" parameterType="java.util.HashMap">
 		insert into popup (pxname, pxfrom, pxto, pxday, pxurl, pxfile)
 		values (#{pxname}, #{pxfrom}, #{pxto}, #{pxday}, #{pxurl}, #{pxfile})
 	</insert>
+	
+	<select id="selectTutor" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		SELECT tutor.*, member.mxname
+		FROM tutor, member
+		WHERE tutor.mxseq = member.mxseq
+		ORDER BY cnt desc limit 4
+	</select>
 	
 
 </mapper>

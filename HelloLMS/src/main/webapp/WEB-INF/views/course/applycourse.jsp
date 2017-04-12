@@ -37,7 +37,9 @@
 
 							<td>${course.coxname}</td>
 							<td>${course.coxstart}~${course.coxend}</td>
-							<td>${course.regdate}</td>
+							
+							<td><fmt:parseDate value="${course.regdate}" var="dateFmt1" pattern="yyyyMMdd"/>
+									<fmt:formatDate value="${dateFmt1}" pattern="yyyy-MM-dd"/></td>
 							<td><button class="btn btn-success" disabled="disabled">진행중</button></td>
 							<%-- <td><c:choose>
 							
@@ -59,19 +61,6 @@
 			</form>
 		</div>
 
-		<c:if test="${!empty courseA}">
-			<div class="pagination" style="text-align: center">
-				<ul>
-					<li><a href="#">Prev</a></li>
-					<li><a href="#">1</a></li>
-					<li><a href="#">2</a></li>
-					<li><a href="#">3</a></li>
-					<li><a href="#">4</a></li>
-					<li><a href="#">5</a></li>
-					<li><a href="#">Next</a></li>
-				</ul>
-			</div>
-		</c:if>
 	</div>
 	<hr>
 

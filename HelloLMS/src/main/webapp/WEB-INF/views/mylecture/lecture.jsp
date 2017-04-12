@@ -27,7 +27,10 @@
 						popUrl = "lecture?lxlink="+lxlink+"&lxtype="+lxtype+"&coxseq="+coxseq;
 					}
 					winopen(popUrl, "lecture");
-					doStudy(lxseq);
+					var USEQ = "<%=session.getAttribute("USEQ")%>";
+					if(USEQ!=null){
+						doStudy(lxseq);
+					}
 				}
 				function quizpopupOpen(){
 					winopen("quizpopup");

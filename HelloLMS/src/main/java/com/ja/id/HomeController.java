@@ -22,6 +22,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mobile.device.Device;
+import org.springframework.mobile.device.DeviceUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -65,7 +67,16 @@ public class HomeController {
 			
 			//최신강의 불러오기
 			List<HashMap> c = us.selectcourse(map);
-			model.addAttribute("c", c);			
+			model.addAttribute("c", c);
+			System.out.println("selectcourse--------------------"+c);
+			
+			try {
+				List<HashMap> tutor = us.selectTutor(map);
+				model.addAttribute("tutor", tutor);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 			//유저 수 불러오기
 			List<HashMap> m = ms.selectMain();
@@ -81,11 +92,14 @@ public class HomeController {
 			List<HashMap> p = adminService.popup(map);
 			
 			//기간 내에 / 팝업 활성화되게 코딩...
-			if(p!=null){
-				model.addAttribute("Is_p", "Is_p");
+			if(p!=null&&p.size()>0){
+				model.addAttribute("Is_p", p.get(p.size()-1));
 			}			
 			
 			if(uri.equals("localhost")){
+				session.setAttribute("UOFFICE", 8);			
+			} else if(uri.indexOf("211.183.8")>-1){
+				System.out.println(uri);
 				session.setAttribute("UOFFICE", 8);			
 			} else {
 				map.put("cxname", uri.substring(0, uri.indexOf(".")));
@@ -100,6 +114,21 @@ public class HomeController {
 				}
 			}
 			
+			Device device = DeviceUtils.getCurrentDevice(request);        
+	        if (device == null) {
+	            return "device is null";
+	        }
+	        String deviceType = "unknown";
+	        if (device.isNormal()) {
+	            deviceType = "nomal";
+	        } else if (device.isMobile()) {
+	            deviceType = "mobile";
+	        } else if (device.isTablet()) {
+	            deviceType = "tablet";
+	        }
+	        System.out.println("Hello " + deviceType + " browser!");
+	        session.setAttribute("deviceType", deviceType);	
+	        
 			return "home";
 		}	
 		

@@ -8,53 +8,68 @@
 <div class="container">
 
 	<script type="text/javascript">
-		$(document).ready(function() {
+		$(document)
+				.ready(
+						function() {
 
-			$("input[name^='apply_event']").on('click', function(e) {
+							$("input[name^='apply_event']")
+									.on(
+											'click',
+											function(e) {
 
-				var j = $(this).attr('name');
+												var j = $(this).attr('name');
 
-				var num = j.split('apply_event');
+												var num = j
+														.split('apply_event');
 
-				var coxseq = num[1];
+												var coxseq = num[1];
 
-				var apply = confirm("신청하시겠습니까?");
+												var apply = confirm("신청하시겠습니까?");
 
-				if (apply) {
-					$.ajax({
-						url : '/course/apply',
-						type : 'post',
-						data : {
-							
-							coxseq : coxseq
-							
-							
-						}
+												if (apply) {
+													$
+															.ajax(
+																	{
+																		url : '/course/apply',
+																		type : 'post',
+																		data : {
 
-					}).done(function(coxseq) {
-						var jObj = JSON.parse(coxseq);
-						var apply = jObj.apply;
-						
-						if ('Y' == apply) {
-							alert('이미 신청하신 과목입니다.');
-						} else if('N' == apply){
+																			coxseq : coxseq
 
-							var use = confirm('신청되었습니다.');
-							if (use) {
-								
-								$('#btn${courses.coxseq}').attr('disabled', 'true');
+																		}
 
-							} else {
+																	})
+															.done(
+																	function(
+																			coxseq) {
+																		var jObj = JSON
+																				.parse(coxseq);
+																		var apply = jObj.apply;
 
-							}
-						}
+																		if ('Y' == apply) {
+																			alert('이미 신청하신 과목입니다.');
+																		} else if ('N' == apply) {
 
-					})
+																			var use = confirm('신청되었습니다.');
+																			if (use) {
 
-				}
+																				$(
+																						'#btn${courses.coxseq}')
+																						.attr(
+																								'disabled',
+																								'true');
 
-			});
-		});
+																			} else {
+
+																			}
+																		}
+
+																	})
+
+												}
+
+											});
+						});
 	</script>
 
 
@@ -122,19 +137,7 @@
 			</form>
 		</div>
 
-		<c:if test="${!empty course}">
-			<div class="pagination" style="text-align: center">
-				<ul>
-					<li><a href="#">Prev</a></li>
-					<li><a href="#">1</a></li>
-					<li><a href="#">2</a></li>
-					<li><a href="#">3</a></li>
-					<li><a href="#">4</a></li>
-					<li><a href="#">5</a></li>
-					<li><a href="#">Next</a></li>
-				</ul>
-			</div>
-		</c:if>
+
 	</div>
 	<hr>
 </div>

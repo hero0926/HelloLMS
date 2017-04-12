@@ -36,7 +36,6 @@
 					window.open(popUrl, title, popOption);
 			}
 			function doStudy(lxseq) {
-				alert('doStudy');
 				$.ajax({
 					type : "POST",
 					url : "/mypage/mylecture/lexstudy",
@@ -84,9 +83,24 @@
 								<td><c:out value="${lecture.lxname}"/></td>
 								<td><c:if test="${empty lecture.regdate}">미</c:if>수강</td>
 								<td><c:if test="${!empty lecture.lxlink}"><a href="javascript:lecturepopup('${lecture.lxtype}', '${lecture.lxlink}', '${lecture.lxseq}', '${lecture.coxseq}');"><button type="submit" class="btn">강의보기&nbsp;<i class="icon-facetime-video"></i></button></a></c:if></td>
-								<td><c:if test="${!empty lecture.lxfile}"><a href="/download?path=/resources/lecture/&fileName=${lecture.lxfile}" ><c:out value="${lecture.lxfile}"/> <i class="icon-download-alt"></i></a></c:if></td>
-								<td><c:if test="${lecture.qxcnt>0}"><a href="javascript:quizpopupOpen('<c:out value="${lecture.lxseq}"/>');"><button type="submit" class="btn<c:if test="${lecture.qaxcnt>0}"> btn-link</c:if>">Quiz</button></a></c:if>
-									
+								<td><c:if test="${!empty lecture.lxfile}"><a href="/mypage/mylecture/download?fileName=${lecture.lxfile}"><c:out value="${lecture.lxfile}"/><i class="icon-download-alt"></i></a></c:if></td>
+								<td>
+									<c:choose>
+										<c:when test="${lecture.qxcnt>0}">
+											<c:choose>
+												<c:when test="${lecture.qaxcnt>0}">
+													퀴즈 응시 완료
+												</c:when>
+												<c:otherwise>
+													<a href="javascript:quizpopupOpen('<c:out value="${lecture.lxseq}"/>');"><button type="submit" class="btn">Quiz</button></a>
+												</c:otherwise>
+											</c:choose>
+										</c:when>
+										<c:otherwise>
+										</c:otherwise>
+									</c:choose>
+									<%-- <c:if test="${lecture.qxcnt>0}"><a href="javascript:quizpopupOpen('<c:out value="${lecture.lxseq}"/>');"><button type="submit" class="btn">Quiz</button></a></c:if>
+									<c:if test="${lecture.qaxcnt>0}">퀴즈 응시 완료</c:if> --%>
 								</td>
 								</tr>
 						</c:forEach>

@@ -35,7 +35,7 @@
 
       <!-- Main hero unit for a primary marketing message or call to action -->
       <div class="page-header">
-        <h1>평가지 리스트 <small>...평가가 실시되는 일정을 관리합니다..</small></h1>
+        <h1>평가지 리스트 <small>...평가가 실시되는 일정을 관리합니다.</small></h1>
       </div>
 
       <!-- Example row of columns -->

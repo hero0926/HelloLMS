@@ -66,4 +66,14 @@ public interface AdminService {
 
 	public int updateScore3(Map map) throws Exception;
 
+	public List<HashMap> selectGraph(Map map);
+
+	public List<HashMap> selectGrade(Map map);
+
+	public List<HashMap> selectProgress(Map map);
+
+	public List<HashMap> selectBoardFaq(Map map);
+
+	public int getTotalFaq(Map map);
+
 }

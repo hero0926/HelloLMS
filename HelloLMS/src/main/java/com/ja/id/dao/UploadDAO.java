@@ -14,4 +14,6 @@ public interface UploadDAO {
 
 	public void updatepopup(Map map);
 
+	public List<HashMap> selectTutor(Map map);
+
 }

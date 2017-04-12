@@ -3,6 +3,7 @@ package com.ja.id.controller;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,10 +29,10 @@ public class SearchBoardController {
 	 
 	 //전체 강좌 리스트
 	 @RequestMapping(value = "/list", method = RequestMethod.GET)
-	  public void listPage(@ModelAttribute("cri") SearchCriteria cri, Model model, @RequestParam Map map) throws Exception {
+	  public void listPage(@ModelAttribute("cri") SearchCriteria cri, Model model, @RequestParam Map map, HttpSession session) throws Exception {
 
 	    logger.info(cri.toString());	    
-
+	    map.put("coxoffice", session.getAttribute("UOFFICE"));
 	    // model.addAttribute("list", service.listCriteria(cri));
 	    model.addAttribute("list", service.SelectSearchCourse(map));	    
 	 }	 

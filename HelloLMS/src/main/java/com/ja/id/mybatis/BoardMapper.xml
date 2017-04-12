@@ -4,104 +4,267 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ja.id.mybatis.BoardMapper">
 
-<insert id="writeNotice" parameterType="java.util.HashMap">
-	insert into board_notice (bxngrid, bxnsubject, bxncontent, bxncnt, regdate) 
-	values (#{bxngrid}, #{bxnsubject}, #{bxncontent}, 0, DATE_FORMAT(NOW(), '%Y%m%d'))
-	<selectKey keyProperty="bxnseq" resultType="java.lang.Integer" order="AFTER">
-		SELECT LAST_INSERT_ID()
-	</selectKey>
-</insert>
-<select id="getAllNotice" resultType="java.util.HashMap" parameterType="java.util.HashMap">
-	select bxnseq, bxngrid, bxnsubject, bxncontent, regdate, bxncnt
-	from board_notice
-	where bxngrid=#{bxngrid}
-	<!-- select b.bxnseq, b.bxngrid, b.bxnsubject, b.bxncontent, b.regdate, b.bxncnt, c.cxgubun, c.cxcode, c.cxname
-	from board_notice b, code c
-	<if test="bxngrid != null">
-	where c.cxgubun = 2
-	and b.bxngrid=#{bxngrid}
-	and b.bxngrid=c.cxcode
-	</if> -->
-	<if test="bxnseq != null">
-	where b.bxnseq=#{bxnseq}
-	</if>
-</select>
-<select id="readNotice" resultType="java.util.HashMap" parameterType="java.util.HashMap">
-	select * from board_notice where bxnseq=#{bxnseq}
-	<!-- AND bxngrid=#{bxngrid} -->
-</select>
-<update id="editNotice" parameterType="java.util.HashMap">
-	update board_notice
-	set bxnsubject = #{bxnsubject}, bxncontent = #{bxncontent}
-	where bxnseq=#{bxnseq}
-	<!-- AND bxngrid=#{bxngrid} -->
-</update>
-<update id="updateCnt" parameterType="java.util.HashMap">
-	update board_notice
-	set bxncnt=bxncnt + 1
-	where bxnseq=#{bxnseq}
-	<!-- AND bxngrid=#{bxngrid} -->
-</update>
-<delete id="deleteNotice" parameterType="java.util.HashMap">
-	delete from board_notice WHERE bxnseq = #{bxnseq}
-	<if test="bxngrid != null">
-	and bxngrid = #{bxngrid}
-	</if>
-</delete>
-<select id="searchNotice" resultType="java.util.HashMap" parameterType="java.util.HashMap">
-	select bxnseq, bxngrid, bxnsubject, bxncontent, bxncnt, regdate from board_notice
-	<if test="searchName != null">
-	WHERE (bxnsubject LIKE '%#{bxnsubject}%' 
-	OR bxncontent LIKE '%#{bxncontent}%')
-	</if>
-</select>
+	<insert id="writeNotice" parameterType="java.util.HashMap">
+		insert into board_notice (bxngrid, bxnsubject, bxncontent, bxncnt,
+		regdate)
+		values (#{bxngrid}, #{bxnsubject}, #{bxncontent}, 0, DATE_FORMAT(NOW(),
+		'%Y%m%d'))
+		<selectKey keyProperty="bxnseq" resultType="java.lang.Integer"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	<insert id="writeNoticeFile" parameterType="java.util.HashMap">
+		INSERT INTO
+		board_noticefile (bxnno, bxnfile1, bxnfile2, bxnconvertfile1, bxnconvertfile2)
+		VALUES (#{bxnno}, #{bxnfile1}, #{bxnfile2}, #{bxnconvertfile1}, #{bxnconvertfile2})
+	</insert>
+	<select id="getAllNotice" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		select a.bxnseq, a.bxngrid, a.bxnsubject, a.bxncontent,
+		a.regdate, CASE WHEN DATE_FORMAT(regdate,'%Y%m%d') =
+		DATE_FORMAT(NOW(),'%Y%m%d') THEN 'NEW' ELSE 'OLD' END ASNEW_FLG, a.bxncnt,
+		b.bxnno, b.bxnfile1, b.bxnfile2
+		from board_notice a, board_noticefile b
+		<!-- select b.bxnseq, b.bxngrid, b.bxnsubject, b.bxncontent, b.regdate, 
+			b.bxncnt, c.cxgubun, c.cxcode, c.cxname from board_notice b, code c <if test="bxngrid 
+			!= null"> where c.cxgubun = 2 and b.bxngrid=#{bxngrid} and b.bxngrid=c.cxcode 
+			</if> -->
+		where a.bxnseq=b.bxnno
+		and a.bxngrid=#{bxngrid} 
+		order by bxnseq desc
+		<if test="start != null">
+		LIMIT #{start}, #{pDataCnt}
+		</if>
+	</select>
+	<select id="getAllNoticeCnt" resultType="int" parameterType="java.util.HashMap">
+	    SELECT COUNT(a.bxnseq)
+	    from board_notice a, board_noticefile b
+		where a.bxnseq=b.bxnno
+		and a.bxngrid=#{bxngrid} 
+		order by bxnseq desc
+	</select>
+	<select id="readNotice" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		select a.bxnseq, a.bxngrid, a.bxnsubject, a.bxncontent, a.bxncnt, a.regdate, 
+		b.bxnno, b.bxnfile1, b.bxnfile2, b.bxnconvertfile1, b.bxnconvertfile2 
+		from board_notice a, board_noticefile b 
+		where a.bxnseq=b.bxnno and a.bxnseq=#{bxnseq}
+	</select>
+	
+	<update id="editNotice" parameterType="java.util.HashMap">
+		update board_notice
+		set bxnsubject = #{bxnsubject}, bxncontent = #{bxncontent}
+		where bxnseq=#{bxnseq}
+		<!-- AND bxngrid=#{bxngrid} -->
+	</update>
+	<update id="delNoticeFile" parameterType="java.util.HashMap">
+		update board_noticefile 
+		<if test="no == 1">
+		set bxnfile1 = null, bxnconvertfile1 = null
+		</if>
+		<if test="no == 2">
+		set bxnfile2 = null, bxnconvertfile2 = null
+		</if>
+		where bxnno = #{bxnno}
+	</update>
+	<update id="updateNoticeFile" parameterType="java.util.HashMap">
+		update board_noticefile set
+		bxnno = #{bxnno}
+		<if test="bxnfile1 != null">
+		,bxnfile1 = #{bxnfile1}
+		,bxnconvertfile1 = #{bxnconvertfile1}
+		</if>
+		<if test="bxnfile2 != null">
+		,bxnfile2 = #{bxnfile2}
+		,bxnconvertfile2 = #{bxnconvertfile2}
+		</if>
+		where bxnno = #{bxnno}
+		</update>
+	<update id="updateCnt" parameterType="java.util.HashMap">
+		update board_notice
+		set bxncnt=bxncnt + 1
+		where bxnseq=#{bxnseq}
+		<!-- AND bxngrid=#{bxngrid} -->
+	</update>
+	<delete id="deleteNotice" parameterType="java.util.HashMap">
+		delete from board_notice WHERE bxnseq = #{bxnseq}
+		<if test="bxngrid != null">
+			and bxngrid = #{bxngrid}
+		</if>
+	</delete>
+	<delete id="deleteNoticeFile" parameterType="java.util.HashMap">
+		delete from	board_noticefile 
+		WHERE bxnno = #{bxnno}
+	</delete>
+	
+	<!-- <select id="searchNotice" resultType="java.util.HashMap" parameterType="java.util.HashMap"> 
+		select bxnseq, bxngrid, bxnsubject, bxncontent, bxncnt, regdate from board_notice 
+		<if test="searchName != null"> WHERE (bxnsubject LIKE '%#{bxnsubject}%' OR 
+		bxncontent LIKE '%#{bxncontent}%') </if> </select> -->
+	<select id="searchNotice" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		select a.bxnseq, a.bxngrid, a.bxnsubject, a.bxncontent, a.bxncnt, a.regdate,
+		b.bxnno, b.bxnfile1 from
+		board_notice a, board_noticefile b
+		where a.bxnseq=b.bxnno
+		and bxngrid=#{bxngrid}
+		<!-- order by a.bxnseq desc LIMIT 10, 10 -->		
+		<choose>
+			<when
+				test="bxnsubject != null and bxnsubject != '' and bxncontent != null and bxncontent != ''">
+				and ( bxnsubject like CONCAT('%', #{bxnsubject}, '%') or bxncontent
+				like CONCAT('%', #{bxncontent}, '%'))
+			</when>
+			<otherwise>
+				<if test="bxnsubject != null and bxnsubject != ''">
+					and bxnsubject like CONCAT('%', #{bxnsubject}, '%')
+				</if>
+				<if test="bxncontent != null and bxncontent != ''">
+					and bxncontent like CONCAT('%', #{bxncontent}, '%')
+				</if>
+			</otherwise>
+		</choose>
+		order by a.bxnseq desc
+	</select>
+	<select id="repCheck" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		select a.bxqseq, a.mxseq, a.bxqgrid, a.bxqsubject, a.bxqcontent, a.regdate as
+		qnadate, b. bxqrseq, b.bxqno, b.bxqrepcontent, b.regdate as repdate
+		from board_qna a
+		left outer join board_qnarep b
+		on a.bxqseq = b.bxqno
+		where a.bxqgrid = #{bxqgrid}
+		<if test="mxseq != null">
+		and a.mxseq=#{mxseq}
+		</if>
+		order by a.bxqseq desc
+	</select>
+	
+	<select id="ad_repCheck" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		select a.bxqseq, a.mxseq, a.bxqgrid, a.bxqsubject, a.bxqcontent, a.regdate as
+		qnadate, b. bxqrseq,b.bxqno, b.bxqrepcontent, b.regdate as repdate
+		from board_qna a
+		left outer join board_qnarep b
+		on a.bxqseq = b.bxqno
+		where a.bxqgrid = #{bxqgrid}
+		order by a.bxqseq desc
+		<if test="start != null">
+		LIMIT #{start}, #{pDataCnt}
+		</if>
+	</select>
+	<select id="repCheckCnt" resultType="int" parameterType="java.util.HashMap">
+	    SELECT COUNT(a.bxqseq)
+	    from board_qna a, board_qnafile b
+		where a.bxqseq=b.bxqno
+		and a.bxqgrid=#{bxqgrid} 
+		order by bxqseq desc
+	</select>
+	<select id="searchQna" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		select a.bxqseq, a.bxqgrid, a.mxseq, a.bxqsubject, a.bxqcontent, a.regdate as qnadate,
+		b. bxqrseq, b.bxqno as repno, b.bxqrepcontent, b.regdate as repdate, c.bxqno as fileno, c.bxqfile1
+		from board_qna a
+		left outer join board_qnarep b
+		on a.bxqseq = b.bxqno
+		left outer join board_qnafile c
+		on b.bxqno = c.bxqno
+		where bxqgrid=#{bxqgrid}		
+		<choose>
+			<when
+				test="bxqsubject != null and bxqsubject != '' and bxqcontent != null and bxqcontent != '' and bxqrepcontent != null and bxqrepcontent != ''">
+				and ( bxqsubject like CONCAT('%', #{bxqsubject}, '%') 
+				or bxqcontent like CONCAT('%', #{bxqcontent}, '%') 
+				or bxqrepcontent like CONCAT('%', #{bxqrepcontent}, '%'))
+			</when>
+			<otherwise>
+				<if test="bxqsubject != null and bxqsubject != ''">
+					and bxqsubject like CONCAT('%', #{bxqsubject}, '%')
+				</if>
+				<if test="bxqcontent != null and bxqcontent != ''">
+					and bxqcontent like CONCAT('%', #{bxqcontent}, '%')
+				</if>
+				<if test="bxqrepcontent != null and bxqrepcontent != ''">
+					and bxqrepcontent like CONCAT('%', #{bxqrepcontent}, '%')
+				</if>
+			</otherwise>
+		</choose>
+		order by a.bxqseq desc
+	</select>
+	
 
-<select id="repCheck" resultType="java.util.HashMap" parameterType="java.util.HashMap">
-	select a.bxqseq, a.bxqgrid, a.bxqsubject, a.bxqcontent, a.regdate as qnadate, b.bxqno, b.bxqrepcontent, b.regdate as repdate
-	from board_qna a
-	left outer join board_qnarep b
-	on a.bxqseq = b.bxqno
-	where a.bxqgrid = #{bxqgrid}
-	order by a.bxqseq asc
-</select>
+	<insert id="writeQna" parameterType="java.util.HashMap">
+		insert into board_qna (bxqgrid, mxseq, bxqsubject, bxqcontent, regdate)
+		values (#{bxqgrid}, #{mxseq}, #{bxqsubject}, #{bxqcontent}, DATE_FORMAT(NOW(),
+		'%Y%m%d'))
+		<selectKey keyProperty="bxqseq" resultType="java.lang.Integer"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	<insert id="writeQnaFile" parameterType="java.util.HashMap">
+		INSERT INTO
+		board_qnafile (bxqno, bxqfile1, bxqfile2, bxqconvertfile1, bxqconvertfile2)
+		VALUES (#{bxqno}, #{bxqfile1}, #{bxqfile2}, #{bxqconvertfile1}, #{bxqconvertfile2})
+	</insert>
+	<!-- <select id="getAllQna" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select bxqseq, bxqrid, mxseq, bxqsubject, bxncontent, regdate 
+		from board_qna
+		select q.bxqseq, q.bxqgrid, q.bxqsubject, q.bxqcontent, q.regdate,
+		c.cxname from board_qna as q, code as c, member as m
+		<if test="bxqgrid != null">
+			where q.bxqgrid=#{bxqgrid}
+			AND q.bxqgrid=c.cxcode order by bxqseq
+		</if>
+		where c.cxgubun=2
+		AND q.bxqgrid=c.cxcode order by bxqseq
+	</select> -->
 
-<insert id="writeQna" parameterType="java.util.HashMap">
-	insert into board_qna (bxqgrid, bxqsubject, bxqcontent, regdate) 
-	values (#{bxqgrid}, #{bxqsubject}, #{bxqcontent}, DATE_FORMAT(NOW(), '%Y%m%d'))
-	<selectKey keyProperty="bxqseq" resultType="java.lang.Integer" order="AFTER">
-		SELECT LAST_INSERT_ID()
-	</selectKey>
-</insert>	
-<select id="getAllQna" resultType="java.util.HashMap" parameterType="java.util.HashMap">
-	select q.bxqseq, q.bxqgrid, q.bxqsubject, q.bxqcontent, q.regdate, c.cxname from board_qna as q, code as c, member as m
-	<if test="bxqgrid != null">
-	where q.bxqgrid=#{bxqgrid}
-	AND q.bxqgrid=c.cxcode order by bxqseq
-	</if>
-	where c.cxgubun=2
-	AND q.bxqgrid=c.cxcode order by bxqseq
-</select>
+	<select id="readQna" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		select a.bxqseq, a.bxqgrid, a.mxseq, a.bxqsubject, a.bxqcontent, a.regdate as qnadate,
+		b.bxqno, b.bxqrepcontent, b.regdate as repdate,  
+		b.bxqno, c.bxqfile1, c.bxqfile2, c.bxqconvertfile1, c.bxqconvertfile2
+		from board_qna a
+		left outer join board_qnarep b
+		on a.bxqseq = b.bxqno
+		left outer join board_qnafile c
+		on a.bxqseq = c.bxqno
+		where a.bxqseq=#{bxqseq}
+	</select>
+	<update id="editQna" parameterType="java.util.HashMap">
+		update board_qna
+		set bxqsubject = #{bxqsubject}, bxqcontent = #{bxqcontent}
+		where bxqseq=#{bxqseq}
+		<!-- AND bxngrid=#{bxngrid} -->
+	</update>
+	<delete id="deleteQna" parameterType="java.util.HashMap">
+		delete from board_qna WHERE bxqseq = #{bxqseq}
+		<if test="bxqgrid != null">
+			and bxqgrid = #{bxqgrid}
+		</if>
+		</delete>
+		<delete id="deleteQnaFile" parameterType="java.util.HashMap">
+		delete from	board_qnafile 
+		WHERE bxqno = #{bxqno}
+	
+	</delete>
+	<insert id="writeQnarep" parameterType="java.util.HashMap">
+		insert into board_qnarep (bxqno, bxqrepcontent, regdate)
+		values (#{bxqno}, #{bxqrepcontent}, DATE_FORMAT(NOW(), '%Y%m%d'))
+	</insert>
 
-<select id="readQna" resultType="java.util.HashMap" parameterType="java.util.HashMap">
-	select a.bxqseq, a.bxqgrid, a.bxqsubject, a.bxqcontent, a.regdate as qnadate, b.bxqno, b.bxqrepcontent, b.regdate as repdate 
-	from board_qna a
-	left outer join board_qnarep b
-	on a.bxqseq = b.bxqno
-	where a.bxqseq=#{bxqseq}
-	<if test="bxqno != null">
-	and b.bxqno=#{bxqno} order by a.bxqseq
-	</if>
-</select>
-
-<select id="tutor" resultType="java.util.HashMap" parameterType="java.util.HashMap">
-	select a.mxseq, a.tuxpicture, a.tuxhistory, a.cnt, b.mxname 
-	from tutor a
-	left outer join member b
-	on a.mxseq = b.mxseq
-	where a.mxseq=#{mxseq}
-</select>
-<insert id="writeComment" parameterType="java.util.HashMap">
-		INSERT INTO tutor_comment (
+	<select id="tutor" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select a.mxseq, a.tuxpicture, a.tuxhistory, a.cnt, b.mxname
+		from tutor a
+		left outer join member b
+		on a.mxseq = b.mxseq
+		where a.mxseq=#{mxseq}
+	</select>
+	<insert id="writeComment" parameterType="java.util.HashMap">
+		INSERT INTO
+		tutor_comment (
 		mxseq
 		,tucxcomment
 		,regdate
@@ -111,25 +274,53 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		,DATE_FORMAT(NOW(), '%Y%m%d')
 		)
 	</insert>
-	<select id="readComment" resultType="java.util.HashMap" parameterType="java.util.HashMap">
-		SELECT b.mxseq, b.tucxcomment, b.regdate 
-		FROM tutor as a, tutor_comment as b 
+	<select id="readComment" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		SELECT b.tucxseq, b.mxseq, b.tucxcomment, b.regdate
+		FROM tutor as a, tutor_comment as b
 		WHERE a.mxseq=b.mxseq
 		AND a.mxseq=#{mxseq} order by b.tucxseq desc
 	</select>
-<insert id="writeQnarep" parameterType="java.util.HashMap">
-	insert into board_qnarep (bxqno, bxqrepcontent, regdate) 
-	values (#{bxqno}, #{bxqrepcontent}, DATE_FORMAT(NOW(), '%Y%m%d'))
-</insert>
-
-<update id="updateJoayo" parameterType="java.util.HashMap">
-		UPDATE tutor 
-		SET	cnt = cnt + 1
+	<delete id="deleteComment" parameterType="java.util.HashMap">
+		delete from tutor_comment WHERE tucxseq = #{tucxseq}
+	</delete>
+	
+	<select id="listinread" resultType="java.util.HashMap"
+	parameterType="java.util.HashMap">
+	select a.bxnseq, a.bxngrid, a.bxnsubject, a.regdate,
+	CASE WHEN DATE_FORMAT(regdate,'%Y%m%d') = DATE_FORMAT(NOW(),'%Y%m%d') THEN 'NEW' ELSE 'OLD' END ASNEW_FLG, 
+	a.bxncnt, b.bxnfile1
+	from board_notice a, board_noticefile b
+	WHERE a.bxnseq = b.bxnno 
+	AND a.bxnseq = #{bxnseq}
+	UNION ALL (
+	SELECT a.bxnseq, a.bxngrid, a.bxnsubject, a.regdate, 
+	CASE WHEN DATE_FORMAT(regdate,'%Y%m%d') = DATE_FORMAT(NOW(),'%Y%m%d') THEN 'NEW' ELSE 'OLD' END ASNEW_FLG, 
+	a.bxncnt, b.bxnfile1 
+	FROM board_notice a, board_noticefile b 
+	WHERE a.bxnseq = b.bxnno
+	AND <![CDATA[a.bxnseq < #{bxnseq}]]>
+	ORDER BY a.bxnseq DESC LIMIT 1)
+	UNION ALL (
+	SELECT a.bxnseq, a.bxngrid, a.bxnsubject, a.regdate, 
+	CASE WHEN DATE_FORMAT(regdate,'%Y%m%d') = DATE_FORMAT(NOW(),'%Y%m%d') THEN 'NEW' ELSE 'OLD' END ASNEW_FLG, 
+	a.bxncnt, b.bxnfile1 
+	FROM board_notice a, board_noticefile b 
+	WHERE a.bxnseq = b.bxnno
+	AND <![CDATA[a.bxnseq > #{bxnseq}]]>
+	ORDER BY a.bxnseq ASC LIMIT 1)
+	ORDER BY bxnseq DESC;
+	</select> 
+	
+	<update id="updateJoayo" parameterType="java.util.HashMap">
+		UPDATE tutor
+		SET cnt = cnt + 1
 		WHERE mxseq=#{mxseq}
 	</update>
 	<select id="selectJoayo" resultType="int" parameterType="java.util.HashMap">
-		SELECT cnt
-		FROM tutor 
+		SELECT
+		cnt
+		FROM tutor
 		WHERE mxseq=#{mxseq}
-	</select>	
+	</select>
 </mapper>

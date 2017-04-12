@@ -93,4 +93,11 @@ public class Admin2DAOImpl implements Admin2DAO{
 		return mapper.allApplyStatus(map);
 	}
 
+	@Override
+	public List<HashMap> loginStatistics(Map map) {
+		// TODO Auto-generated method stub
+		Admin2Mapper mapper = sqlSession.getMapper(Admin2Mapper.class);
+		return mapper.loginStatistics(map);
+	}
+
 }

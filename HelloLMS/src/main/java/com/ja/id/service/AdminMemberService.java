@@ -13,6 +13,14 @@ public interface AdminMemberService {
 	public int updateMemberT(Map map);
 	
 	public List<HashMap> updateM(Map map);
+
+	public int insertMemberT(Map map) throws Exception;
+
+	public int deleteT(Map map) throws Exception;
+
+	public int updateMemberS(Map map) throws Exception;
+
+	public List<HashMap> loginHistory(Map map) throws Exception;
 	
 
 }

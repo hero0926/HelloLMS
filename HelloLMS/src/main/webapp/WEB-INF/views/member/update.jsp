@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>  
+<%@ include file="../include/header.jsp" %>
 <%@ include file="../include/menu.jsp" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+
 
 <%
 String mail= (String)session.getAttribute("UMAIL");
@@ -11,24 +11,41 @@ String mail1 = mail.substring(0, at);
 String mail2 = mail.substring(at+1);
 %>
 
-<head>
-
- <link href="/resources/bootstrap/css/bootstrap.css" rel="stylesheet">
-   <link href="/resources/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
-   <script src="/resources/js/jquery-2.1.1.min.js"></script>
-   <script src="/resources/bootstrap/js/bootstrap.min.js"></script>
-   <script src="/resources/js/angular.1.4.8.min.js"></script>
-  <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-  
-  <style type="text/css">
-    
-      body {
-        padding-top: 100px;
-        padding-bottom: 40px;
-      }
-     </style>
-  
   <script>
+  
+  
+	$(document).ready(function (e){
+		$('#update').click(function(){
+			if(checkVal()){
+				$('#frm').submit();
+			}
+		})
+		
+	});
+	
+	function checkVal() {
+		if(confirm("정보를 수정 하시겠습니까?")){
+			var ok=true;
+			$("input[required='required']").each(function(index){
+				if($(this).val()==''){
+					alert("입력이 필요한 항목이 있습니다.");
+					$(this).focus();
+					ok=false;
+					return false;						
+				}
+	        });
+			
+			if(ok){
+				return true;
+			}else{
+				return false;
+			}
+			
+				
+		} else {
+			return false;
+		}
+	}
 //공백체크 후 제거하기
 function trimcheck(obj){
 	 
@@ -77,74 +94,80 @@ $(".alert").alert();
 $('.alert').popover(options);
 </script>
 
-</head>
-<body>
 
-<div class="container span8" align="center">
+<div class="container">
+      <div class="page-header">
+        <h1>개인정보수정 <small>...개인정보를 수정할 수 있습니다.</small></h1>
+      </div>
 
- <form name = "frm" action="/member/update" method="post" >
- <table class="table table-hover" align="center">
-     <tr>
-     <th> 아이디 </th>
-     <td> <input type = "text" readonly="readonly" name="mxid" value="${UID }"> </td>
-     </tr>
-    
-    <tr>
-     <th> 비밀번호 </th>
-     <td> <input type = "password" name = "mxpw" onkeyup="trimcheck(this);" onchange="trimcheck(this);" ></td>
-     </tr>
-     
-     <tr>
-     <th> 이름 </th>
-    <td> <input type = "text" name = "mxname" value="${UNAME }" onkeyup="trimcheck(this);" onchange="trimcheck(this);" ></td>
-     </tr>
-     
- 	<tr>
-     <th> 이메일 </th>
-     <td>
- <input name="email1" type="text" class="box" id="email1" value="<%=mail1 %>" onkeyup='call()'> @
- <input name="email2" type="text" class="box" id="email2" value="<%=mail2 %>" onkeyup='call()'>
- 	<select name="email_select" class="box" id="email_select" onclick='call()' onChange="checkemailaddy();">
-    <option value="" selected>선택</option>
-    <option value="naver.com">naver.com</option>
-    <option value="hanmail.net">hanmail.net</option>    
-    <option value="gmail.com">gmail.com</option>
-    <option value="nate.com">nate.com</option>
-    <option value="hotmail.com">hotmail.com</option>
-    <option value="yahoo.co.kr">yahoo.co.kr</option>
-    <option value="1">직접입력</option>
-</select>
+	<form id="frm" name="frm" action="/member/update" method="post">
+		<table class="table table-hover" align="center">
+			<tr>
+				<th>아이디</th>
+				<td><input type="text" readonly="readonly" name="mxid"
+					value="${UID }"></td>
+			</tr>
 
-<input type="text" name="mxmail" id="mxmail" value="${UMAIL }" style="display:none">
-   
-     </td>     
-     </tr>
-    
-  
-    <tr align="center">
-     <td colspan = "4"> 
-     <button class="btn btn-primary" type="submit" />전송</button>
-     <button class="btn" type="reset" />취소</button>
-    </tr>
-    </table>
-  </form>
-  <hr>
+			<tr>
+				<th>비밀번호</th>
+				<td><input type="password" name="mxpw"
+					onkeyup="trimcheck(this);" onchange="trimcheck(this);" required="required"></td>
+			</tr>
+
+			<tr>
+				<th>이름</th>
+				<td><input type="text" name="mxname" value="${UNAME }"
+					onkeyup="trimcheck(this);" onchange="trimcheck(this);" required="required"></td>
+			</tr>
+
+			<tr>
+				<th>이메일</th>
+				<td><input name="email1" type="text" class="box" id="email1"
+					value="<%=mail1 %>" onkeyup='call()'> @ <input
+					name="email2" type="text" class="box" id="email2"
+					value="<%=mail2 %>" onkeyup='call()'> <select
+					name="email_select" class="box" id="email_select" onclick='call()'
+					onChange="checkemailaddy();">
+						<option value="" selected>선택</option>
+						<option value="naver.com">naver.com</option>
+						<option value="hanmail.net">hanmail.net</option>
+						<option value="gmail.com">gmail.com</option>
+						<option value="nate.com">nate.com</option>
+						<option value="hotmail.com">hotmail.com</option>
+						<option value="yahoo.co.kr">yahoo.co.kr</option>
+						<option value="1">직접입력</option>
+				</select> <input type="text" name="mxmail" id="mxmail" value="${UMAIL }"
+					style="display: none"></td>
+			</tr>
+
+
+			<tr align="center">
+				<td colspan="4">
+					<button class="btn btn-primary" type="button" id="update" />수정
+					</button>
+					<button class="btn" type="reset" />취소
+					</button>
+			</tr>
+		</table>
+	</form>
+	<hr>
   <h4>회원 탈퇴하기</h4>
   <a href="#myModal" data-toggle="modal">
-  <button class="btn btn-danger" type="submit" />전송</button></a>
+  <button class="btn btn-danger"/>전송</button></a>
   
   <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="alert alert-block alert-error fade in">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
             <h4 class="alert-heading">탈퇴하면 되돌릴 수 없습니다!!</h4>
             <p>정말로 탈퇴하시겠습니까.</p>
             <p>
-              <a class="btn btn-danger" data-dismiss="modal" aria-hidden="true">아니오</a> <a class="btn" href="/member/delete">네</a>
+              <a class="btn btn-danger" data-dismiss="modal" aria-hidden="true">아니오</a>
+               <a class="btn" href="/member/delete">네</a>
             </p>
-          </div>
+	</div>
  </div>  
   
 
 </div>  
 
-</body>
+<%@ include file="../include/footer.jsp"%>

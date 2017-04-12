@@ -104,5 +104,12 @@ public class MemberDAOImpl implements MemberDAO{
 		return mapper.selectMain();
 	}
 
+	@Override
+	public int loginHis(Map map) {
+		// TODO Auto-generated method stub
+		MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
+		return mapper.loginHis(map);
+	}
+
 
 }

@@ -2,11 +2,13 @@
 <%@ page language="java"  contentType="text/html; charset=UTF-8" pageEncoding="utf-8"%>
 <%@ include file="../include/header.jsp" %>
 	<script>
-		function goTest(tpxseq) {
+		function goTest(tpxseq, tpxduring) {
 			$('#tpxseq').val(tpxseq);
-			alert("평가에 응시 하시겠습니까?");
-			$('#frm2').attr('action','/mypage/mylecture/testpool');
-			$('#frm2').submit();
+			$('#tpxduring').val(tpxduring);
+			if(confirm("평가에 응시 하시겠습니까?")){
+				$('#frm2').attr('action','/mypage/mylecture/testpool');
+				$('#frm2').submit();
+			}
 		}
 	</script>
 	
@@ -25,6 +27,7 @@
           
         <form id="frm2" method="post">
 			<input type="hidden" name="tpxseq" id="tpxseq" />
+			<input type="hidden" name="tpxduring" id="tpxduring" />
 		</form> 
 		<div class="alert alert-info">
 	        <h3>${coxname}</h3>
@@ -47,12 +50,19 @@
 							<fmt:parseDate value="${testpaper.tpxfrom}" var="dateFmt1" pattern="yyyyMMddHHmm"/>
 							<fmt:formatDate value="${dateFmt1}" pattern="yyyy-MM-dd HH:mm"/>~
 							<fmt:parseDate value="${testpaper.tpxto}" var="dateFmt2" pattern="yyyyMMddHHmm"/>
-							<fmt:formatDate value="${dateFmt2}" pattern="yyyy-MM-dd HH:mm"/>(<c:out value="${testpaper.tpxduring }"/>)
+							<fmt:formatDate value="${dateFmt2}" pattern="yyyy-MM-dd HH:mm"/>(<c:out value="${testpaper.tpxduring}"/>)
 						</td>
 						<td>
 							<c:choose>
 								<c:when test="${testpaper.thistime>testpaper.tpxfrom && testpaper.thistime<testpaper.tpxto}">
-									<input type="button" class="btn btn-small btn-primary disabled" value="응시 가능" onclick="goTest('${testpaper.tpxseq}')"/>
+									<c:choose>
+										<c:when test="${testpaper.trxend!=null&&testpaper.trxend!=00000000000000}">
+											응시완료
+										</c:when>
+										<c:otherwise>
+											<input type="button" class="btn btn-small btn-primary disabled" value="응시 가능" onclick="goTest('${testpaper.tpxseq}', '${testpaper.tpxduring}')"/>
+										</c:otherwise>
+									</c:choose>
 								</c:when>
 								<c:otherwise>
 									응시 불가

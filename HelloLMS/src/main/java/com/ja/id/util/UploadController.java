@@ -130,8 +130,8 @@ public class UploadController {
 	}
 	
 	@RequestMapping(value = "/admin/aduploadForm", method = RequestMethod.GET)
-	public String aduploadForm(Locale locale, @RequestParam Map map) {			
-		
+	public String aduploadForm(Locale locale, HttpSession session, @RequestParam Map map) {			
+		session.setAttribute("adMenu", "5");
 		return "adupload";
 	}
 	
@@ -180,7 +180,8 @@ public class UploadController {
 	//팝업 업로드용 메서드
 	
 	@RequestMapping(value="/admin/popuploadForm", method = RequestMethod.GET)
-	public String popuploadForm(Locale locale, @RequestParam Map map) {		
+	public String popuploadForm(Locale locale, HttpSession session, @RequestParam Map map) {
+		session.setAttribute("adMenu", "5");
 		return "popupload";
 	}
 	

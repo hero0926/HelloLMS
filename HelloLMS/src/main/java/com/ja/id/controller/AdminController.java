@@ -6,12 +6,15 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mobile.device.Device;
+import org.springframework.mobile.device.DeviceUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,7 +43,22 @@ public class AdminController {
 	 * Simply selects the home view to render by returning its name.
 	 */
 	@RequestMapping(value = "/", method = {RequestMethod.POST, RequestMethod.GET})
-	public String home(Locale locale, Model model, HttpSession session, @RequestParam Map map) {
+	public String home(Locale locale, Model model, HttpSession session, @RequestParam Map map, HttpServletRequest request) {
+		Device device = DeviceUtils.getCurrentDevice(request);        
+        if (device == null) {
+            return "device is null";
+        }
+        String deviceType = "unknown";
+        if (device.isNormal()) {
+            deviceType = "nomal";
+        } else if (device.isMobile()) {
+            deviceType = "mobile";
+        } else if (device.isTablet()) {
+            deviceType = "tablet";
+        }
+        System.out.println("Hello " + deviceType + " browser!");
+        session.setAttribute("deviceType", deviceType);	
+		
 		logger.info("controller admin main.", locale);
 		
 		if(null!=session.getAttribute("UID")){
@@ -373,7 +391,7 @@ public class AdminController {
 	
 	@RequestMapping(value = "/quizWrite", method = {RequestMethod.POST, RequestMethod.GET})
 	public String quizWrite(Locale locale, Model model, @RequestParam Map map, HttpSession session) {
-		logger.info("controller start testpoolWrite.", locale);
+		logger.info("controller start quizWrite.", locale);
 		
 		int count = 0;
 		String lxseq = (String)map.get("lxseq");
@@ -398,7 +416,7 @@ public class AdminController {
 	
 	@RequestMapping(value = "/quizDelete", method = {RequestMethod.POST, RequestMethod.GET})
 	public String quizDelete(Locale locale, Model model, @RequestParam Map map, HttpSession session) {
-		logger.info("controller start testpoolWrite.", locale);
+		logger.info("controller start quizDelete.", locale);
 		
 		int count = 0;
 		String lxseq = (String)map.get("lxseq");

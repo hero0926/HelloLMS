@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ja.id.mybatis.AdminMapper">
+	<insert id="insertCode" parameterType="java.util.HashMap">
+		insert into code (cxgubun, cxcode, cxname)
+		values (#{cxgubun}, #{cxcode}, #{cxname})
+		
+	</insert>
+
+	<select id="selectCode" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select cxseq, cxgubun, cxcode, cxname
+		from code
+		where cxseq is not null
+		<choose>
+         <when test="'top'==level">
+             and cxgubun = '000'
+         </when>
+         <otherwise>
+             <if test="null != cxgubun and '' !=cxgubun">
+		    	and cxgubun = #{cxgubun}
+		     </if>
+         </otherwise>
+	    </choose>
+
+		<if test="null != cxseq and '' !=cxseq">
+	    	and cxseq = #{cxseq}
+	    </if>
+		<if test="null != cxname and '' !=cxname">
+	    	and cxname = #{cxname}
+	    </if>
+		order by cxcode, cxname 
+	</select>
+	
+	<delete id="deleteCode" parameterType="java.util.HashMap">
+		delete from code
+		where cxseq = #{cxseq}
+	</delete>
+	
+	<select id="selectCourse" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select a.coxseq, a.coxcate, a.coxname, a.coxstart,
+    		a.coxend, a.coxreqstart, a.coxreqend, a.tuxseq,
+			a.coxintro, a.coxopen, a.coxprog, a.coxscore,
+			a.coxoffice, a.regdate, b.cxname, a.coximgname
+		from course a, code b
+		where a.coxcate = b.cxseq
+		<if test="null != coxoffice and '' !=coxoffice">
+	    	and a.coxoffice = #{coxoffice}
+	    </if>
+	    <if test="null != coxseq and '' !=coxseq">
+	    	and a.coxseq = #{coxseq}
+	    </if>
+	    <if test="null != term and '' !=term">
+	    	and date_format(now(), '%Y%m%d')  between a.coxstart and a.coxend 
+	    </if>
+	    <if test="null != coxname and '' !=coxname">
+	    	and a.coxname like CONCAT('%', #{coxname}, '%')
+	    </if>
+
+		 order by a.coxstart desc, a.coxseq desc
+	</select>
+	
+	
+	<select id="selectTutor" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select a.tuxseq, b.mxname
+		from tutor a, member b
+		where a.mxseq = b.mxseq
+		<if test="null != tuxseq and '' !=tuxseq">
+	    	and a.tuxseq = #{tuxseq}
+	    </if>
+		order by 2
+	</select>
+	
+	<insert id="insertCourse" parameterType="java.util.HashMap">
+		insert into course (
+			coxcate, coxname, coxstart, coxend,
+			coxreqstart, coxreqend, tuxseq, coxintro,
+			coxopen, coxprog, coxscore, coxoffice,
+			regdate, mxseq, coximgname )
+		values (#{coxcate}, #{coxname}, #{coxstart}, #{coxend},
+			#{coxreqstart}, #{coxreqend}, #{tuxseq}, #{coxintro},
+			#{coxopen}, CAST(#{coxprog} AS UNSIGNED), CAST(#{coxscore} AS UNSIGNED), #{coxoffice},
+			date_format(now(), '%Y%m%d'), #{mxseq}, #{coximgname})
+	</insert>
+	
+	<update id="updateCourse" parameterType="java.util.HashMap">
+		update course set
+			coxcate = #{coxcate},
+			coxname = #{coxname},
+			coxstart = #{coxstart},
+			coxend = #{coxend},
+			coxreqstart = #{coxreqstart},
+			coxreqend = #{coxreqend},
+			tuxseq = #{tuxseq},
+			coxintro = #{coxintro},
+			coxopen = #{coxopen},
+			coxprog = #{coxprog},
+			coxscore = #{coxscore},
+			coximgname=#{coximgname}
+		where coxseq = #{coxseq}
+	</update>
+	
+	<delete id="deleteCourse" parameterType="java.util.HashMap">
+		delete from course
+		where coxseq = #{coxseq}
+	</delete>
+
+	<select id="selectTestpool" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select a.txseq, a.coxseq, a.lxseq, a.txtype,
+			a.txcont, b.lxnum, b.lxname, a.txcont,
+			a.tx1, a.tx2, a.tx3, a.tx4,
+			a.tx5, a.txcorrect, c.cxname, d.coxname
+		from testpool a, lecture b, code c, course d
+		where a.coxseq is not null
+		and a.lxseq = b.lxseq
+		and a.txtype = c.cxcode
+		and c.cxgubun = '004'
+		and a.coxseq = d.coxseq
+		<choose>
+         <when test="null != txseq and '' !=txseq ">
+             and a.txseq = #{txseq}
+         </when>
+         <otherwise>
+             and a.coxseq = #{coxseq}
+         </otherwise>
+	    </choose>
+		order by b.lxnum, a.txseq
+	</select>
+	
+	<select id="selectLecture" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select lxseq, lxnum, coxseq, lxname, lxtype,
+		lxlink, lxfile, regdate, mxseq
+		from lecture
+		where coxseq is not null
+		<choose>
+         <when test="null != lxseq and '' !=lxseq ">
+             and lxseq = #{lxseq}
+         </when>
+         <otherwise>
+             and coxseq = #{coxseq}
+         </otherwise>
+	    </choose>
+		order by coxseq, lxnum
+	</select>
+
+	<update id="updateTestpool" parameterType="java.util.HashMap">
+		update testpool set
+		lxseq = #{lxseq},
+		txtype = #{txtype},
+		txcont = #{txcont},
+		tx1 = #{tx1},
+		tx2 = #{tx2},
+		tx3 = #{tx3},
+		tx4 = #{tx4},
+		tx5 = #{tx5},
+		txcorrect = #{txcorrect}
+		where txseq = #{txseq}
+	</update>
+	
+	<insert id="insertTestpool" parameterType="java.util.HashMap">
+		insert into testpool (
+			coxseq, lxseq, txtype, txcont,
+			tx1, tx2, tx3, tx4, 
+			tx5, txcorrect, regdate, mxseq)
+		values(
+			#{coxseq}, #{lxseq}, #{txtype}, #{txcont},
+			#{tx1}, #{tx2}, #{tx3}, #{tx4}, 
+			#{tx5}, #{txcorrect}, date_format(now(), '%Y%m%d'), #{mxseq}
+		)
+
+	</insert>
+	
+	<delete id="deleteTestpool" parameterType="java.util.HashMap">
+		delete from testpool
+		where txseq = #{txseq}
+	</delete>
+	
+	<select id="selectQuiz" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select a.qxseq, a.lxseq, a.qxorder, a.qxcont, a.qxcorrect,
+			b.lxnum, b.lxname, c.coxname, c.coxseq
+		from quiz a, lecture b, course c
+		where a.lxseq = #{lxseq}
+		and a.lxseq = b.lxseq
+		and b.coxseq = c.coxseq
+		order by a.qxorder
+	</select>
+	
+	<insert id="insertQuiz" parameterType="java.util.HashMap">
+		insert into quiz (lxseq, qxorder, qxcont, qxcorrect, regdate)
+		values(#{lxseq}, #{qxorder}, #{qxcont}, #{qxcorrect}, date_format(now(), '%Y%m%d'))
+	</insert>
+	
+	<delete id="deleteQuiz" parameterType="java.util.HashMap">
+		delete from quiz
+		where qxseq = #{qxseq}
+	</delete>
+	
+
+	<select id="selectTestpaper" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select a.tpxseq, a.tpxtitle, a.tpxfrom, a.tpxto,
+			a.tpxduring, a.tpx1cnt, a.tpx2cnt, a.tpx3cnt,
+			a.tpx1score, a.tpx2score, a.tpx3score, a.regdate,
+			a.coxseq, b.coxname
+		from testpaper a, course b
+		where a.coxseq = b.coxseq
+		<if test="null != tpxseq and '' !=tpxseq">
+	    	and a.tpxseq = #{tpxseq}
+	    </if>
+		order by a.tpxto desc, a.tpxfrom desc
+	</select>
+
+	<update id="updateTestpaper" parameterType="java.util.HashMap">
+		update testpaper set
+			tpxtitle = #{tpxtitle},
+			tpxfrom = #{tpxfrom},
+			tpxto = #{tpxto},
+			tpxduring = #{tpxduring},
+			tpx1cnt = #{tpx1cnt},
+			tpx2cnt = #{tpx2cnt},
+			tpx3cnt = #{tpx3cnt},
+			tpx1score = #{tpx1score},
+			tpx2score = #{tpx2score},
+			tpx3score = #{tpx3score},
+			coxseq = #{coxseq}
+		where tpxseq = #{tpxseq}
+	</update>
+	
+	<insert id="insertTestpaper" parameterType="java.util.HashMap">
+		insert into testpaper (
+			coxseq, tpxtitle, tpxfrom, tpxto,
+			tpxduring, tpx1cnt, tpx2cnt, tpx3cnt,
+			tpx1score, tpx2score, tpx3score,
+			regdate, mxseq)
+		values(
+			#{coxseq}, #{tpxtitle}, #{tpxfrom}, #{tpxto},
+			#{tpxduring}, #{tpx1cnt}, #{tpx2cnt}, #{tpx3cnt},
+			#{tpx1score}, #{tpx2score}, #{tpx3score},
+			date_format(now(), '%Y%m%d'), #{mxseq}
+		)
+		<selectKey keyProperty="tpxseq" resultType="java.lang.Integer" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+
+	</insert>
+	
+	<delete id="deleteTestpaper" parameterType="java.util.HashMap">
+		delete from testpaper
+		where tpxseq = #{tpxseq}
+	</delete>
+
+	<insert id="insertTestanswer" parameterType="java.util.HashMap">
+	
+		insert into testanswer (
+		tpxseq, mxseq, txseq, txcorrect,
+		txscore, taxorder, regdate)
+		select #{tpxseq}, b.mxseq, tx1.txseq, tx1.txcorrect,
+		tx1.score, @ROWNUM := @ROWNUM + 1 AS ROWNUM,
+		date_format(now(), '%Y%m%d')
+		from (
+		select txseq, #{tpx1score} score, txcorrect, coxseq from (
+		select txseq, txcorrect, coxseq
+		from testpool
+		where coxseq = #{coxseq}
+		and txtype = 1
+		order by rand()
+		limit #{tpx1cnt}
+		) as s1
+		union all
+		select txseq, #{tpx2score} score, txcorrect, coxseq from (
+		select txseq, txcorrect, coxseq
+		from testpool
+		where coxseq = #{coxseq}
+		and txtype = 2
+		order by rand()
+		limit #{tpx2cnt}
+		) as s2
+		union all
+		select txseq, #{tpx3score} score, txcorrect, coxseq from (
+		select txseq, txcorrect, coxseq
+		from testpool
+		where coxseq = #{coxseq}
+		and txtype = 3
+		order by rand()
+		limit #{tpx3cnt}
+		) as s2
+		order by rand()
+		
+		) tx1, apply b,
+		(SELECT @ROWNUM := 0) R
+		where tx1.coxseq = b.coxseq
+		and b.coxseq = #{coxseq}
+	</insert>
+
+	<delete id="deleteAllTestanswer" parameterType="java.util.HashMap">
+		delete from testanswer
+		where tpxseq = #{tpxseq} 
+	</delete>
+
+	<select id="selectCntTestresult" resultType="int" parameterType="java.util.HashMap">
+		select count(*) cnt
+		from testresult
+		where tpxseq = #{tpxseq} 
+	</select>
+	
+	<select id="selectTestMonitor" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+	
+		select aa.tpxseq, aa.tpxtitle, aa.tpxfrom, aa.tpxto,
+			aa.tpxduring, aa.tpx1cnt, aa.tpx2cnt, aa.tpx3cnt,
+			aa.tpx1score, aa.tpx2score, aa.tpx3score, aa.coxname, aa.coxseq,
+			count(aa.mxseq) applycnt, count(d.trxseq) resultcnt
+		from (
+			select a.tpxseq, a.tpxtitle, a.tpxfrom, a.tpxto,
+				a.tpxduring, a.tpx1cnt, a.tpx2cnt, a.tpx3cnt,
+				a.tpx1score, a.tpx2score, a.tpx3score, b.coxname,
+				a.coxseq, c.mxseq
+			from testpaper a, course b, apply c
+			where a.coxseq = b.coxseq
+			and b.coxseq = c.coxseq
+			and c.axstatus = 'A'
+		) aa
+		left outer join testresult d
+			on aa.tpxseq = d.tpxseq
+			and aa.mxseq = d.mxseq
+		group by aa.tpxseq, aa.tpxtitle, aa.tpxfrom, aa.tpxto,
+			aa.tpxduring, aa.tpx1cnt, aa.tpx2cnt, aa.tpx3cnt,
+			aa.tpx1score, aa.tpx2score, aa.tpx3score, aa.coxname, aa.coxseq
+		order by aa.tpxto desc
+	</select>
+	
+	<select id="selectTestApply" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select a.mxseq, b.mxname, b.mxid
+		from apply a, member b
+		where a.coxseq = #{coxseq}
+		and a.axstatus = 'A'
+		and a.mxseq = b.mxseq
+		order by 2
+	
+	</select>
+	
+	<select id="selectTestresult" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select a.trxseq, a.mxseq, a.trxstart, a.trxend,
+			a.trxrest, a.trxscore, a.tpxseq, b.mxname,
+			b.mxid
+		from testresult a, member b
+		where a.tpxseq = #{tpxseq}
+		and a.mxseq = b.mxseq
+		order by b.mxname
+	
+	</select>
+	
+	<update id="updateScore1" parameterType="java.util.HashMap">
+		update testanswer set
+		taxcorrect = if(txcorrect=taxanswer, 'Y', 'N'),
+		taxscore = if(txcorrect=taxanswer, txscore, 0)
+		where tpxseq = #{tpxseq}
+	</update>
+	<update id="updateScore2" parameterType="java.util.HashMap">
+		update testresult a set
+		a.trxscore = (
+			select sum(b.taxscore)
+			from testanswer b
+			where b.tpxseq = #{tpxseq}
+			and a.mxseq = b.mxseq )
+		where a.tpxseq = #{tpxseq}
+	</update>
+	<update id="updateScore3" parameterType="java.util.HashMap">
+		update apply a set
+		a.axscore = (
+		select round(avg(b.trxscore), 2)
+		from testresult b, testpaper c
+		where b.tpxseq = c.tpxseq
+		and c.coxseq = #{coxseq}
+		and b.mxseq = a.mxseq)
+		where a.coxseq = #{coxseq}
+
+	</update>
+
+	<update id="updateScore4" parameterType="java.util.HashMap">
+		update apply a set
+		a.axresult =(  if((select b.coxscore from course b where b.coxseq = 5)<![CDATA[<=]]>a.axscore, 'G', 'D' ))
+		where a.coxseq = #{coxseq}
+	</update>
+
+	<select id="selectResult" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select a.mxseq, c.mxid, c.mxname, b.trxstart,
+			b.trxend, b.trxrest, b.trxscore, b.trxseq
+		from apply a
+		left join testresult b
+		on a.mxseq = b.mxseq
+		and b.tpxseq = #{tpxseq}
+		, member c
+		where a.coxseq = #{coxseq}
+		and a.mxseq = c.mxseq
+		order by 3	
+	</select>
+	
+	<select id="selectAnswer" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select a.taxseq, a.taxorder, a.txcorrect, a.txscore,
+			a.taxanswer, a.taxcorrect, a.taxscore, b.trxstart,
+			b.trxend, b.trxrest, b.trxscore, c.mxid,
+			c.mxname, d.txtype, b.trxseq
+		from testanswer a, testresult b, member c, testpool d
+		where b.trxseq = #{trxseq}
+		and a.mxseq = b.mxseq
+		and a.tpxseq = b.tpxseq
+		and b.mxseq = c.mxseq
+		and a.txseq = d.txseq
+		order by a.taxorder
+	</select>	
+	
+	<update id="addScore1" parameterType="java.util.HashMap">
+		update testanswer set
+			taxscore = #{taxscore}
+		where taxseq = #{taxseq}
+	</update>
+	
+	<update id="addScore2" parameterType="java.util.HashMap">
+		update testresult set
+		trxscore=#{trxscore} 
+		where trxseq = #{trxseq}
+	</update>
+	
+	<select id="selectSumScore" resultType="int" parameterType="java.util.HashMap">
+		select sum(b.taxscore) sumscore
+		from testresult a, testanswer b
+		where a.trxseq = #{trxseq}
+		and a.tpxseq = b.tpxseq
+		and a.mxseq = b.mxseq
+	</select>
+
+</mapper>

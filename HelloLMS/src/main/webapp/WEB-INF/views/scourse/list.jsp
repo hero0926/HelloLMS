@@ -3,13 +3,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ include file="../include/header.jsp"%>
 <%@ include file="../include/menu.jsp"%>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
 
 <style>
-.container{
+.container2{
 
 text-align : center;
 
@@ -53,10 +49,20 @@ text-align : center;
 }
 
 </style>
+<script>
+function lectureOpen(coxseq) {
+
+	var popUrl;
+	var popUrl = "/course/LectureList?coxseq=" + coxseq;
+	var popOption = "width=800, height=800, resizable=yes, scrollbars=yes, status=no, location=no";
+
+	window.open(popUrl, "lecture", popOption);
+
+}
 
 
-</head>
-<body>
+</script>
+
 <div class="container">
 	<div class="page-header">
 		<h1>
@@ -65,7 +71,7 @@ text-align : center;
 	</div>
 </div>
 
-	<div class="container">
+	<div class="container container2">
 		<div class="span12">
 			<div class="alert alert-info"></div>
 			<form method="post" id="apply">
@@ -83,11 +89,8 @@ text-align : center;
 						<div class="alert alert-info"></div>
 							<h3>
 							강좌 소개<br></h3>
-							<h5><a href="#">${courses.coxintro}</a></h5>
-								<c:if test="${ !empty courses.axseq }">
-									신청중<button class="btn-small" id="btn" 
-									onClick="goDelApply('${courses.axseq }');">X</button>
-								</c:if>
+							<h5><a href="javascript:lectureOpen('${courses.coxseq }');">${courses.coxintro}</a></h5>
+								
 							</div>
 
 					</c:forEach>
@@ -113,6 +116,3 @@ text-align : center;
 <!-- /container -->
 
 <%@ include file="../include/footer.jsp"%>
-
-</body>
-</html>

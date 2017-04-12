@@ -47,14 +47,14 @@ public class CourseController {
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
-
+	// 신청가능한 강좌 목록
 	@RequestMapping(value = "/course/viewcourse", method = { RequestMethod.POST, RequestMethod.GET })
 	public String getAllCourse(@RequestParam Map map, Locale locale, Model model, HttpSession session) {
 		logger.info("getAllCourse", locale);
 		map.put("USEQ", session.getAttribute("USEQ"));
+		map.put("coxoffice", session.getAttribute("UOFFICE"));
 
 		model.addAttribute("course", courseservice.getAllcourse(map));
-
 
 		session.setAttribute("Menu", "2");
 
@@ -65,6 +65,7 @@ public class CourseController {
 		return "/course/viewcourse";
 	}
 
+	// 수강 신청
 	@RequestMapping(value = "/course/apply", method = { RequestMethod.POST, RequestMethod.GET })
 	public String selectapply(Model model, HttpSession session, Locale locale, @RequestParam Map map) throws Exception {
 		System.out.println(map);
@@ -72,21 +73,20 @@ public class CourseController {
 
 		logger.info("selectapply", locale);
 
-		/*List<HashMap> List = courseservice.applycheck(map);*/
+		/* List<HashMap> List = courseservice.applycheck(map); */
 
-		/*String mxseq = (String) List.get(0).get("mxseq");
-		String coxseq = (String) List.get(0).get("coxseq");
-*/
-		/*JsonObject jObj = new JsonObject();
+		/*
+		 * String mxseq = (String) List.get(0).get("mxseq"); String coxseq =
+		 * (String) List.get(0).get("coxseq");
+		 */
+		/*
+		 * JsonObject jObj = new JsonObject();
+		 * 
+		 * if (0 == courseservice.selectapply(map)) { jObj.addProperty("IsDup",
+		 * "N"); return new Gson().toJson(jObj); } else {
+		 * jObj.addProperty("IsDup", "Y"); return new Gson().toJson(jObj); }
+		 */
 
-		if (0 == courseservice.selectapply(map)) {
-			jObj.addProperty("IsDup", "N");
-			return new Gson().toJson(jObj);
-		} else {
-			jObj.addProperty("IsDup", "Y");
-			return new Gson().toJson(jObj);
-		}*/
-		
 		int count = 0;
 
 		try {
@@ -102,25 +102,29 @@ public class CourseController {
 			model.addAttribute("success_flag", "N");
 		}
 		model.addAttribute("forward_url", "/course/viewcourse");
-		
+
 		return "common/common_alert";
 
 	}
 
+	// 진행중인 강좌
 	@RequestMapping(value = "/course/applycourse", method = { RequestMethod.POST, RequestMethod.GET })
 	public String applycourse(@RequestParam Map map, Locale locale, Model model, HttpSession session) {
 		logger.info("applycourse", locale);
+		map.put("USEQ", session.getAttribute("USEQ"));
+		map.put("coxoffice", session.getAttribute("UOFFICE"));
+		
+		session.setAttribute("Menu", "2");
 
 		List<HashMap> list = courseservice.applycourse(map);
 
-		map.put("USEQ", session.getAttribute("USEQ"));
-
 		model.addAttribute("courseA", list);
-		model.addAttribute("mxseq", session.getAttribute("USEQ"));
-		session.setAttribute("Menu", "2");
-		return "/course/main";
+
+		return "/course/applycourse";
+
 	}
-	
+
+	// 수강 취소
 	@RequestMapping(value = "/course/applyDelte", method = { RequestMethod.POST, RequestMethod.GET })
 	public String applyDelte(Model model, Locale locale, @RequestParam Map map) throws Exception {
 
@@ -129,7 +133,7 @@ public class CourseController {
 		int count = 0;
 
 		try {
-			//count = courseservice.applyDelte(map);
+			count = courseservice.applyDelte(map);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -141,55 +145,25 @@ public class CourseController {
 			model.addAttribute("success_flag", "N");
 		}
 		model.addAttribute("forward_url", "/course/viewcourse");
-		
+
 		return "common/common_alert";
-
 	}
-	
-	@RequestMapping(value = "/course/openCourse", method = { RequestMethod.POST, RequestMethod.GET })
-	public String openCourse(Model model, Locale locale, @RequestParam Map map) throws Exception {
-		
-		List<HashMap> openCourseList;
-		openCourseList = courseservice.openCourseList(map);
-		model.addAttribute("list", openCourseList);
-		model.addAttribute("size", openCourseList.size());
-		System.out.println("openCourse-------------"+model);
-		
-		return "course/openCourse";
-		
-	}
-	
-	@RequestMapping(value = "/course/openLecture", method = { RequestMethod.POST, RequestMethod.GET })
-	public String openLecture(Model model, Locale locale, @RequestParam Map map) throws Exception {
-		
-		List<HashMap> openLectureList;
-		openLectureList = courseservice.openLectureList(map);
-		model.addAttribute("list", openLectureList);
-		if(openLectureList.size()!=0){
-			model.addAttribute("coxname", openLectureList.get(0).get("coxname"));
-		}
-		
-		return "lecture/openLecture";
-
-	}
-	
-	@RequestMapping(value = "/course/lecture", method = {RequestMethod.POST, RequestMethod.GET})
-	public String lecture(Locale locale, Model model, HttpSession session, @RequestParam Map map) throws Exception {
-		
-		/*String lxlink = (String)map.get("lxlink");
-		model.addAttribute("lxlink", lxlink);
-		
-		List<HashMap> lecturelist;
-		lecturelist = courseservice.getLecture(map);
-		model.addAttribute("list", lecturelist);*/
-		
+	//강의목록 
+	@RequestMapping(value = "/course/LectureList", method = { RequestMethod.POST, RequestMethod.GET })
+	public String lectureList(@RequestParam Map map, Locale locale, Model model, HttpSession session) {
+		logger.info("LectureList", locale);
 		map.put("USEQ", session.getAttribute("USEQ"));
-		List<HashMap> lecturelist;
-		lecturelist = courseservice.getLecture(map);
-		model.addAttribute("list", lecturelist);
-		model.addAttribute("lecture", map);
-		
-		return "mylecture/lecture";
-	}
 
+		List<HashMap> list = courseservice.lectureList(map);
+
+		model.addAttribute("LectureList", list);
+		if(list!=null){
+			model.addAttribute("lecture", list.get(0));
+		}
+
+		System.out.println(list.get(0).get("coxseq"));
+		
+		return "/course/LectureList";
+	}
+	
 }

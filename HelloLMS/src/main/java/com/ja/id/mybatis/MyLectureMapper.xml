@@ -43,7 +43,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		  AND b.axstatus='A'
 		  AND a.tuxseq=c.tuxseq
 		  AND c.mxseq = d.mxseq -->
-		SELECT a.coxname, a.coxstart, a.coxend, a.coxprog, a.coxseq, d.mxname
+		SELECT a.coxname, a.coxstart, a.coxend, a.coxprog, a.coxseq, d.mxname, c.tuxpicture, c.tuxhistory, c.cnt
 		FROM course a, apply b, tutor c, member d
 		WHERE a.coxseq=b.coxseq
 			AND b.mxseq = #{USEQ}
@@ -104,11 +104,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM lecture a
 		LEFT OUTER JOIN lexstudy b
 			ON a.lxseq = b.lxseq
+			AND b.mxseq =#{USEQ}
 		LEFT OUTER JOIN quiz d
 			on a.lxseq = d.lxseq
 		LEFT OUTER JOIN qxanswer e
 			ON d.qxseq = e.qxseq
-			AND e.mxseq = a.mxseq
+			AND e.mxseq = #{USEQ}
 		, course c, apply f
 		WHERE a.coxseq = #{coxseq}
 			AND c.coxseq = a.coxseq
@@ -144,8 +145,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	
 	<select id="selectTestpaper" resultType="java.util.HashMap" parameterType="java.util.HashMap">
-		SELECT a.tpxseq, a.tpxtitle, a.tpxfrom, a.tpxto, a.tpxduring, a.tpx1cnt, a.tpx2cnt, a.tpx3cnt, a.tpx1score, a.tpx2score, a.tpx3score, b.coxname, a.coxseq, c.mxseq, date_format(now(), '%Y%m%d%H%m%s') thistime
-		FROM testpaper a, course b, apply c
+		SELECT a.tpxseq, a.tpxtitle, a.tpxfrom, a.tpxto, a.tpxduring, a.tpx1cnt, a.tpx2cnt, a.tpx3cnt, 
+		    a.tpx1score, a.tpx2score, a.tpx3score, b.coxname, a.coxseq, c.mxseq, 
+		    date_format(now(), '%Y%m%d%H%i%s') thistime,
+		    date_format(d.trxend, '%Y%m%d%H%i%s') trxend,
+		    date_format(d.trxrest, '%Y%m%d%H%i%s') trxrest
+				FROM testpaper a
+		    left outer join testresult d
+		    on a.tpxseq = d.tpxseq
+		    and d.mxseq = #{USEQ}
+		    , course b, apply c
 		WHERE a.coxseq = b.coxseq
 			AND b.coxseq = c.coxseq
 			AND c.axstatus = 'A'
@@ -154,13 +163,60 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="testpoolList" resultType="java.util.HashMap" parameterType="java.util.HashMap">
-		SELECT a.mxseq, a.taxorder, a.taxanswer, b.txcont, b.tx1, b.tx2, b.tx3, b.tx4, b.tx5, b.txtype, b.txcorrect
-		FROM testanswer a, testpool b, testpaper c
+		SELECT a.mxseq, a.taxorder, a.taxanswer, b.txcont, b.tx1, b.tx2, b.tx3, b.tx4, b.tx5, b.txtype, b.txcorrect, a.taxseq, a.tpxseq, c.tpxduring, d.trxrest
+		FROM testanswer a, testpool b, testpaper c, testresult d
 		WHERE a.txseq = b.txseq
-			AND c.tpxseq = ${tpxseq}
 			AND c.tpxseq = a.tpxseq
 			AND a.mxseq = #{USEQ}
+			AND d.tpxseq = #{tpxseq}
+			AND d.mxseq = #{USEQ}
+		<choose>
+         <when test="null != taxseq and '' !=taxseq ">
+             and a.taxseq = #{taxseq}
+         </when>
+         <otherwise>
+             AND c.tpxseq = #{tpxseq}
+         </otherwise>
+	    </choose>
 		ORDER BY a.taxorder
 	</select>
+	
+	<update id="updateAnswer" parameterType="java.util.HashMap">
+		UPDATE testanswer
+		SET taxanswer=#{taxanswer}
+		WHERE taxseq=#{taxseq}
+		<choose>
+	        <when test="mode == submit">
+	            and a.taxseq = #{taxseq}
+	        </when>
+	    </choose>
+	</update>
+	
+	<update id="submitTest" parameterType="java.util.HashMap">
+		UPDATE testresult
+		SET trxend=date_format(now(), '%Y%m%d')
+		WHERE tpxseq=#{tpxseq}
+			AND mxseq=#{USEQ}
+	</update>
+	
+	<select id="selectTestresult" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		SELECT trxseq, tpxseq, mxseq, date_format(trxstart, '%Y%m%d%H%m%i') trxstart,  date_format(trxend, '%Y%m%d%H%m%i') trxend, trxrest, trxscore, regdate
+		FROM testresult
+		WHERE tpxseq=#{tpxseq}
+		AND mxseq=#{USEQ}
+	</select>
+	
+	<insert id="insertTestresult" parameterType="java.util.HashMap">
+		INSERT INTO
+			testresult (tpxseq, trxrest, mxseq)
+		VALUES (#{tpxseq}, #{tpxduring}, #{USEQ})
+	</insert>
+	
+	<update id="updateRest" parameterType="java.util.HashMap">
+		UPDATE testresult
+		SET trxrest=${trxrest}
+		WHERE tpxseq=#{tpxseq}
+			AND mxseq=#{USEQ}
+	</update>
 	
 </mapper>

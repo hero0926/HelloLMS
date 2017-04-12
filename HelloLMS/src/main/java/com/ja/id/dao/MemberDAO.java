@@ -26,4 +26,6 @@ public interface MemberDAO {
 	
 	public List<HashMap> selectMain();
 
+	public int loginHis(Map map);
+
 }

@@ -29,4 +29,6 @@ public interface Admin2Mapper {
 
 	public int allApplyStatus(Map map);
 
+	public List<HashMap> loginStatistics(Map map);
+
 }

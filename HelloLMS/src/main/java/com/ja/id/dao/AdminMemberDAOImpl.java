@@ -45,6 +45,36 @@ public class AdminMemberDAOImpl implements AdminMemberDAO {
 		AdminMemberMapper mapper = ss.getMapper(AdminMemberMapper.class);
 		return mapper.updateM(map);
 	}
+	
+	@Override
+	public int deleteT(Map map) {
+		// TODO Auto-generated method stub
+		AdminMemberMapper mapper = ss.getMapper(AdminMemberMapper.class);
+		return mapper.deleteT(map);		
+	}
+	
+	
+
+	@Override
+	public int insertMemberT(Map map) {
+		// TODO Auto-generated method stub
+		AdminMemberMapper mapper = ss.getMapper(AdminMemberMapper.class);
+		return mapper.insertMemberT(map);
+	}
+
+	@Override
+	public int updateMemberS(Map map) {
+		// TODO Auto-generated method stub
+		AdminMemberMapper mapper = ss.getMapper(AdminMemberMapper.class);
+		return mapper.updateMemberS(map);
+	}
+
+	@Override
+	public List<HashMap> loginHistory(Map map) {
+		// TODO Auto-generated method stub
+		AdminMemberMapper mapper = ss.getMapper(AdminMemberMapper.class);
+		return mapper.loginHistory(map);
+	}
 
 	
 

@@ -99,5 +99,12 @@ public class MemberServiceImpl implements MemberService{
 		return MemberDAO.selectMain();
 	}
 
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
+	public int loginHis(Map map) throws Exception {
+		// TODO Auto-generated method stub
+		return MemberDAO.loginHis(map);
+	}
+
 
 }

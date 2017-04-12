@@ -48,7 +48,6 @@ public class DownloadView extends AbstractView {
             fileName = new String(file.getName().getBytes("utf-8"));
              
         }// end if;
- 
          
         response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\";");
          

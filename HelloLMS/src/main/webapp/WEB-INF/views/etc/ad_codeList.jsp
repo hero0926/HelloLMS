@@ -2,8 +2,8 @@
 <%@ include file="../include/header.jsp" %>
 <%@ include file="../include/ad_menu.jsp" %>
 	<script>
+	
 		$(document).ready(function (e){
-			
 			
 		
 		});
@@ -11,7 +11,8 @@
 		function deleteCode(n) {
 			if(confirm("코드를 삭제하시겠습니까?")){
 				$('#cxseq').val(n);
-				$('#frm2').submit();
+				alert("죄송합니다. 지금은 해당 코드를 삭제할 수 없습니다. 시스템담당자에게 문의 하시기 바랍니다.");
+				//$('#frm2').submit();
 			}
 		}
 
@@ -81,7 +82,7 @@
 			</c:forEach>
           </table>
      
-			<div class="pagination" style="text-align: center">
+<!-- 			<div class="pagination" style="text-align: center">
 			  <ul>
 			    <li><a href="#">Prev</a></li>
 			    <li><a href="#">1</a></li>
@@ -91,7 +92,7 @@
 			    <li><a href="#">5</a></li>
 			    <li><a href="#">Next</a></li>
 			  </ul>
-			</div>
+			</div> -->
 		</c:if>
 
         </div>

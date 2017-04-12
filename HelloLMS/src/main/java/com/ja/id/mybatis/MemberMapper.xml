@@ -55,4 +55,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	(select
   		count(*) from course) as c_count
 	</select>
+	
+	<!-- 로그인 기록 -->
+	<insert id="loginHis" parameterType="java.util.HashMap">
+		insert into loginhis (mxseq, lxdev)
+		values (#{USEQ}, #{deviceType})
+	</insert>
+	
 </mapper>

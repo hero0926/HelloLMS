@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="utf-8"%>
 <%@ include file="../include/header.jsp"%>
-<%@ include file="../include/menu.jsp"%>
 
 <div class="container">
 	<script type="text/javascript">
@@ -20,26 +19,63 @@
 		}
 	</script>
 
+	<h2> ${lecture.coxname }</h2>
+	<div class="alert alert-info"></div>
+	<div class="container-fluid">
+		<div class="row-fluid">
 
 
+			<div class="span6">
 
+				<img src="/resources/tutor/${lecture.tuxpicture}" width="250"
+					height="200"><br>
 
+				${lecture.tuxhistory }  
+				
+			</div>
+			<div class="span6">
+			
+					<c:choose>
 
-	<div class="page-header">
-		<h1>
-			<small>강의실 > 강좌 > 강의 목록 </small>
-		</h1>
+						<c:when test="${lecture.lxtype=='12'}">
+							<video width="350"  controls>
+								<source src="/resources/lecture/${lecture.lxlink}" type="video/mp4">
+							</video>
+						</c:when>
+
+						<c:when test="${lecture.lxtype=='13'}">
+							<iframe width="350" height="300" src="${lecture.lxlink}"
+								style="border: none;" frameborder="1"> iframe을 지원하지 않는
+								브라우저를 사용하고 계십니다. 최신버전의 브라우저로 업그레이드 후 사용하세요 </iframe>
+						</c:when>
+
+						<c:otherwise>
+			        no image
+			    </c:otherwise>
+
+					</c:choose>
+				
+			</div>
+		</div>
 	</div>
 
+
+
+
+	<br>
 	<div class="row">
 		<div class="span12">
-			<h3>
-				강의 목록<small>본 강좌의 강의 목록입니다.</small>
-			</h3>
-			<div class="alert alert-info">
-				<h3></h3>
-			</div>
+			<br>
+			<div class="alert alert-info"></div>
+
+
+
+
 			<form method="post" action="/course/LectureList">
+
+
+
+
 				<table class="table table-bordered">
 
 					<tr>
@@ -50,21 +86,17 @@
 						<th>강의자료</th>
 
 					</tr>
-
-
-
 					<c:forEach var="lecture" items="${LectureList}" varStatus="status">
 						<tr>
-							<td><c:out value="${lecture.lxnum}" /></td>
+							<td><c:out value="${lecture.lxnum}" />회차</td>
 							<td><c:out value="${lecture.lxname}" /></td>
-							<td><c:if test="${empty lecture.regdate}"></c:if></td>
-							<td><c:if test="${!empty lecture.lxlink}">
-									<a
-										href="javascript:lecturepopup('${lecture.lxtype}', '${lecture.lxlink}', '${lecture.lxseq}', '${lecture.coxseq}');"><button
-											type="submit" class="btn">
-											강의보기&nbsp;<i class="icon-facetime-video"></i>
-										</button></a>
-								</c:if></td>
+							<td><fmt:parseDate value="${lecture.regdate}" var="dateFmt1"
+									pattern="yyyyMMdd" /> <fmt:formatDate value="${dateFmt1}"
+									pattern="yyyy-MM-dd" /></td>
+							<td>
+							
+									강의보기&nbsp; <i class="icon-facetime-video"></i>
+							</td>
 							<td><c:if test="${!empty lecture.lxfile}">
 									<a
 										href="/download?path=/resources/lecture/&fileName=${lecture.lxfile}"><c:out
@@ -74,14 +106,14 @@
 
 						</tr>
 					</c:forEach>
-
 				</table>
 			</form>
 		</div>
 	</div>
 	<hr>
 
-</div>
-<!-- /container -->
 
-<%@ include file="../include/footer.jsp"%>
+	<!-- /container -->
+</div>
+</body>
+</html>

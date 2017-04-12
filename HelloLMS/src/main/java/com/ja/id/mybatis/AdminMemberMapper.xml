@@ -15,16 +15,36 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</delete>
 
 	<update id="updateMemberT" parameterType="java.util.HashMap">
-		update member set mxdiv="T" where mxid=#{mxid}	
+		update member set mxdiv="T" where mxid=#{mxid}
 	</update>
 	
-	<select id="updateM" parameterType="java.util.HashMap" resultType="java.util.HashMap"> 
-		select mxid, mxname from member
-		where mxid = #{mxid}
+	<update id="updateMemberS" parameterType="java.util.HashMap">
+		UPDATE member
+		SET mxdiv="S"
+		WHERE mxseq=#{mxseq}
+	</update>
+	
 
+	<delete id="deleteT" parameterType="java.util.HashMap">
+		DELETE FROM tutor
+		WHERE mxseq = #{mxseq}
+	</delete>
+	
+	<select id="updateM" parameterType="java.util.HashMap" resultType="java.util.HashMap"> 
+		select mxseq, mxid, mxname
+		from member
+		where mxid = #{mxid}
 	</select>
 	
+	<insert id="insertMemberT" parameterType="java.util.HashMap">
+		INSERT INTO tutor (mxseq, tuxpicture, tuxhistory, regdate)
+		VALUES (#{mxseq}, #{tuxpicture}, #{tuxhistory}, date_format(now(), '%Y%m%d'))
+	</insert>
 	
-	
+	<select id="loginHistory" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		SELECT *
+		FROM loginhis
+		WHERE mxseq=#{mxseq}
+	</select>
 
-	</mapper>
+</mapper>

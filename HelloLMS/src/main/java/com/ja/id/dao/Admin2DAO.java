@@ -28,4 +28,6 @@ public interface Admin2DAO {
 
 	public int allApplyStatus(Map map);
 
+	public List<HashMap> loginStatistics(Map map);
+
 }

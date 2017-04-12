@@ -28,4 +28,6 @@ public interface MemberMapper {
 	public void pwupdate(@Param("pw")String pw, @Param("mxid")String mxid);
 
 	public List<HashMap> selectMain();
+
+	public int loginHis(Map map);
 }

@@ -98,7 +98,8 @@ function insertChk(){
 //라디오버튼 체크하기
 
 function chk_radio() 
-{ 
+{
+	
 	var chk_radio = document.getElementsByName('mxdiv');
 	var sel_type = null;
 	for(var i=0;i<chk_radio.length;i++){
@@ -106,13 +107,14 @@ function chk_radio()
 			sel_type = chk_radio[i].value;
 		}
 	}
+	
 
-	if(sel_type == null){
+	/* if(sel_type == null){
         alert("회원유형을 선택하세요."); 
         
         event.preventDefault();
         
-	}
+	} */
 }
 
 </script>
@@ -131,7 +133,9 @@ function chk_radio()
      <th> 아이디 </th>
      <td> 
      <input type="hidden" id="idChk" value="N" />
-     <input type = "text" required="required" name = "mxid" id="mxid" onkeyup="trimcheck(this);" onchange="trimcheck(this);" onkeydown="iskor(this);" style="ime-mode:disabled;"  >
+     <input type="hidden" name="mxdiv" value="S" />
+	 <input type="hidden" value="${UOFFICE }" name="mxoffice">
+     <input type = "text" required="required" name = "mxid" id="mxid" onkeyup="trimcheck(this);" onchange="trimcheck(this);" onkeydown="iskor(this);" style="ime-mode:disabled;" required="required" >
      <input type="button" value="Id체크" onclick="javascript:chkDupId();" />    
      </td>    
      
@@ -139,19 +143,19 @@ function chk_radio()
     
     <tr>
      <th> 비밀번호 </th>
-     <td> <input type = "password" required="required" name = "mxpw" onkeyup="trimcheck(this);" onchange="trimcheck(this);" ></td>
+     <td> <input type = "password" required="required" name = "mxpw" onkeyup="trimcheck(this);" onchange="trimcheck(this);" required="required" ></td>
      </tr>
      
      <tr>
      <th> 이름 </th>
-    <td> <input type = "text" required="required" name = "mxname" onkeyup="trimcheck(this);" onchange="trimcheck(this);" ></td>
+    <td> <input type = "text" required="required" name = "mxname" onkeyup="trimcheck(this);" onchange="trimcheck(this);" required="required" ></td>
      </tr>
      
  	<tr>
      <th> 이메일 </th>
      <td>     
- <input name="email1" type="text" class="box" id="email1" required="required"  onkeyup='call()' onkeydown ="insertChk();"> @
- <input name="email2" type="text" class="box" id="email2" value="" onkeyup='call()' >
+ <input name="email1" type="text" class="box" id="email1" required="required"  onkeyup='call()' onkeydown ="insertChk();" required="required" > @
+ <input name="email2" type="text" class="box" id="email2" value="" onkeyup='call()' required="required" >
  	<select name="email_select" class="box" id="email_select" onclick='call()' onChange="checkemailaddy();">
     <option value="" selected>선택</option>
     <option value="naver.com">naver.com</option>
@@ -170,21 +174,7 @@ function chk_radio()
      
      </tr>
      
-     <tr>
-     <!-- 회사는 코드 테이블에서 가져오는 int형 이예요. -->
-      <th> 회사 </th>
-     <td><input type="text" value="2" id="mxoffice" name="mxoffice"></td>
-    </tr>
     
-    <tr>
-     <!-- 회원 구분은 S T A로 나뉘어요. -->
-    <th>회원 구분</th>
-    <td>
-    <input type="radio" name="mxdiv" id="mxdiv" value="S">학생
-	<input type="radio" name="mxdiv" id="mxdiv" value="T">선생님
-	<input type="radio" name="mxdiv" id="mxdiv" value="A">기업
-    </td>
-    </tr>
   
     <tr>
      <td colspan = "4"> 

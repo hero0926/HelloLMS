@@ -1,0 +1,552 @@
+package com.ja.id.controller;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.ja.id.service.AdminService;
+
+/**
+ * Handles requests for the application home page.
+ */
+@RequestMapping(value = "/admin")
+@Controller
+public class AdminController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
+	
+	@Value("${file.upload.course}")
+	private String fileUploadPath;
+	
+	@Autowired
+	private AdminService adminService;
+	/**
+	 * Simply selects the home view to render by returning its name.
+	 */
+	@RequestMapping(value = "/", method = {RequestMethod.POST, RequestMethod.GET})
+	public String home(Locale locale, Model model, HttpSession session, @RequestParam Map map) {
+		logger.info("controller admin main.", locale);
+		
+		if(null!=session.getAttribute("UID")){
+			map.put("level", "top");
+			List<HashMap> list1 = adminService.selectCode(map);
+			model.addAttribute("list1", list1);
+			
+			if(null!=map.get("cxgubun")){
+				map.put("level", "sub");
+				List<HashMap> list2 = adminService.selectCode(map);
+				model.addAttribute("list2", list2);
+			}
+			session.setAttribute("adMenu", "1");
+			return "etc/ad_codeList";
+		} else {
+			return "member/ad_login";
+		}
+	}
+	
+	@RequestMapping(value = "/login", method = {RequestMethod.POST, RequestMethod.GET})
+	public String login(Locale locale, @RequestParam Map map, HttpSession session) {
+		logger.info("Welcome login! The client locale is {}.", locale);
+		String id = (String) map.get("id");
+		String pass = (String) map.get("password");
+
+		if(null!=id&&id.equals("admin")&&null!=pass&&pass.equals("1234")){
+			session.setAttribute("USEQ", "1"); //로그인 부분 완성 하면 이 부분 뺄것
+			session.setAttribute("UID", "admin");
+			session.setAttribute("UNAME", "관리자");
+			session.setAttribute("UDIV", "A");
+
+			return "redirect:/admin/";
+		} else {
+			return "member/ad_login";
+		}  
+	}
+
+	@RequestMapping(value = "/insertCode", method = RequestMethod.POST)
+	public String insertCode(Locale locale, Model model, @RequestParam Map map) {
+		logger.info("controller start insert.", locale);
+		
+		int count = 0;
+
+		try {
+			count = adminService.insertCode(map);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			model.addAttribute("success_flag", "N");
+		}
+		if (0 < count) {
+			model.addAttribute("success_flag", "Y");
+		} else {
+			model.addAttribute("success_flag", "N");
+		}
+		model.addAttribute("forward_url", "/admin/");
+		
+		return "common/common_alert";
+	}
+
+	
+	@RequestMapping(value = "/deleteCode", method = RequestMethod.POST)
+	public String deleteCode(Locale locale, Model model, @RequestParam Map map) {
+		logger.info("controller delete code.", locale);
+		
+		int count = 0;
+
+		try {
+			count = adminService.deleteCode(map);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			model.addAttribute("success_flag", "N");
+		}
+		if (0 < count) {
+			model.addAttribute("success_flag", "Y");
+		} else {
+			model.addAttribute("success_flag", "N");
+		}
+		model.addAttribute("forward_url", "/admin/");
+		
+		return "common/common_alert";
+	}
+	
+	@RequestMapping(value = "/courseList", method = {RequestMethod.POST, RequestMethod.GET})
+	public String courseList(Locale locale, Model model, HttpSession session, @RequestParam Map map) {
+		logger.info("controller courseList.", locale);
+		
+		map.put("level", "sub");
+		map.put("cxgubun", "002");
+		List<HashMap> bizList = adminService.selectCode(map);
+		model.addAttribute("bizList", bizList);
+		
+		if(null!=map.get("coxseq")){
+			map.put("coxoffice", adminService.selectCourse(map).get(0).get("coxoffice"));
+			
+		}
+		
+		if(null==map.get("coxoffice")){
+			map.put("coxoffice", bizList.get(0).get("cxseq"));
+		}
+		
+		List<HashMap> courseList = adminService.selectCourse(map);
+		model.addAttribute("courseList", courseList);
+		model.addAttribute("coxoffice", map.get("coxoffice"));
+		
+		session.setAttribute("adMenu", "3");
+		return "course/ad_courseList";
+	}
+	
+	@RequestMapping(value = "/courseWriteForm", method = {RequestMethod.POST, RequestMethod.GET})
+	public String courseWriteForm(Locale locale, Model model, @RequestParam Map map) {
+		logger.info("controller courseWriteForm.", locale);
+		map.put("level", "sub");
+		map.put("cxgubun", "001");
+		List<HashMap> cateList = adminService.selectCode(map);
+		model.addAttribute("cateList", cateList);
+
+		//String coxoffice = (String)map.get("coxoffice");
+		
+		map.put("level", "sub");
+		map.put("cxgubun", "002");
+		map.put("cxseq", map.get("coxoffice"));
+		model.addAttribute("coxofficenm", adminService.selectCode(map).get(0).get("cxname"));
+		List<HashMap> tutorList = adminService.selectTutor(map);
+		model.addAttribute("tutorList", tutorList);
+		
+		String coxseq = (String)map.get("coxseq");
+		if(null!=coxseq){
+			List<HashMap> courseList = adminService.selectCourse(map);
+			model.addAttribute("course", courseList.get(0));
+		}
+		model.addAttribute("coxoffice", map.get("coxoffice"));
+		
+		return "course/ad_courseWrite";
+	}
+	
+	@RequestMapping(value = "/courseWrite", method = RequestMethod.POST)
+	public String courseWrite(Locale locale, Model model, @RequestParam Map map, HttpSession session, @RequestParam(value = "coximgname") List<MultipartFile> files, String uploadpath) {
+		logger.info("controller start courseWrite.", locale);
+		
+		int count = 0;
+		String coxoffice = (String)map.get("coxoffice");
+		String coxseq = (String)map.get("coxseq");
+		if (coxseq==null) coxseq= "";
+		//model.addAttribute("coxoffice", coxoffice);
+		try {
+			map.put("mxseq", session.getAttribute("USEQ"));
+			map.put("coxstart", ((String)map.get("coxstart")).replace("-", ""));
+			map.put("coxend", ((String)map.get("coxend")).replace("-", ""));
+			map.put("coxreqstart", ((String)map.get("coxreqstart")).replace("-", ""));
+			map.put("coxreqend", ((String)map.get("coxreqend")).replace("-", ""));
+			
+			String fileName = "";
+			for (int i = 0; i < files.size(); i++) {
+				MultipartFile file = (MultipartFile) files.get(i);
+				if (!file.isEmpty()){
+					File newFile = new File(fileUploadPath/* + sub*/ + file.getOriginalFilename());
+					file.transferTo(newFile);
+					fileName += file.getOriginalFilename() + "|";
+					model.addAttribute("originalFileName", fileName);
+				}
+				map.put("coximgname", file.getOriginalFilename());
+				
+				if (coxseq.length()>0){
+					count = adminService.updateCourse(map);
+				} else {
+					count = adminService.insertCourse(map);
+				}
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			model.addAttribute("success_flag", "N");
+			model.addAttribute("forward_url", "/admin/courseWriteForm?coxoffice="+coxoffice+"&coxseq="+coxseq);
+		}
+		if (0 < count) {
+			model.addAttribute("success_flag", "Y");
+			model.addAttribute("forward_url", "/admin/courseList?coxoffice="+coxoffice);
+		} else {
+			model.addAttribute("success_flag", "N");
+			model.addAttribute("forward_url", "/admin/courseWriteForm?coxoffice="+coxoffice+"&coxseq="+coxseq);
+		}
+		
+		return "common/common_alert";
+	}
+	
+	
+	@RequestMapping(value = "/courseDelete", method = RequestMethod.POST)
+	public String deleteCourse(Locale locale, Model model, @RequestParam Map map) {
+		logger.info("controller delete course.", locale);
+		
+		int count = 0;
+		String coxoffice = (String)map.get("coxoffice");
+		try {
+			count = adminService.deleteCourse(map);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			model.addAttribute("success_flag", "N");
+		}
+		if (0 < count) {
+			model.addAttribute("success_flag", "Y");
+		} else {
+			model.addAttribute("success_flag", "N");
+		}
+		model.addAttribute("forward_url", "/admin/courseList?coxoffice="+coxoffice);
+		
+		return "common/common_alert";
+	}
+	
+	@RequestMapping(value = "/testpoolList", method = {RequestMethod.POST, RequestMethod.GET})
+	public String testpoolList(Locale locale, Model model, HttpSession session, @RequestParam Map map) {
+		logger.info("controller testpoolList.", locale);
+		
+		//String coxseq = (String)map.get("coxseq");
+		model.addAttribute("coxseq", map.get("coxseq"));
+		
+		List<HashMap> testpoolList = adminService.selectTestpool(map);
+		model.addAttribute("testpoolList", testpoolList);
+		
+		map.put("coxseq", null);
+		List<HashMap> courseList = adminService.selectCourse(map);
+		model.addAttribute("courseList", courseList);
+		
+		session.setAttribute("adMenu", "4");
+		return "exam/ad_testpoolList";
+	}
+	
+	@RequestMapping(value = "/testpoolWriteForm", method = {RequestMethod.POST, RequestMethod.GET})
+	public String testpoolWriteForm(Locale locale, Model model, @RequestParam Map map) {
+		logger.info("controller testpoolWriteForm.", locale);
+
+		
+		//String txseq = (String)map.get("txseq");
+		if(null!=map.get("txseq")){
+			List<HashMap> testpoolList = adminService.selectTestpool(map);
+			model.addAttribute("testpool", testpoolList.get(0));
+
+			model.addAttribute("course", testpoolList.get(0).get("coxname"));
+			model.addAttribute("coxseq", testpoolList.get(0).get("coxseq"));
+			map.put("coxseq", testpoolList.get(0).get("coxseq"));
+		} else {
+			String coxseq = (String)map.get("coxseq");
+			List<HashMap> courseList = adminService.selectCourse(map);
+			model.addAttribute("course", courseList.get(0).get("coxname"));
+			model.addAttribute("coxseq", coxseq);
+		}
+		
+		List<HashMap> lexList = adminService.selectLecture(map);
+		model.addAttribute("lexList", lexList);
+		
+		return "exam/ad_testpoolWrite";
+	}
+	
+	@RequestMapping(value = "/testpoolWrite", method = {RequestMethod.POST, RequestMethod.GET})
+	public String testpoolWrite(Locale locale, Model model, @RequestParam Map map, HttpSession session) {
+		logger.info("controller start testpoolWrite.", locale);
+		
+		int count = 0;
+		String coxseq = (String)map.get("coxseq");
+		String txseq = (String)map.get("txseq");
+		if (txseq==null) txseq= "";
+
+		try {
+			map.put("mxseq", session.getAttribute("USEQ"));
+			if (txseq.length()>0){
+				count = adminService.updateTestpool(map);
+			} else {
+				count = adminService.insertTestpool(map);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			model.addAttribute("success_flag", "N");
+			model.addAttribute("forward_url", "/admin/testpoolWriteForm?txseq="+txseq+"&coxseq="+coxseq);
+		}
+		if (0 < count) {
+			model.addAttribute("success_flag", "Y");
+			model.addAttribute("forward_url", "/admin/testpoolList?coxseq="+coxseq);
+		} else {
+			model.addAttribute("success_flag", "N");
+			model.addAttribute("forward_url", "/admin/testpoolWriteForm?txseq="+txseq+"&coxseq="+coxseq);
+		}
+		
+		return "common/common_alert";
+	}
+
+	
+	@RequestMapping(value = "/testpoolDelete", method = {RequestMethod.POST, RequestMethod.GET})
+	public String testpoolDelete(Locale locale, Model model, @RequestParam Map map) {
+		logger.info("controller start testpoolWrite.", locale);
+		
+		int count = 0;
+		String coxseq = (String)map.get("coxseq");
+		String txseq = (String)map.get("txseq");
+
+		try {
+			count = adminService.deleteTestpool(map);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			model.addAttribute("success_flag", "N");
+		}
+		if (0 < count) {
+			model.addAttribute("success_flag", "Y");
+		} else {
+			model.addAttribute("success_flag", "N");
+		}
+		model.addAttribute("forward_url", "/admin/testpoolList?coxseq="+coxseq);
+		
+		return "common/common_alert";
+	}
+
+	@RequestMapping(value = "/quizWriteForm", method = {RequestMethod.POST, RequestMethod.GET})
+	public String quizWriteForm(Locale locale, Model model, @RequestParam Map map) {
+		logger.info("controller quizWriteForm.", locale);
+
+		
+		String lxseq = (String)map.get("lxseq");
+		
+		List<HashMap> quizList = adminService.selectQuiz(map);
+		if (quizList==null||quizList.size()==0){
+			quizList = adminService.selectLecture(map);
+		}
+		model.addAttribute("quizList", quizList);
+		return "quiz/ad_quizWrite";
+	}
+	
+	
+	@RequestMapping(value = "/quizWrite", method = {RequestMethod.POST, RequestMethod.GET})
+	public String quizWrite(Locale locale, Model model, @RequestParam Map map, HttpSession session) {
+		logger.info("controller start testpoolWrite.", locale);
+		
+		int count = 0;
+		String lxseq = (String)map.get("lxseq");
+		
+		try {
+			count = adminService.insertQuiz(map);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			model.addAttribute("success_flag", "N");
+		}
+		if (0 < count) {
+			model.addAttribute("success_flag", "Y");
+		} else {
+			model.addAttribute("success_flag", "N");
+		}
+		model.addAttribute("forward_url", "/admin/quizWriteForm?lxseq="+lxseq);
+		
+		return "common/common_alert";
+	}
+
+	
+	@RequestMapping(value = "/quizDelete", method = {RequestMethod.POST, RequestMethod.GET})
+	public String quizDelete(Locale locale, Model model, @RequestParam Map map, HttpSession session) {
+		logger.info("controller start testpoolWrite.", locale);
+		
+		int count = 0;
+		String lxseq = (String)map.get("lxseq");
+		
+		try {
+			count = adminService.deleteQuiz(map);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			model.addAttribute("success_flag", "N");
+		}
+		if (0 < count) {
+			model.addAttribute("success_flag", "Y");
+		} else {
+			model.addAttribute("success_flag", "N");
+		}
+		model.addAttribute("forward_url", "/admin/quizWriteForm?lxseq="+lxseq);
+		
+		return "common/common_alert";
+	}
+
+	
+	
+	@RequestMapping(value = "/testpaperList", method = {RequestMethod.POST, RequestMethod.GET})
+	public String testpaperList(Locale locale, Model model, HttpSession session, @RequestParam Map map) {
+		logger.info("controller testpaperList.", locale);
+		
+		List<HashMap> testpaperList = adminService.selectTestpaper(map);
+		model.addAttribute("testpaperList", testpaperList);
+		
+		session.setAttribute("adMenu", "4");
+		return "exam/ad_testpaperList";
+	}
+	
+	@RequestMapping(value = "/testpaperWriteForm", method = {RequestMethod.POST, RequestMethod.GET})
+	public String testpaperWriteForm(Locale locale, Model model, @RequestParam Map map) {
+		logger.info("controller testpaperWriteForm.", locale);
+
+		
+		//String tpxseq = (String)map.get("tpxseq");
+		if(null!=map.get("tpxseq")){
+			List<HashMap> testpaperList = adminService.selectTestpaper(map);
+			model.addAttribute("testpaper", testpaperList.get(0));
+		}
+		
+		List<HashMap> courseList = adminService.selectCourse(map);
+		model.addAttribute("courseList", courseList);
+		
+		return "exam/ad_testpaperWrite";
+	}
+	
+	@RequestMapping(value = "/testpaperWrite", method = {RequestMethod.POST, RequestMethod.GET})
+	public String testpaperWrite(Locale locale, Model model, @RequestParam Map map, HttpSession session) {
+		logger.info("controller start testpaperWrite.", locale);
+		
+		int count = 0;
+		String tpxseq = (String)map.get("tpxseq");
+		if (tpxseq==null) tpxseq= "";
+
+		try {
+			map.put("mxseq", session.getAttribute("USEQ"));
+			map.put("tpxfrom", ((String)map.get("tpxfrom")).replace("-", "").replace(":", "").replace("T", ""));
+			map.put("tpxto", ((String)map.get("tpxto")).replace("-", "").replace(":", "").replace("T", ""));
+			map.put("tpx1cnt", Integer.parseInt((String)map.get("tpx1cnt")));
+			map.put("tpx2cnt", Integer.parseInt((String)map.get("tpx2cnt")));
+			map.put("tpx3cnt", Integer.parseInt((String)map.get("tpx3cnt")));
+			if (tpxseq.length()>0){
+				count = adminService.updateTestpaper(map);
+			} else {
+				count = adminService.insertTestpaper(map);
+			}
+			
+			//이곳에 평가지 생성 루틴 만들어야 함
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			model.addAttribute("success_flag", "N");
+			model.addAttribute("forward_url", "/admin/testpaperWriteForm?tpxseq="+tpxseq);
+		}
+		if (0 < count) {
+			model.addAttribute("success_flag", "Y");
+			model.addAttribute("forward_url", "/admin/testpaperList");
+		} else {
+			model.addAttribute("success_flag", "N");
+			model.addAttribute("forward_url", "/admin/testpaperWriteForm?tpxseq="+tpxseq);
+		}
+		
+		return "common/common_alert";
+	}
+
+	
+	@RequestMapping(value = "/testpaperDelete", method = {RequestMethod.POST, RequestMethod.GET})
+	public String testpaperDelete(Locale locale, Model model, @RequestParam Map map) {
+		logger.info("controller start testpaperWrite.", locale);
+		
+		int count = 0;
+		String tpxseq = (String)map.get("tpxseq");
+
+		try {
+			count = adminService.deleteTestpaper(map);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			model.addAttribute("success_flag", "N");
+		}
+		if (0 < count) {
+			model.addAttribute("success_flag", "Y");
+		} else {
+			model.addAttribute("success_flag", "N");
+		}
+		model.addAttribute("forward_url", "/admin/testpaperList");
+		
+		return "common/common_alert";
+	}	
+
+	@RequestMapping(value = "/testMonitor", method = {RequestMethod.POST, RequestMethod.GET})
+	public String testMonitor(Locale locale, Model model, HttpSession session, @RequestParam Map map) {
+		logger.info("controller testMonitor.", locale);
+		
+		List<HashMap> testMonitorList = adminService.selectTestMonitor(map);
+		model.addAttribute("testMonitorList", testMonitorList);
+		
+		session.setAttribute("adMenu", "4");
+		return "exam/ad_testMonitor";
+	}
+	
+
+	@RequestMapping(value = "/selectTestApply", method = {RequestMethod.POST, RequestMethod.GET})
+	public String selectTestApply(Locale locale, Model model, HttpSession session, @RequestParam Map map) {
+		logger.info("controller selectTestApply.", locale);
+		
+		List<HashMap> selectTestApply = adminService.selectTestApply(map);
+		model.addAttribute("applyList", selectTestApply);
+		
+		session.setAttribute("adMenu", "4");
+		return "exam/ad_testApply";
+	}
+
+	@RequestMapping(value = "/selectTestresult", method = {RequestMethod.POST, RequestMethod.GET})
+	public String selectTestresult(Locale locale, Model model, HttpSession session, @RequestParam Map map) {
+		logger.info("controller selectTestresult.", locale);
+		
+		List<HashMap> selectTestresult = adminService.selectTestresult(map);
+		model.addAttribute("resultList", selectTestresult);
+		
+		session.setAttribute("adMenu", "4");
+		return "exam/ad_testResult";
+	}
+	
+	
+}

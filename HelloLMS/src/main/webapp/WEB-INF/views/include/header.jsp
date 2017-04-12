@@ -11,6 +11,12 @@ session.setAttribute("UOFFICE", "8");
  */
 
 %>
+
+<%
+response.setHeader("Cache-Control","no-cache");
+response.setHeader("Pragma","no-cache");
+response.setDateHeader("Expires",0);
+%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -23,12 +29,32 @@ session.setAttribute("UOFFICE", "8");
 
     <!-- Le styles -->
     <link href="/resources/bootstrap/css/bootstrap.css" rel="stylesheet">
-    <style type="text/css">
+    
+    <!-- <script type="text/javascript">
+	    String spath = request.getServletPath();  
+		String url = request.getRequestURL().toString();  
+		// 필요에 따라서 사용  
+		Stirng strCurrentUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+		alert();
+	</script> -->
+	
+	<style type="text/css">
       body {
         padding-top: 60px;
         padding-bottom: 40px;
       }
-    </style>
+   	</style>
+	
+	<%-- <c:if test="<%= request.getRequestURI() %>!='/WEB-INF/views/home.jsp'">
+	<%= request.getRequestURI() %>
+		<style type="text/css">
+	      body {
+	        padding-top: 60px;
+	        padding-bottom: 40px;
+	      }
+    	</style>
+	</c:if> --%>
+	
     <link href="/resources/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
     <link href="/resources/bootstrap/css/sticky-footer-navbar.css" rel="stylesheet">
 

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ja.id.mybatis.CourseMapper">
+
+
+	<select id="getAllCourse" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+
+	select a.coxseq, a.coxcate, a.coxname, a.coxstart,
+		a.coxend, a.coxreqstart, a.coxprog, a.coxscore, c.tuxpicture,
+		a.coxreqend, a.tuxseq,
+		a.coxintro, a.regdate, c. mxseq, d.mxname,
+		b.axseq, b.axstatus, c.tuxpicture, c.cnt , c.tuxhistory
+		from course a
+		LEFT OUTER JOIN apply b
+		ON
+		a.coxseq = b.coxseq
+		and b.mxseq = #{USEQ}
+		LEFT OUTER JOIN tutor c
+		ON a.tuxseq = c.tuxseq
+		LEFT OUTER JOIN member d
+		ON c.mxseq = d.mxseq
+		where
+			DATE_FORMAT(NOW(),
+			'%Y%m%d') between
+			a.coxreqstart and a.coxreqend
+		and a.coxoffice = #{coxoffice}
+		order by a.coxreqstart
+		desc, a.coxreqend
+		desc
+
+
+	</select>
+
+	<select id="applycourse" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+
+		SELECT b.axseq, b.coxseq, a.coxname, a.coxstart,
+		a.coxend, b.regdate,
+		b.axstatus
+		FROM course a, apply b
+		WHERE b.coxseq =a.coxseq
+		and b.mxseq=#{USEQ}
+		and DATE_FORMAT(NOW(), '%Y%m%d') between a.coxstart and	a.coxend
+		and a.coxoffice = #{coxoffice}
+		ORDER BY a.coxreqend asc
+
+	</select>
+
+	<insert id="insertApply" parameterType="java.util.HashMap">
+
+		INSERT INTO apply
+		(coxseq, mxseq, axstatus, regdate)
+		values (
+		#{coxseq}, #{USEQ}, 'R',
+		date_format(now(), '%Y%m%d')
+
+		)
+
+	</insert>
+
+	<delete id="applyDelte" parameterType="java.util.HashMap">
+		delete from apply
+		where
+		axseq = #{axseq}
+	</delete>
+
+
+	<select id="lectureList" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		select a.lxseq, a.lxnum, a.lxname, a.lxlink, a.lxfile,
+<<<<<<< .mine
+			a.lxtype,
+			b.coxname,b.coxseq,b.regdate,c.tuxpicture,
+			c.tuxseq, c.mxseq, c.tuxhistory,
+   		    d.axstatus, c.cnt  
+			from lecture a, tutor c, course b
+  			left outer join apply d
+    		on d.mxseq = #{USEQ}
+    		and d.coxseq = b.coxseq
+  	   	where b.coxseq = #{coxseq}
+  	   	and a.coxseq = b.coxseq
+  	   	and b.tuxseq = c.tuxseq
+||||||| .r366
+=======
+		a.lxtype,
+		b.coxname,b.coxseq,b.regdate,c.tuxpicture,
+		c.tuxseq, c.mxseq, c.tuxhistory,
+		d.axstatus
+		from lecture a, tutor c, course b
+		left outer join apply d
+		on d.mxseq = #{USEQ}
+		and d.coxseq = b.coxseq
+		where b.coxseq = #{coxseq}
+		and a.coxseq = b.coxseq
+		and b.tuxseq = c.tuxseq
+>>>>>>> .r386
+		order by a.lxnum
+	</select>
+
+
+
+	<select id="openCourseList" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		SELECT a.coxname, a.coxstart, a.coxend, a.coxseq, a.coxintro, a.coximgname, b.*, c.mxname
+		FROM course a, tutor b, member c
+		WHERE a.coxopen='Y'
+			AND a.tuxseq=b.tuxseq
+			AND b.mxseq = c.mxseq
+
+	</select>
+
+	<select id="openLectureList" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		SELECT c.coxname, c.coxseq, a.lxseq, a.lxnum,
+			a.lxname, a.lxlink, a.lxfile, a.lxtype,
+			b.regdate, count(d.qxseq) qxcnt, count(e.qaxseq) qaxcnt
+		FROM lecture a
+		LEFT OUTER JOIN lexstudy b
+			ON a.lxseq = b.lxseq
+		LEFT OUTER JOIN quiz d
+			on a.lxseq = d.lxseq
+		LEFT OUTER JOIN qxanswer e
+			ON d.qxseq = e.qxseq
+			AND e.mxseq = a.mxseq
+		, course c
+		WHERE a.coxseq = #{coxseq}
+			AND c.coxseq = a.coxseq
+		GROUP BY c.coxname, c.coxseq, a.lxseq, a.lxnum,
+			a.lxname, a.lxlink, a.lxfile, a.lxtype,
+			b.regdate
+		ORDER BY a.lxnum
+	</select>
+	
+	
+
+
+</mapper>

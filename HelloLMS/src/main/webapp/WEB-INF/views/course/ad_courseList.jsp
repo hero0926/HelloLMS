@@ -33,9 +33,9 @@
 			$('#frm2').attr('action','/admin/lecture/lectureList');
 			$('#frm2').submit();
 		}
-		function goApply(coxseq) {
+		function goApply(coxseq, coxname) {
 			$('#coxseq').val(coxseq);
-			//$('#coxoffice2').val($('#coxoffice1').val());
+			$('#coxname2').val(coxname);
 			$('#frm2').attr('action','/admin/course/applyList');
 			$('#frm2').submit();
 		}
@@ -80,6 +80,7 @@
 			</form>
 			<form id="frm2" method="post">
 				<input type="hidden" name="coxseq" id="coxseq" />
+				<input type="hidden" name="coxname" id="coxname2" />
 				<input type="hidden" name="coxoffice" id="coxoffice2" />
 			</form>
 		</div>
@@ -114,7 +115,8 @@
 						<button class="btn btn-small" type="button" onClick="goLecture('${course.coxseq }');">강의</button>
 					</td>
 					<td>
-						<button class="btn btn-small" type="button" onClick="goApply('${course.coxseq }');">수강생</button>
+						<button class="btn btn-small" type="button" onClick="
+						goApply('${course.coxseq }', '${course.coxname }');">수강생</button>
 					</td>
 					<td>
 						<button class="btn btn-small" type="button" onClick="goWrite('${course.coxseq }');">수정</button>

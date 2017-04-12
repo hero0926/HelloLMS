@@ -77,6 +77,18 @@ public interface AdminDAO {
 	public int updateScore3(Map map);
 
 	public int updateScore4(Map map);
+
+	public List<HashMap> selectGraph(Map map);
+
+	public List<HashMap> selectGrade(Map map);
+
+	public List<HashMap> selectProgress(Map map);
+
+	public int updateOrder(Map map);
+
+	public List<HashMap> selectBoardFaq(Map map);
+
+	public int getTotalFaq(Map map);
 	
 
 }

@@ -87,7 +87,7 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value = "/loginPost", method = RequestMethod.POST)
-	public String loginPOST(LoginDTO dto, HttpSession session, Model model) throws Exception {
+	public String loginPOST(LoginDTO dto, HttpSession session, Model model, @RequestParam Map map) throws Exception {
 		//dto.setMxoffice((int)session.getAttribute("UOFFICE"));
 		MemberVO vo = memberservice.login(dto);
 		
@@ -101,6 +101,11 @@ public class MemberController {
 		session.setAttribute("UDIV", vo.getMxdiv());
 		session.setAttribute("UOFFICE", vo.getMxoffice());
 		session.setAttribute("UMAIL", vo.getMxmail());
+		
+		map.put("deviceType", session.getAttribute("deviceType"));
+		map.put("USEQ", session.getAttribute("USEQ"));
+		System.out.println("loginPost--------------------------"+map);
+		memberservice.loginHis(map);
 		
 		model.addAttribute("memberVO", vo);
 		
@@ -130,7 +135,7 @@ public class MemberController {
 	@RequestMapping(value ="/update", method = RequestMethod.POST)
 	public String updatemember2(MemberVO vo, HttpSession session, RedirectAttributes rttr) throws Exception{
 		memberservice.update(vo);
-		session.invalidate();
+		//session.invalidate();
 		return "redirect:/";
 	}
 	
@@ -241,7 +246,7 @@ public class MemberController {
 		String name = (String) paramMap.get("name");
 		String mail = (String) paramMap.get("mail");
 		String message = (String) paramMap.get("message");					
-			
+			System.out.println("mail:"+mail);
 			email.setContent(message);
 			email.setReceiver("gd3heroisme@gmail.com");
 			email.setSubject(name+"님 께서 문의사항을 보내셨습니다!");

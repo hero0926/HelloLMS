@@ -267,5 +267,47 @@ public class AdminDAOImpl implements AdminDAO{
 		return mapper.updateScore4(map);
 	}
 
+	@Override
+	public List<HashMap> selectGraph(Map map) {
+		// TODO Auto-generated method stub
+		AdminMapper mapper = sqlSession.getMapper(AdminMapper.class);
+		return mapper.selectGraph(map);
+	}
+
+	@Override
+	public List<HashMap> selectGrade(Map map) {
+		// TODO Auto-generated method stub
+		AdminMapper mapper = sqlSession.getMapper(AdminMapper.class);
+		return mapper.selectGrade(map);
+	}
+
+	@Override
+	public List<HashMap> selectProgress(Map map) {
+		// TODO Auto-generated method stub
+		AdminMapper mapper = sqlSession.getMapper(AdminMapper.class);
+		return mapper.selectProgress(map);
+	}
+
+	@Override
+	public int updateOrder(Map map) {
+		// TODO Auto-generated method stub
+		AdminMapper mapper = sqlSession.getMapper(AdminMapper.class);
+		return mapper.updateOrder(map);
+	}
+
+	@Override
+	public List<HashMap> selectBoardFaq(Map map) {
+		// TODO Auto-generated method stub
+		AdminMapper mapper = sqlSession.getMapper(AdminMapper.class);
+		return mapper.selectBoardFaq(map);
+	}
+
+	@Override
+	public int getTotalFaq(Map map) {
+		// TODO Auto-generated method stub
+		AdminMapper mapper = sqlSession.getMapper(AdminMapper.class);
+		return mapper.getTotalFaq(map);
+	}
+
 
 }

@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.ja.id.mybatis.Admin2Mapper;
 import com.ja.id.mybatis.BoardMapper;
 
 @Repository
@@ -23,9 +24,21 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 	
 	@Override
+	public int getAllNoticeCnt(Map map) {
+		BoardMapper mapper = sqlSession.getMapper(BoardMapper.class);
+		return mapper.getAllNoticeCnt(map);
+	}
+	
+	@Override
 	public int writeNotice(Map map) {
 		BoardMapper mapper=sqlSession.getMapper(BoardMapper.class);
 		return mapper.writeNotice(map);
+	}
+	
+	@Override
+	public int writeNoticeFile(Map map) {
+		BoardMapper mapper=sqlSession.getMapper(BoardMapper.class);
+		return mapper.writeNoticeFile(map);
 	}
 
 	@Override
@@ -33,7 +46,13 @@ public class BoardDAOImpl implements BoardDAO {
 		BoardMapper mapper=sqlSession.getMapper(BoardMapper.class);
 		return mapper.readNotice(map);
 	}
-
+	
+	@Override
+	public List<HashMap> listinread(Map map) {
+		BoardMapper mapper=sqlSession.getMapper(BoardMapper.class);
+		return mapper.listinread(map);
+	}
+	
 	@Override
 	public int updateCnt(Map map) {
 		BoardMapper mapper=sqlSession.getMapper(BoardMapper.class);
@@ -53,16 +72,41 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 	
 	@Override
+	public int delNoticeFile(Map map) {
+		BoardMapper mapper=sqlSession.getMapper(BoardMapper.class);
+		return mapper.delNoticeFile(map);
+	}
+	
+	@Override
+	public int updateNoticeFile(Map map) {
+		BoardMapper mapper=sqlSession.getMapper(BoardMapper.class);
+		return mapper.updateNoticeFile(map);
+	}
+	
+	@Override
+	public int deleteNoticeFile(Map map) {
+		BoardMapper mapper=sqlSession.getMapper(BoardMapper.class);
+		return mapper.deleteNoticeFile(map);
+	}
+	
+	@Override
 	public List<HashMap> searchNotice(Map map) {
 		BoardMapper mapper=sqlSession.getMapper(BoardMapper.class);
 		return mapper.searchNotice(map);
 	}
 	
 	@Override
+	public int updateFile(Map map) {
+		// TODO Auto-generated method stub
+		BoardMapper mapper = sqlSession.getMapper(BoardMapper.class);
+		return mapper.updateFile(map);
+	}
+	
+	/*@Override
 	public List<HashMap> getAllQna(Map map) {
 		BoardMapper mapper=sqlSession.getMapper(BoardMapper.class);
 		return mapper.getAllQna(map);
-	}
+	}*/
 
 	@Override
 	public int writeQna(Map map) {
@@ -71,15 +115,57 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 	
 	@Override
+	public int writeQnaFile(Map map) {
+		BoardMapper mapper=sqlSession.getMapper(BoardMapper.class);
+		return mapper.writeQnaFile(map);
+	}
+	
+	@Override
 	public List<HashMap> repCheck(Map map) {
 		BoardMapper mapper=sqlSession.getMapper(BoardMapper.class);
 		return mapper.repCheck(map);
 	}
+	
+	@Override
+	public List<HashMap> ad_repCheck(Map map) {
+		BoardMapper mapper=sqlSession.getMapper(BoardMapper.class);
+		return mapper.ad_repCheck(map);
+	}
+	
+	@Override
+	public int repCheckCnt(Map map) {
+		BoardMapper mapper = sqlSession.getMapper(BoardMapper.class);
+		return mapper.repCheckCnt(map);
+	}
 
+	@Override
+	public List<HashMap> searchQna(Map map) {
+		BoardMapper mapper=sqlSession.getMapper(BoardMapper.class);
+		return mapper.searchQna(map);
+	}
+	
 	@Override
 	public Map readQna(Map map) {
 		BoardMapper mapper=sqlSession.getMapper(BoardMapper.class);
 		return mapper.readQna(map);
+	}
+	
+	@Override
+	public int deleteQna(Map map) {
+		BoardMapper mapper=sqlSession.getMapper(BoardMapper.class);
+		return mapper.deleteQna(map);
+	}
+	
+	@Override
+	public int deleteQnaFile(Map map) {
+		BoardMapper mapper=sqlSession.getMapper(BoardMapper.class);
+		return mapper.deleteQnaFile(map);
+	}
+	
+	@Override
+	public int editQna(Map map) {
+		BoardMapper mapper=sqlSession.getMapper(BoardMapper.class);
+		return mapper.editQna(map);
 	}
 	
 	@Override
@@ -106,6 +192,12 @@ public class BoardDAOImpl implements BoardDAO {
 		// TODO Auto-generated method stub
 		BoardMapper mapper=sqlSession.getMapper(BoardMapper.class);
 	    return mapper.readComment(map);
+	}
+	
+	@Override
+	public int deleteComment(Map map) {
+		BoardMapper mapper=sqlSession.getMapper(BoardMapper.class);
+		return mapper.deleteComment(map);
 	}
 
 	@Override

@@ -29,5 +29,6 @@ public interface Admin2Service {
 
 	public int allApplyStatus(Map map) throws Exception;
 
+	public List<HashMap> loginStatistics(Map map) throws Exception;
 
 }

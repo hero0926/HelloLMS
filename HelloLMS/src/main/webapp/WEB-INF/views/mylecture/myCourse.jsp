@@ -7,7 +7,7 @@
 		<script type="text/javascript">
 			function testpopupOpen(coxseq){
 				var popUrl = "testpopup?coxseq="+coxseq;
-				var popOption = "width=1080, height=720, resizable=no, scrollbars=no, status=no;";    //팝업창 옵션(optoin)
+				var popOption = "width=1080, height=900, resizable=no, scrollbars=no, status=no;";    //팝업창 옵션(optoin)
 					window.open(popUrl, "test", popOption);
 				}
 			
@@ -46,7 +46,22 @@
 									<fmt:formatDate value="${dateFmt1}" pattern="yyyy-MM-dd"/> ~ 
 									<fmt:parseDate value="${course.coxend}" var="dateFmt2" pattern="yyyyMMdd"/>
 									<fmt:formatDate value="${dateFmt2}" pattern="yyyy-MM-dd"/></td>
-								<td><c:out value="${course.mxname}"/></td>
+								<td>
+									<c:out value="${course.mxname}"/>
+									<div class="dropdown">
+									<i class="icon-search"></i>
+									<div class="dropdown-content">
+										<c:if test="${!empty course.tuxpicture}">
+											<img src="/resources/tutor/${course.tuxpicture}">
+										</c:if>
+										<c:if test="${empty course.tuxpicture}">
+											<img src="/resources/tutor/tutor.jpg">
+										</c:if><br>
+										강사 이력: ${course.tuxhistory}<br>
+										강사 좋아요: ${course.cnt}
+									</div>
+								</div>
+									</td>
 								<td><c:out value="${course.coxprog}"/></td>
 								<td><a href="javascript:testpopupOpen('${course.coxseq}');">평가</a></td>
 								<td><a href="javascript:historypopupOpen('${course.coxseq}');"><button type="submit" class="btn">수강이력</button></a></td>

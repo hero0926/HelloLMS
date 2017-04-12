@@ -46,7 +46,6 @@
 		  				<th>강의 제목</th>
 		  				<th>강의보기</th>
 		  				<th>강의자료</th>
-		  				<th>Quiz</th>
 		  			</tr>
 		  			
 					
@@ -56,10 +55,7 @@
 								<td><c:out value="${lecture.lxnum}"/></td>
 								<td><c:out value="${lecture.lxname}"/></td>
 								<td><c:if test="${!empty lecture.lxlink}"><a href="javascript:lecturepopup('${lecture.lxtype}', '${lecture.lxlink}', '${lecture.lxseq}', '${lecture.coxseq}');"><button type="submit" class="btn">강의보기&nbsp;<i class="icon-facetime-video"></i></button></a></c:if></td>
-								<td><c:if test="${!empty lecture.lxfile}"><a href="/download?path=/resources/lecture/&fileName=${lecture.lxfile}" ><c:out value="${lecture.lxfile}"/> <i class="icon-download-alt"></i></a></c:if></td>
-								<td><c:if test="${lecture.qxcnt>0}"><a href="javascript:quizpopupOpen('<c:out value="${lecture.lxseq}"/>');"><button type="submit" class="btn<c:if test="${lecture.qaxcnt>0}"> btn-link</c:if>">Quiz</button></a></c:if>
-									
-								</td>
+								<td><c:if test="${!empty lecture.lxfile}"><a href="/course/download?path=/resources/lecture/&fileName=${lecture.lxfile}" ><c:out value="${lecture.lxfile}"/> <i class="icon-download-alt"></i></a></c:if></td>
 								</tr>
 						</c:forEach>
 					</c:if>

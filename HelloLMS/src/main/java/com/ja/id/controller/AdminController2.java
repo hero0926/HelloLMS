@@ -29,7 +29,7 @@ import com.ja.id.service.Admin2Service;
 /**
  * Handles requests for the application home page.
  */
-@RequestMapping(value = {"/admin/lecture", "/admin/course"})
+@RequestMapping(value = {"/admin/lecture", "/admin/course", "/admin/loginStatistics"})
 @Controller
 public class AdminController2 {
 	
@@ -72,9 +72,8 @@ public class AdminController2 {
 		String fileName = "";
 		for (int i = 0; i < files.size(); i++) {
 			MultipartFile file = (MultipartFile) files.get(i);
-			//System.out.println(file.isEmpty() + "==============="+i);
 			if (!file.isEmpty()){
-				File newFile = new File(fileUploadPath/* + sub*/ + file.getOriginalFilename());
+				File newFile = new File(fileUploadPath+file.getOriginalFilename());
 				file.transferTo(newFile);
 				fileName += file.getOriginalFilename() + "|";
 				model.addAttribute("originalFileName", fileName);
@@ -127,6 +126,7 @@ public class AdminController2 {
 		
 		List<HashMap> cateList = adminService.selectCode(map);
 		model.addAttribute("cateList", cateList);
+		model.addAttribute("coxname", lectureList.get(0).get("coxname"));
 		
 		return "lecture/ad_lectureInsert";
 		} else {
@@ -241,13 +241,17 @@ public class AdminController2 {
 	@RequestMapping(value = "/applyList", method = {RequestMethod.POST, RequestMethod.GET})
 	public String applyList(Locale locale, Model model, HttpSession session, @RequestParam Map map) throws Exception {
 		if(null!=session.getAttribute("UID")){
-		List<HashMap> applyList;
-		applyList = adminService.getApplyList(map);
+			System.out.println("applyList--------------------------"+map);
+			List<HashMap> applyList;
+			applyList = adminService.getApplyList(map);
+			model.addAttribute("coxname", map.get("coxname"));
 		
-		model.addAttribute("list", applyList);
-		model.addAttribute("coxname", applyList.get(0).get("coxname"));
-		model.addAttribute("coxseq", map.get("coxseq"));
-		model.addAttribute("mxseq", map.get("mxseq"));
+		
+		if(applyList.size()>0){
+			model.addAttribute("list", applyList);
+			model.addAttribute("coxseq", map.get("coxseq"));
+			model.addAttribute("mxseq", map.get("mxseq"));
+		}
 		
 		return "course/ad_courseApplyMemberList";
 		} else {
@@ -303,6 +307,22 @@ public class AdminController2 {
 		} else {
 			return "member/ad_login";
 		}
+	}
+	
+	@RequestMapping(value = "/", method = {RequestMethod.POST, RequestMethod.GET})
+	public String loginStatistics(Locale locale, Model model, HttpSession session, @RequestParam Map map) throws Exception {
+		
+		List<HashMap> loginStatistics;
+		loginStatistics = adminService.loginStatistics(map);
+		model.addAttribute("list", loginStatistics);
+		model.addAttribute("fromstr", loginStatistics.get(0).get("fromstr"));
+		model.addAttribute("tostr", loginStatistics.get(0).get("tostr"));
+		
+		System.out.println("loginStatistics----------------------"+model);
+		
+		session.setAttribute("adMenu", "6");
+		return "member/loginStatistics";
+		
 	}
 	
 }

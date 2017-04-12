@@ -35,7 +35,8 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>	
 	
-
+	<!-- 접속시 pc 인지 mobile 인지 알아오기 -->
+	<beans:bean id="mobileInterceptor" class="org.springframework.mobile.device.DeviceResolverHandlerInterceptor" />
 	
 	<!-- 로그인하기 -->
 	
@@ -47,6 +48,8 @@
 		<mapping path="/member/loginPost"/>
 		<beans:ref bean="loginInterceptor"/>
 	</interceptor>
+
+	
 	</interceptors>
 	
 		
